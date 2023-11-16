@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1015bookstore.web", "1015bookstore.web\1015bookstore.web.csproj", "{4218077D-C784-4979-BB2F-FA5B8FE6F9DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1015bookstore.webadmin", "1015bookstore.webadmin\1015bookstore.webadmin.csproj", "{60CA8718-54E5-4FB8-8619-65F2D1AC2268}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4218077D-C784-4979-BB2F-FA5B8FE6F9DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4218077D-C784-4979-BB2F-FA5B8FE6F9DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4218077D-C784-4979-BB2F-FA5B8FE6F9DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60CA8718-54E5-4FB8-8619-65F2D1AC2268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CA8718-54E5-4FB8-8619-65F2D1AC2268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CA8718-54E5-4FB8-8619-65F2D1AC2268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CA8718-54E5-4FB8-8619-65F2D1AC2268}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
