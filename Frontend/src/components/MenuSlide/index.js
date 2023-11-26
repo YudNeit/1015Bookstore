@@ -1,8 +1,7 @@
-import {MenuOutlined} from "@ant-design/icons"
-import { Menu } from 'antd';
+import { MenuOutlined } from "@ant-design/icons";
+import { Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -15,10 +14,13 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  getItem('', 'sub2', <MenuOutlined />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
+  getItem("", "sub2", <MenuOutlined />, [
+    getItem("Option 5", "5"),
+    getItem("Option 6", "6"),
+    getItem("Submenu", "sub3", null, [
+      getItem("Option 7", "7"),
+      getItem("Option 8", "8"),
+    ]),
   ]),
 ];
 
@@ -44,13 +46,17 @@ const MenuSlide = () => {
     setSelectedKeys(pathName);
   }, [location.pathname]);
 
-  return <Menu           className="SideMenuVertical"
-  theme="light"
-  selectedKeys={[selectedKeys]}
-  style={{ width: 70 }}
-  items={items}
-  onClick={(item) => {
-    navigate(item.key);
-  }} />;
+  return (
+    <Menu
+      className="SideMenuVertical"
+      theme="light"
+      selectedKeys={[selectedKeys]}
+      style={{ width: 70, borderRight: "none" }}
+      items={items}
+      onClick={(item) => {
+        navigate(item.key);
+      }}
+    />
+  );
 };
 export default MenuSlide;

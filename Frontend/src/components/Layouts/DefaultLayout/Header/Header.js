@@ -13,7 +13,7 @@ function Header() {
     <header className={cx("wrapper")}>
       <div
         className={cx("inner")}
-        style={{ display: "flex", marginBottom: 8, flexDirection: "row" }}
+        style={{ display: "flex", marginBottom: 10, flexDirection: "row" }}
       >
         <div>
           <MenuSlide />
