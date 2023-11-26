@@ -1,0 +1,36 @@
+.wrapper {
+}
+.inner {
+  min-width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.menu_button {
+  float: left;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+}
+.logo_image {
+  max-height: 50px;
+  width: 90%;
+  min-width: 100px;
+}
+.search_bar {
+  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+.cart_button {
+  flex-grow: 1;
+  max-width: max-content;
+}
+.login_button {
+  display: flex;
+  max-width: max-content;
+  justify-content: center;
+  flex-grow: 1;
+  margin-right: 50px;
+}

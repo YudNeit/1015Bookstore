@@ -11,7 +11,7 @@ function CartButton() {
           display: "inline",
           margin: "20px",
           height: "40px",
-          width: "100%",
+          width: "5 0px",
           border: "none",
           backgroundColor: "#fcfcfc",
         }}
