@@ -1,32 +1,40 @@
-import CartPage  from "../../pages/CartPage/CartPage"
-import ConfirmEmail from "../../pages/ConfirmEmail/ConfirmEmail"
-import ForgotPassword from "../../pages/ForgotPassword/ForgotPassword"
-import MainPage from "../../pages/MainPage/MainPage"
-import ProductPage from "../../pages/ProductPage/ProductPage"
-import ResetPassword from "../../pages/ResetPassword/ResetPassword"
-import SignIn from "../../pages/SignIn/SignIn"
-import SignUp from "../../pages/SignUp/SignUp"
-import UserPage from "../../pages/UserPage/UserPage"
+import { Fragment } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-
-
+import { publicRoutes, privateRoutes } from "../Routes/index";
+import DefaultLayout from "../Layouts/DefaultLayout";
 function AppRoutes() {
   return (
     <BrowserRouter>
-       <Routes>
-        <Route path="/Main" element={<MainPage />}/>
-        <Route path="/CartPage" element={<CartPage />}/>
-        <Route path="/ConfirmEmail" element={<ConfirmEmail />}/>
-        <Route path="/ForgotPassword" element={<ForgotPassword />}/>
-        <Route path="/ProductPage" element={<ProductPage />}/>
-        <Route path="/ResetPassword" element={<ResetPassword/>}/>
-        <Route path="/SignIn" element={<SignIn />}/>
-        <Route path="/SignUp" element={<SignUp />}/>
-        <Route path="/UserPage" element={<UserPage />}/>
+      <Routes>
+        {publicRoutes.map((route, index) => {
+          const Page = route.component;
+          let Layout = DefaultLayout
+
+          if(route.layout)
+          {
+            Layout = route.layout
+          }
+          else if(route.layout === null)
+          {
+            Layout = Fragment
+          }
+
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <Layout>
+                  <Page />
+                </Layout>
+              }
+            />
+          );
+        })}
+        
       </Routes>
-      </BrowserRouter>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default AppRoutes
+export default AppRoutes;
