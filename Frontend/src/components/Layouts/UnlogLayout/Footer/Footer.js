@@ -1,11 +1,11 @@
 import React from 'react'
 
-function SignIn() {
+function Footer() {
   return (
     <div>
-      SignIn
+      This is footer
     </div>
   )
 }
 
-export default SignIn
+export default Footer

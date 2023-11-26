@@ -1,13 +1,7 @@
-import React from 'react'
-import Header from '../../components/Header/Header'
+import React from "react";
 
 function MainPage() {
-  return (
-    <div>
-    <Header/>
-      MainPage
-    </div>
-  )
+  return <div>MainPage</div>;
 }
 
-export default MainPage
+export default MainPage;
