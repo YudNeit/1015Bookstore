@@ -1,11 +1,11 @@
-import React from 'react'
-
+import React from "react";
+import Login from "../../components/Form/LoginForm/LoginForm";
 function SignIn() {
   return (
     <div>
-      SignIn
+      <Login/>
     </div>
-  )
+  );
 }
 
-export default SignIn
+export default SignIn;
