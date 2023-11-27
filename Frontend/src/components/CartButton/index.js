@@ -1,6 +1,6 @@
 import React from "react";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import { Button, Flex } from "antd";
+import { Button } from "antd";
 
 function CartButton() {
   return (
