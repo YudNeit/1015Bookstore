@@ -1,9 +1,10 @@
 ﻿using _1015bookstore.web.Data.Entity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace _1015bookstore.web.Data
 {
-    public class MyDbContext : DbContext
+    public class MyDbContext : IdentityDbContext<ApplicationUser>
     {
         public MyDbContext(DbContextOptions options) : base(options) 
         { 
