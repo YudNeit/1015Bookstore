@@ -52,7 +52,7 @@ function Footer() {
         <a href="./">Đánh giá sản phẩm</a>
       </div>
       <div>
-        <h2>Điều khoản = Dịch vụ</h2>
+        <h2>Điều khoản - Dịch vụ</h2>
         <br/>
         <a href="./">Điều khoản sử dụng</a>
         <br/>
