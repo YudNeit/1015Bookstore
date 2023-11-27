@@ -1,5 +1,8 @@
 //Layout
 import UnlogLayout from "../Layouts/UnlogLayout";
+import LogLayout from "../Layouts/LogLayout";
+import DefaultLayout from "../Layouts/DefaultLayout";
+
 
 //Pages
 import CartPage from "../../pages/CartPage/CartPage";
@@ -11,7 +14,6 @@ import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import SignIn from "../../pages/SignIn/SignIn";
 import SignUp from "../../pages/SignUp/SignUp";
 import UserPage from "../../pages/UserPage/UserPage";
-import DefaultLayout from "../Layouts/DefaultLayout";
 
 const isLogin = true;
 
@@ -22,8 +24,8 @@ function DefineLayout() {
 //PublicRoutes
 const publicRoutes = [
   { path: "/", component: MainPage, layout: DefineLayout() },
-  { path: "/sign_in", component: SignIn, layout: DefineLayout() },
-  { path: "/sign_up", component: SignUp },
+  { path: "/sign_in", component: SignIn, layout: LogLayout },
+  { path: "/sign_up", component: SignUp,layout: LogLayout },
   { path: "/product_page", component: ProductPage,  },
   { path: "/forgot_password", component: ForgotPassword, layout: null },
   { path: "/cart", component: CartPage },
