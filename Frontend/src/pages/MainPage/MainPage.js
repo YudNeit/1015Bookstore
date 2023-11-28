@@ -1,12 +1,18 @@
-import React from "react";
-import { Card, Col, Row } from "antd";
+import React, { useEffect, useState } from "react";
+import { Card, Col, List, Row } from "antd";
+import axios from "axios";
+import CardItem from "../../components/Card";
+
+
 
 const { Meta } = Card;
 
 function MainPage() {
+
   return (
-    <div>
-      <Row
+        <CardItem/>
+      
+      /* <Row
         gutter={10}
         style={{
           margin: "50px 0px 50px 200px",
@@ -183,9 +189,7 @@ function MainPage() {
             />
           </Card>
         </Col>
-      </Row>
-    </div>
-  );
-}
+      </Row> */)
+          }
 
 export default MainPage;

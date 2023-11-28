@@ -10,11 +10,11 @@ import ConfirmEmail from "../../pages/ConfirmEmail/ConfirmEmail";
 import ForgotPasswordPage from "../../pages/ForgotPassword/ForgotPassword";
 import MainPage from "../../pages/MainPage/MainPage";
 import ProductPage from "../../pages/ProductPage/ProductPage";
-import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import SignIn from "../../pages/SignIn/SignIn";
 import SignUp from "../../pages/SignUp/SignUp";
 import ChangePasswordPage from "../../pages/ChangePasswordPage";
 import UserPage from "../../pages/UserPage/UserPage";
+import ProfilePage from "../../pages/ProflePage";
 
 const isLogin = true;
 
@@ -31,12 +31,12 @@ const publicRoutes = [
   { path: "/forgot_password", component: ForgotPasswordPage, layout: LogLayout },
   { path: "/cart", component: CartPage },
   { path: "/change_password", component: ChangePasswordPage, layout: LogLayout },
+  { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
   
 ];
 //PrivateRoutes
 const privateRoutes = [
   { path: "/confirm_email", component: ConfirmEmail, layout: null },
-  { path: "/reset_password", component: ResetPassword, layout: null },
   { path: "/user_page", component: UserPage, layout: UnlogLayout },
 ];
 
