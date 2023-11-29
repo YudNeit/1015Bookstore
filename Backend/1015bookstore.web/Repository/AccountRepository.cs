@@ -24,7 +24,7 @@ namespace _1015bookstore.web.Repository
 
         public async Task<IdentityResult> RegisterAsync(RegisterModel model)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }
