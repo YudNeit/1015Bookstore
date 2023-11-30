@@ -1,35 +1,64 @@
-import React, { useEffect, useState } from "react";
-import { Card, Col, List, Row } from "antd";
-import axios from "axios";
+// App.js
+import React from "react";
+class CardItem extends React.Component {
+	// Constructor
+	constructor(props) {
+		super(props);
 
-const CardItem = () => {
-  const [items, setItem] = useState([]);
-  const [data, setData] = useState([]);
-  const empdata = [{ id: 1, name: "hang", age: 29 }];
-  const getData = () => {
-    axios
-      .get("http://localhost:5000/api/Products")
-      .then((result) => {
-        setData(result.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+		this.state = {
+			items: [],
+			DataisLoaded: false,
+		};
+	}
 
-  useEffect(() => {
-    getData();
-  },[]);
-  return data && data.length > 0
-    ? data.map((item, index) => {
-        return (
-          <div key={index}>
-            <div>{item.id}</div>
-            <div>{item.name}</div>
-          </div>
-        );
-      })
-    : "Loading";
-};
+	// ComponentDidMount is used to
+	// execute the code
+	componentDidMount() {
+		fetch("https://jsonplaceholder.typicode.com/users")
+			.then((res) => res.json())
+			.then((json) => {
+				this.setState({
+					items: json,
+					DataisLoaded: true,
+				});
+			});
+	}
+	render() {
+		const { DataisLoaded, items } = this.state;
+		if (!DataisLoaded)
+			return (
+				<div>
+					<h1> Pleses wait some time.... </h1>
+				</div>
+			);
+
+		return (
+			<div className="App">
+				<h1 className="geeks">GeeksforGeeks</h1>
+				<h3>Fetch data from an api in react</h3>
+				<div className="container">
+					{items.map((item) => (
+						<div className="item">
+							<ol key={item.id}>
+								<div>
+									<strong>
+										{"User_Name: "}
+									</strong>
+									{item.username},
+								</div>
+								<div>
+									Full_Name: {item.name},
+								</div>
+								<div>
+									User_Email: {item.email}
+								</div>
+							</ol>
+						</div>
+					))}
+				</div>
+			</div>
+		);
+	}
+}
 
 export default CardItem;
