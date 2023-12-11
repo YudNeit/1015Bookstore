@@ -5,22 +5,19 @@ import SearchBar from "../../../SearchBar";
 import CartButton from "../../../CartButton";
 import { Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-
+import "../../Header.css";
 const cx = classNames.bind();
 
 console.log(images.logo);
 function Header() {
   return (
     <header className={cx("wrapper")}>
-      <div
-        className={cx("inner")}
-        style={{ display: "flex", marginBottom: 10, flexDirection: "row" }}
-      >
-        <div className={cx("menu")}>
+      <div className={cx("inner")}>
+        <div className={cx("menu_button")}>
           <MenuSlide />
         </div>
         <div className={cx("logo")}>
-          <img src={images.logo} alt="1015 BookStore" />
+          <img className="logo_image" src={images.logo} alt="1015 BookStore" />
         </div>
         <div className={cx("search_bar")}>
           <SearchBar />
@@ -28,15 +25,15 @@ function Header() {
         <div className={cx("cart_button")}>
           <CartButton />
         </div>
-        <div>
+        <div className={cx("user_button")}>
           <Button
             icon={<UserOutlined />}
             style={{
               display: "inline",
-              margin: "20px",
               height: "40px",
-              width: "100%",
+              width: "40px",
               border: "none",
+              boxShadow: "none",
             }}
           ></Button>
         </div>

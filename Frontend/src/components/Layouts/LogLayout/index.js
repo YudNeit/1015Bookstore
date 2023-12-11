@@ -5,23 +5,23 @@ import Header from "./Header/Header";
 function LogLayout({ children }) {
   return (
     <div>
-      <Header/>
+      <Header />
+
       <div
         className="content"
         style={{
           backgroundImage: `url(${background_log})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "80vh",
+          height: "60vh",
           width: "100vw",
         }}
       >
         {children}
       </div>
-      <Footer
-        style={{
-          height: "20vh",
-        }}
-      />
+
+      <Footer />
     </div>
   );
 }
