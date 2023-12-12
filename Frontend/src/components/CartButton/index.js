@@ -9,11 +9,10 @@ function CartButton() {
         icon={<ShoppingCartOutlined />}
         style={{
           display: "inline",
-          margin: "20px",
           height: "40px",
-          width: "5 0px",
+          width: "40px",
           border: "none",
-          backgroundColor: "#fcfcfc",
+          boxShadow: "none",
         }}
       ></Button>
     </div>

@@ -1,0 +1,63 @@
+.log_inner {
+  display: flex;
+  justify-content: space-between;
+  justify-content: space-between;
+}
+
+.logo1 {
+  display: flex;
+  flex-grow: 1;
+  width: 20%;
+  max-width: 20%;
+  padding-right: 10px;
+  justify-content: center;
+}
+.logo_image1 {
+  height: 200px;
+}
+h2 {
+  font-size: 24px;
+}
+a {
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #8c8c8c;
+  font-size: 14px;
+  text-align: justify;
+  vertical-align: middle;
+}
+.ContactInformation a {
+  margin-bottom: 20px;
+}
+a:hover {
+  color: black;
+  font-weight: bolder;
+  transition: all 0.2s cubic-bezier(0.05, 0.05, 0.1, 0.5);
+}
+
+.ContactInformation {
+  display: flex;
+  flex-grow: 4;
+  align-self: start;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 300px;
+  padding-right: 50px;
+}
+.CustomerService {
+  display: flex;
+  flex-grow: 1;
+  align-self: start;
+  flex-direction: column;
+
+  padding-right: 30px;
+  width: 300px;
+}
+.TermsofService {
+  display: flex;
+  flex-grow: 1;
+  align-self: start;
+  flex-direction: column;
+  width: 300px;
+  padding-right: 30px;
+}
