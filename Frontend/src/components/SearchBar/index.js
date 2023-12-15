@@ -10,21 +10,22 @@ const SearchBar = (props) => {
         <Button
           style={{
             display: "inline",
-            margin: "0px",
-            height: "38px",
-            width: "100%",
             border: "none",
-            backgroundColor: "#fcfcfc",
+            height: "100%",
+            background: "#fafafa",
+            boxShadow: "none",
           }}
         >
           <AiOutlineSearch />
         </Button>
       }
       onSearch={onSearch}
-      placeholder="search book"
+      placeholder="Search book"
       allowClear
       size="large"
-      style={{ width: "500px", minWidth: "90%" }}
+      style={{
+        minWidth: "90%",
+      }}
       {...props}
     />
   );

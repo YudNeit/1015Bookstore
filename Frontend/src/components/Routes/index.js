@@ -19,10 +19,11 @@ import Page404 from "../../pages/404Page";
 import CheckoutPage from "../../pages/CheckoutPage";
 import FilteredPage from "../../pages/Category";
 
+
 const isLogin = true;
 
 function DefineLayout() {
-  return isLogin === true ? DefaultLayout : UnlogLayout;
+  return isLogin === false ? LogLayout : UnlogLayout;
 }
 
 //PublicRoutes

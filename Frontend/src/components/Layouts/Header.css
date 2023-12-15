@@ -1,0 +1,52 @@
+.content {
+  background-color: "f5f5f5";
+}
+.inner {
+  width: 100vw;
+  align-items: center;
+  display: flex;
+  margin: 6px 0px;
+}
+.menu_button {
+  float: left;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+}
+.logo_image {
+  max-height: 45px;
+}
+.search_bar {
+  margin: 0vh 2vh;
+  display: flex;
+  flex-grow: 1;
+}
+.cart_button {
+  flex-grow: 1;
+  max-width: max-content;
+  margin-right: 2vh;
+}
+.login_button {
+  display: flex;
+  max-width: max-content;
+  flex-grow: 1;
+  margin-right: 5vh;
+}
+.user_button {
+  display: flex;
+  max-width: max-content;
+  flex-grow: 1;
+  margin-right: 3vh;
+}
+
+.log_inner {
+  height: 48px;
+  padding-left: 70px;
+}
+.page_name {
+  font-size: 30px;
+  font-weight: bold;
+  margin-left: 2vh;
+  vertical-align: middle;
+}
