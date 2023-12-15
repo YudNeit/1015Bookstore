@@ -45,41 +45,49 @@ function Login() {
         >
           Đăng nhập
         </Typography>
-        <Form.Item label={<p className="label">Username</p>} name="username">
+        <Form.Item
+          label={<p className="label">Username</p>}
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "Please input your username!",
+            },
+          ]}
+        >
           <Input size="large" placeholder="Username" />
         </Form.Item>
 
         <Form.Item
           label={<p className="label">Password</p>}
           name="password"
-          // rules={[
-          //   {
-          //     required: true,
-          //     message: "Please input your password!",
-          //   },
-          // ]}
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+            
+          ]}
         >
           <Input.Password size="large" placeholder="Password" />
         </Form.Item>
 
         <Form.Item>
-          <a className="login-form-forgot" href="">
+          <a
+            className="login-form-forgot"
+            href="http://localhost:3000/forgot_password"
+          >
             Forgot password
           </a>
           <Form.Item>
             Bạn chưa có tài khoản?
-            <a className="logup-form" href="">
+            <a className="logup-form" href="http://localhost:3000/sign_up">
               Đăng ký tại đây
             </a>
           </Form.Item>
         </Form.Item>
 
-        <Form.Item
-        // wrapperCol={{
-        //   offset: 8,
-        //   span: 16,
-        // }}
-        >
+        <Form.Item>
           <ConfigProvider
             theme={{
               token: {

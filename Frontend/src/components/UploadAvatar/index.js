@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload } from 'antd';
+
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -8,23 +9,30 @@ const getBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
+
 const UploadAvatar = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([
-   
-  ]);
-  const handleCancel = () => setPreviewOpen(false);
+  const [fileList, setFileList] = useState([]);
+
+  const handleCancel = () => setPreviewVisible(false);
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
     setPreviewImage(file.url || file.preview);
-    setPreviewOpen(true);
+    setPreviewVisible(true);
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
+  const handleChange = ({ fileList: newFileList }) => {
+    // Keep only the first file in the list
+    const updatedFileList = newFileList.slice(0, 1);
+    setFileList(updatedFileList);
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -37,6 +45,7 @@ const UploadAvatar = () => {
       </div>
     </div>
   );
+
   return (
     <>
       <Upload
@@ -46,9 +55,9 @@ const UploadAvatar = () => {
         onPreview={handlePreview}
         onChange={handleChange}
       >
-        {fileList.length >= 8 ? null : uploadButton}
+        {fileList.length >= 1 ? null : uploadButton}
       </Upload>
-      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+      <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
         <img
           alt="example"
           style={{
@@ -60,4 +69,5 @@ const UploadAvatar = () => {
     </>
   );
 };
+
 export default UploadAvatar;

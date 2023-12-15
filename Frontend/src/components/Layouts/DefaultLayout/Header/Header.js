@@ -5,19 +5,26 @@ import SearchBar from "../../../SearchBar";
 import CartButton from "../../../CartButton";
 import { Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import "../../Header.css";
+
 const cx = classNames.bind();
 
-console.log(images.logo);
 function Header() {
+  const navigate = useNavigate();
   return (
     <header className={cx("wrapper")}>
       <div className={cx("inner")}>
         <div className={cx("menu_button")}>
           <MenuSlide />
         </div>
-        <div className={cx("logo")}>
+
+        <div className={cx("logo")}
+        onClick={() => {
+          navigate("/");
+        }}>
           <img className="logo_image" src={images.logo} alt="1015 BookStore" />
+
         </div>
         <div className={cx("search_bar")}>
           <SearchBar />
@@ -34,6 +41,9 @@ function Header() {
               width: "40px",
               border: "none",
               boxShadow: "none",
+            }}
+            onClick={() => {
+              navigate("/profile_page");
             }}
           ></Button>
         </div>

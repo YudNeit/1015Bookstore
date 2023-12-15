@@ -17,6 +17,8 @@ import UserPage from "../../pages/UserPage/UserPage";
 import ProfilePage from "../../pages/ProflePage";
 import Page404 from "../../pages/404Page";
 import CheckoutPage from "../../pages/CheckoutPage";
+import FilteredPage from "../../pages/Category";
+
 
 const isLogin = true;
 
@@ -27,9 +29,10 @@ function DefineLayout() {
 //PublicRoutes
 const publicRoutes = [
   { path: "/", component: MainPage, layout: DefineLayout() },
+  { path: "/:selectedMenu", component: FilteredPage, layout: DefineLayout() },
   { path: "/sign_in", component: SignIn, layout: LogLayout },
   { path: "/sign_up", component: SignUp, layout: LogLayout },
-  { path: "/product_page", component: ProductPage, layout: DefineLayout() },
+  { path: "/product-detail/:id", component: ProductPage, layout: DefineLayout() },
   {
     path: "/forgot_password",
     component: ForgotPasswordPage,

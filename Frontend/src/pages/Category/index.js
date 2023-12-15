@@ -1,34 +1,25 @@
-import React, { useState } from "react";
-import { Button, Card, Col, Row } from "antd";
-import MenuSlide from "../../components/MenuSlide";
-import { useNavigate } from "react-router-dom";
+// FilteredPage.js
+import React from "react";
+import { useLocation } from "react-router-dom";
 import { items } from "../../components/Data";
+import { Button, Card, Col, Row } from "antd";
+import { useNavigate } from "react-router-dom";
+
 const { Meta } = Card;
-
-function MainPage() {
-
-
+const FilteredPage = () => {
   const navigate = useNavigate();
-  const [selectedMenu, setSelectedMenu] = useState(null);
+  const location = useLocation();
+  const selectedMenu = location.pathname.substring(1); // Get the selected menu from the URL
 
-  const handleMenuSelect = (selectedValue) => {
-    setSelectedMenu(selectedValue);
-    navigate(`/${selectedValue}`);
-  };
-
+  const filteredItems = items.filter((item) => item.category === selectedMenu);
 
   const handleProductClick = (item) => {
     // Chuyển hướng đến trang chi tiết sản phẩm và truyền thông tin sản phẩm qua state
     navigate(`/product-detail/${item.id}`, { state: { item } });
   };
 
-  const filteredItems = selectedMenu
-    ? items.filter((item) => item.category === selectedMenu)
-    : items;
-
   return (
     <div>
-      <MenuSlide onMenuSelect={handleMenuSelect} />
       {/* Display filtered data */}
       {filteredItems.map((item) => (
         <Row gutter={16} key={item.title}>
@@ -38,7 +29,7 @@ function MainPage() {
               style={{
                 width: 240,
               }}
-              cover={<img alt={item.title} src={item.img} />}
+              cover={<img alt="example" src={item.img} />}
               onClick={() => handleProductClick(item)}
             >
               <Meta title={item.title} />
@@ -50,6 +41,6 @@ function MainPage() {
       ))}
     </div>
   );
-}
+};
 
-export default MainPage;
+export default FilteredPage;
