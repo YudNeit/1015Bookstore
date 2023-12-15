@@ -1,8 +1,11 @@
 import React from "react";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import {useNavigate } from "react-router-dom";
 
 function CartButton() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Button
@@ -14,6 +17,9 @@ function CartButton() {
           width: "5 0px",
           border: "none",
           backgroundColor: "#fcfcfc",
+        }}
+        onClick={() => {
+          navigate('/cart');
         }}
       ></Button>
     </div>

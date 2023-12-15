@@ -1,10 +1,12 @@
-import MainPage from "./pages/MainPage/MainPage";
 import AppRoutes from "./components/Routes/Route";
+import { CartProvider } from "./components/Context/CartContext";
 
 function App() {
   return (
     <div className="App">
-        <AppRoutes/>
+      <CartProvider>
+        <AppRoutes />
+      </CartProvider>
     </div>
   );
 }

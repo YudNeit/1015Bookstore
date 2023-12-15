@@ -1,135 +1,135 @@
 import React, { useState } from "react";
-import { List, Row, Card, Button, InputNumber, Checkbox } from "antd";
-
-const onChange = (e) => {
-  console.log(`checked = ${e.target.checked}`);
-};
-
-const datacart = [
-  {
-    name: "sach 1",
-    dongia: "100.000đ",
-    soluong: "1",
-    sotien: "100.000đ",
-  },
-  {
-    name: "sach 2",
-    dongia: "200.000đ",
-    soluong: "1",
-    sotien: "200.000đ",
-  },
-  {
-    name: "sach 3",
-    dongia: "300.000đ",
-    soluong: "1",
-    sotien: "200.000đ",
-  },
-];
+import { List, Row, Card, Button, InputNumber, Checkbox, Image } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../components/Context/CartContext";
 
 function CartPage() {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "sach 1",
-      dongia: "100.000đ",
-      soluong: "1",
-      sotien: "100.000đ",
-    },
-    {
-      id: 2,
-      name: "sach 2",
-      dongia: "200.000đ",
-      soluong: "1",
-      sotien: "200.000đ",
-    },
-    {
-      id: 3,
-      name: "sach 3",
-      dongia: "300.000đ",
-      soluong: "1",
-      sotien: "200.000đ",
-    },
-  ]);
-
+  const { cartItems, removeFromCart, updateCartItemQuantity } = useCart();
   const [selectedItems, setSelectedItems] = useState([]);
+  const navigate = useNavigate();
 
-  function checkboxHandler(e) {
-    let isSelected = e.target.checked;
-    let value = parseInt(e.target.value);
+  const handleCheckout = () => {
+    // Filter out the selected items from the cartItems
+    const selectedItemsForCheckout = cartItems.filter((item) =>
+      selectedItems.includes(item.id)
+    );
 
-    if (isSelected) {
-      setSelectedItems([...selectedItems, value]);
-    } else {
-      setSelectedItems((prevData) => {
-        return prevData.filter((id) => {
-          return id !== value;
-        });
-      });
-    }
-  }
+    // Now navigate to the checkout page with the selected items in the state
+    navigate("/checkout", {
+      state: { selectedItems: selectedItemsForCheckout },
+    });
+  };
 
-  function checkAllHandler() {
-    if (data.length === selectedItems.length) {
-      setSelectedItems([]);
-    } else {
-      const postIds = data.map((item) => {
-        return item.id;
-      });
+  const handleCheckboxChange = (e, itemId) => {
+    const { checked } = e.target;
+    setSelectedItems((prevSelectedItems) => {
+      if (checked) {
+        return [...prevSelectedItems, itemId];
+      } else {
+        return prevSelectedItems.filter((id) => id !== itemId);
+      }
+    });
+  };
 
-      setSelectedItems(postIds);
-    }
-  }
+  const handleCheckAllChange = () => {
+    setSelectedItems((prevSelectedItems) => {
+      return prevSelectedItems.length === cartItems.length
+        ? []
+        : cartItems.map((item) => item.id);
+    });
+  };
+
+  const handleQuantityChange = (itemId, value) => {
+    updateCartItemQuantity(itemId, value);
+  };
+
+  const handleRemoveItem = (itemId) => {
+    removeFromCart(itemId);
+  };
+
+  const totalAmount = cartItems.reduce(
+    (total, item) =>
+      selectedItems.includes(item.id)
+        ? total + item.price * item.quantity
+        : total,
+    0
+  );
+
+  const totalQuantity = cartItems.reduce(
+    (total, item) =>
+      selectedItems.includes(item.id) ? total + item.quantity : total,
+    0
+  );
+
   return (
     <div className="container">
       <div className="results">
         <List>
           <List.Item>
-            <List.Item>
-              {
-                <div>
-                  <Checkbox onClick={checkAllHandler}>
-                    {data.length === selectedItems.length
-                      ? "Hủy chọn tất cả"
-                      : "Chọn tất cả"}
-                  </Checkbox>
-                  <h3>Sản phẩm</h3>
-                </div>
-              }
-            </List.Item>
-            <List.Item>{<div>đơn giá</div>}</List.Item>
-            <List.Item>{<div>số lượng</div>}</List.Item>
-            <List.Item>{<div>thành tiền</div>}</List.Item>
+            <Checkbox
+              checked={cartItems.length === selectedItems.length}
+              onChange={handleCheckAllChange}
+            >
+              {cartItems.length === selectedItems.length
+                ? "Hủy chọn tất cả"
+                : "Chọn tất cả"}
+            </Checkbox>
+            <h3>Sản phẩm</h3>
+            <h3>Đơn giá</h3>
+            <h3>Số lượng</h3>
+            <h3>Thành tiền</h3>
           </List.Item>
         </List>
       </div>
       <div>
-        {data.map((item, index) => (
-          <div className="card" key={index}>
-            <Card>
-              <Row>
-                <Checkbox
-                  checked={selectedItems.includes(item.id)}
-                  value={item.id}
-                  onChange={checkboxHandler}
+        {cartItems.map((item) => (
+          <Card key={item.id}>
+            <Row align="middle">
+              <Checkbox
+                checked={selectedItems.includes(item.id)}
+                onChange={(e) => handleCheckboxChange(e, item.id)}
+              />
+              <List.Item>
+                <Image
+                  style={{
+                    height: 50,
+                  }}
+                  src={item.img}
+                  alt={item.title}
                 />
-
-                <List.Item>{<div>{item.name}</div>}</List.Item>
-                <List.Item>{<div>{item.dongia}</div>}</List.Item>
-                <List.Item>{<div>{item.soluong}</div>}</List.Item>
-                <List.Item>{<div>{item.thanhtien}</div>}</List.Item>
-              </Row>
-            </Card>
-          </div>
+              </List.Item>
+              <List.Item>{item.name}</List.Item>
+              <List.Item>{item.price}đ</List.Item>
+              <List.Item>
+                <InputNumber
+                  min={1}
+                  value={item.quantity}
+                  onChange={(value) => handleQuantityChange(item.id, value)}
+                />
+              </List.Item>
+              <List.Item>{item.price * item.quantity}đ</List.Item>
+              <List.Item>
+                <Button onClick={() => handleRemoveItem(item.id)}>Xóa</Button>
+              </List.Item>
+            </Row>
+          </Card>
         ))}
       </div>
       <div>
-      <List>
+        <List>
           <List.Item>
             <h3>Thanh toán</h3>
           </List.Item>
-          <List.Item>Tổng thanh toán: 130000đ</List.Item>
+          <List.Item>Tổng số lượng: {totalQuantity}</List.Item>
+          <List.Item>Tổng thanh toán: {totalAmount}đ</List.Item>
           <List.Item>
-            <Button>Mua Hàng</Button>
+            <Button
+  onClick={() => {
+    handleCheckout(); // Add parentheses to invoke the function
+  }}
+>
+              Mua Hàng
+            </Button>
           </List.Item>
         </List>
       </div>
