@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import "./style.css";
+import "../style.css";
 import { Button, Form, Input, ConfigProvider } from "antd";
 const { Title } = Typography;
 const onFinish = (values) => {
@@ -15,18 +15,7 @@ function Login() {
     <div className="background">
       <Form
         layout="vertical"
-        className="loginForm"
-        // name="basic"
-        // labelCol={{
-        //   span: 8,
-        // }}
-        // wrapperCol={{
-        //   span: 16,
-        // }}
-        // style={{
-        //   maxWidth: 600,
-        //   textAlign: "center",
-        // }}
+        className="login_form"
         initialValues={{
           remember: true,
         }}
@@ -37,16 +26,14 @@ function Login() {
         <Typography
           style={{
             fontWeight: "bolder",
-            fontSize: 30,
-            color: "white",
-            marginTop: 0,
-            marginBottom: 10,
+            fontSize: 36,
           }}
         >
           Đăng nhập
         </Typography>
         <Form.Item
-          label={<p className="label">Username</p>}
+          className="no_margin"
+          label={<p className="label">Tên đăng nhập</p>}
           name="username"
           rules={[
             {
@@ -55,62 +42,65 @@ function Login() {
             },
           ]}
         >
-          <Input size="large" placeholder="Username" />
+          <Input size="large" placeholder="Tên đăng nhập/Email" />
         </Form.Item>
 
         <Form.Item
-          label={<p className="label">Password</p>}
+          className="no_margin"
+          label={<p className="label">Mật khẩu</p>}
           name="password"
           rules={[
             {
               required: true,
               message: "Please input your password!",
             },
-            
           ]}
         >
-          <Input.Password size="large" placeholder="Password" />
+          <Input.Password size="large" placeholder="Mật khẩu" />
         </Form.Item>
-
-        <Form.Item>
-          <a
-            className="login-form-forgot"
-            href="http://localhost:3000/forgot_password"
-          >
-            Forgot password
-          </a>
-          <Form.Item>
-            Bạn chưa có tài khoản?
-            <a className="logup-form" href="http://localhost:3000/sign_up">
-              Đăng ký tại đây
-            </a>
-          </Form.Item>
-        </Form.Item>
-
-        <Form.Item>
+        <Form.Item className="no_margin">
           <ConfigProvider
             theme={{
               token: {
-                colorBgContainer: "rgba(0, 52, 101, 1)",
                 colorBorder: "none",
               },
             }}
           >
             <Button
-              style={{
-                fontWeight: "bold",
-                color: "white",
-                backgroundColor: "#30CF82",
-              }}
+              className="button"
               block
               size="large"
               type="default"
               htmlType="submit"
             >
-              Sign in
+              Đăng nhập
             </Button>
           </ConfigProvider>
         </Form.Item>
+        <div className="functions">
+          <Form.Item className="no_margin">
+            <a
+              className="login-form-forgot"
+              href="http://localhost:3000/forgot_password"
+              style={{ color: "#1f9d60", fontSize: "12px" }}
+            >
+              Quên mật khẩu
+            </a>
+          </Form.Item>
+
+          <Form.Item className="no_margin">
+            <span style={{ color: "#1f9d60", fontSize: "12px" }}>
+              Bạn chưa có tài khoản?{" "}
+            </span>
+            <a
+              className="logup-form"
+              href="http://localhost:3000/sign_up"
+              style={{ color: "#CF4330", fontSize: "12px" }}
+            >
+              Đăng ký tại đây
+            </a>
+          </Form.Item>
+        </div>
       </Form>
     </div>
   );

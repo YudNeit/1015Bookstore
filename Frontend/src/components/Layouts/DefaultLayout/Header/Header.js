@@ -15,9 +15,9 @@ function Header() {
   return (
     <header className={cx("wrapper")}>
       <div className={cx("inner")}>
-        <div className={cx("menu_button")}>
+        {/* <div className={cx("menu_button")}>
           <MenuSlide />
-        </div>
+        </div> */}
 
         <div className={cx("logo")}
         onClick={() => {

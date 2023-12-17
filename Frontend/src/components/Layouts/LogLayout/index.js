@@ -6,7 +6,6 @@ function LogLayout({ children }) {
   return (
     <div>
       <Header />
-
       <div
         className="content"
         style={{
@@ -14,7 +13,7 @@ function LogLayout({ children }) {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "60vh",
+          height: "65vh",
           width: "100vw",
         }}
       >

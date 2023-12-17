@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import "./style.css";
+import "../style.css";
 import { Button, Form, Input, ConfigProvider } from "antd";
 const { Title } = Typography;
 const onFinish = (values) => {
@@ -15,7 +15,7 @@ function ForgotPassword() {
     <div className="background">
       <Form
         layout="vertical"
-        className="ForgotPasswordForm"
+        className="forgotpassword_form"
         initialValues={{
           remember: true,
         }}
@@ -23,26 +23,33 @@ function ForgotPassword() {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Typography
-          style={{
-            fontWeight: "bolder",
-            fontSize: 30,
-            color: "white",
-            marginTop: 0,
-            marginBottom: 10,
-          }}
+        <div>
+          <Typography
+            style={{
+              fontWeight: "bolder",
+              fontSize: 36,
+            }}
+          >
+            Quên mật khẩu
+          </Typography>
+          <Typography
+            style={{
+              fontSize: 12,
+              color: "#bebebe",
+            }}
+          >
+            Có vẻ như có chuyện gì đó xãy ra với tài khoản của bạn. Hãy điền
+            Email mà bạn đã tạo tài khoản để tiến hành khôi phục tài khoản!
+          </Typography>
+        </div>
+        <Form.Item
+          className="no_margin"
+          label={<p className="label">Email</p>}
+          name="email"
         >
-          ForgotPassword
-        </Typography>
-        <Form.Item label={<p className="label">Email</p>} name="email">
           <Input size="large" placeholder="Email" />
         </Form.Item>
-        <Form.Item
-        // wrapperCol={{
-        //   offset: 8,
-        //   span: 16,
-        // }}
-        >
+        <Form.Item className="no_margin">
           <ConfigProvider
             theme={{
               token: {
@@ -52,17 +59,13 @@ function ForgotPassword() {
             }}
           >
             <Button
-              style={{
-                fontWeight: "bold",
-                color: "white",
-                backgroundColor: "#30CF82",
-              }}
+              className="button"
               block
               size="large"
               type="default"
               htmlType="submit"
             >
-              Confirm
+              Gửi mã xác nhận
             </Button>
           </ConfigProvider>
         </Form.Item>

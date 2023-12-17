@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import "./style.css";
+import "../style.css";
 import { Button, Form, Input, ConfigProvider } from "antd";
 const { Title } = Typography;
 const onFinish = (values) => {
@@ -15,7 +15,7 @@ function ChangePassword() {
     <div className="background">
       <Form
         layout="vertical"
-        className="ChangePasswordForm"
+        className="changepassword_form"
         initialValues={{
           remember: true,
         }}
@@ -26,53 +26,42 @@ function ChangePassword() {
         <Typography
           style={{
             fontWeight: "bolder",
-            fontSize: 30,
-            color: "white",
-            marginTop: 0,
-            marginBottom: 10,
+            fontSize: 36,
           }}
         >
-          ChangePassword
+          Đổi mật khẩu
         </Typography>
         <Form.Item
-          label={<p className="label">Password</p>}
+          className="no_margin"
+          label={<p className="label">Mật khẩu</p>}
           name="password"
         >
-          <Input.Password size="large" placeholder="Password" />
+          <Input.Password size="large" placeholder="Mật khẩu" />
         </Form.Item>
 
         <Form.Item
-          label={<p className="label">Verify Password</p>}
+          className="no_margin"
+          label={<p className="label">Xác nhận mật khẩu</p>}
           name="verifypassword"
         >
-          <Input.Password size="large" placeholder="Verify Password" />
+          <Input.Password size="large" placeholder="Xác nhận mật khẩu" />
         </Form.Item>
-        <Form.Item
-        // wrapperCol={{
-        //   offset: 8,
-        //   span: 16,
-        // }}
-        >
+        <Form.Item className="no_margin">
           <ConfigProvider
             theme={{
               token: {
-                colorBgContainer: "rgba(0, 52, 101, 1)",
                 colorBorder: "none",
               },
             }}
           >
             <Button
-              style={{
-                fontWeight: "bold",
-                color: "white",
-                backgroundColor: "#30CF82",
-              }}
+              className="button"
               block
               size="large"
               type="default"
               htmlType="submit"
             >
-              Confirm
+              Xác nhận
             </Button>
           </ConfigProvider>
         </Form.Item>
