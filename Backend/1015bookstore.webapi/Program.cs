@@ -1,3 +1,4 @@
+using _1015bookstore.application.Catalog.Categories;
 using _1015bookstore.application.Catalog.Products;
 using _1015bookstore.application.Common;
 using _1015bookstore.data.EF;
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<_1015DbContext>(options => options.UseSqlServer(bu
 builder.Services.AddTransient<IPublicProductService, PublicProductService>();
 builder.Services.AddTransient<IManageProductService, ManageProductService>();
 builder.Services.AddTransient<IStorageService, FileStorageService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
