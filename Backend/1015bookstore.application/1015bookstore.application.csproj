@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\1015bookstore.data\1015bookstore.data.csproj" />
+	  <ProjectReference Include="..\1015bookstore.utilities\1015bookstore.utility.csproj" />
+	  <ProjectReference Include="..\1015bookstore.viewmodel\1015bookstore.viewmodel.csproj" />
+	</ItemGroup>
+	
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>_1015bookstore.application</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
