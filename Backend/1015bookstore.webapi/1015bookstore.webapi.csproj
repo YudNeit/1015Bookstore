@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>_1015bookstore.webapi</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\1015bookstore.application\1015bookstore.application.csproj" />
+    <ProjectReference Include="..\1015bookstore.data\1015bookstore.data.csproj" />
+    <ProjectReference Include="..\1015bookstore.utilities\1015bookstore.utility.csproj" />
+    <ProjectReference Include="..\1015bookstore.viewmodel\1015bookstore.viewmodel.csproj" />
+  </ItemGroup>
+
+</Project>
