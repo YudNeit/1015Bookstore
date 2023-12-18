@@ -88,6 +88,11 @@ builder.Services.AddAuthentication(opt =>
 }
 );
 
+builder.Services.AddCors(p => p.AddPolicy("1015BookStore_Cors", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
