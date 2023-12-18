@@ -1,0 +1,50 @@
+﻿using _1015bookstore.application.Catalog.ProductIsnCategories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace _1015bookstore.webapi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductInCategoryController : ControllerBase
+    {
+        private readonly IProductInCategoryService _productInCategoryService;
+
+        public ProductInCategoryController(IProductInCategoryService productInCategoryService) 
+        {
+            _productInCategoryService = productInCategoryService;
+        }
+        //http:localhost:port/api/productincategory/set
+        [HttpGet("set")]
+        public async Task<IActionResult> Set([FromQuery]int product_id, int category_id)
+        {
+            try
+            {
+                var affectedResult = await _productInCategoryService.Create(product_id, category_id);
+                if (affectedResult == 0)
+                    return BadRequest();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        //http:localhost:port/api/productincategory/remove
+        [HttpGet("remove")]
+        public async Task<IActionResult> Remove([FromQuery]int product_id, int category_id)
+        {
+            try
+            {
+                var affectedResult = await _productInCategoryService.Delete(product_id, category_id);
+                if (affectedResult == 0)
+                    return BadRequest();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+    }
+}
