@@ -12,11 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Solution Items", "0. Sol
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1015bookstore.utility", "1015bookstore.utilities\1015bookstore.utility.csproj", "{DC40C54E-6A03-43A0-AFCF-F60744F91AB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1015bookstore.utility", "1015bookstore.utilities\1015bookstore.utility.csproj", "{DC40C54E-6A03-43A0-AFCF-F60744F91AB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1015bookstore.viewmodel", "1015bookstore.viewmodel\1015bookstore.viewmodel.csproj", "{B475E5C3-2656-41C9-BB24-84517A38A9A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1015bookstore.viewmodel", "1015bookstore.viewmodel\1015bookstore.viewmodel.csproj", "{B475E5C3-2656-41C9-BB24-84517A38A9A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1015bookstore.webapi", "1015bookstore.webapi\1015bookstore.webapi.csproj", "{7BD043AA-57DA-420D-B733-BE1EF2BE67BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1015bookstore.webapi", "1015bookstore.webapi\1015bookstore.webapi.csproj", "{7BD043AA-57DA-420D-B733-BE1EF2BE67BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Infrastructure", "1. Infrastructure", "{794A8D0A-13A6-46AA-A104-0E3F89141596}"
 EndProject

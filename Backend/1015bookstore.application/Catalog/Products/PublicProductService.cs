@@ -41,6 +41,7 @@ namespace _1015bookstore.application.Catalog.Products
                 author = e.author,
                 nop = e.nop,
                 yop = e.yop,
+                status = e.status,
             }).ToListAsync();
             return data;
         }
@@ -79,6 +80,7 @@ namespace _1015bookstore.application.Catalog.Products
                 author = x.p.author,
                 nop = x.p.nop,
                 yop = x.p.yop,
+                status = x.p.status,
             }).ToListAsync();
             var pagedResult = new PagedResult<ProductViewModel>()
             {

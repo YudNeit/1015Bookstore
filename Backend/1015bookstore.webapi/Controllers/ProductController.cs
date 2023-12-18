@@ -1,5 +1,6 @@
 ﻿using _1015bookstore.application.Catalog.Products;
 using _1015bookstore.viewmodel.Catalog.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace _1015bookstore.webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IPublicProductService _publicProductService;
@@ -114,11 +116,47 @@ namespace _1015bookstore.webapi.Controllers
         [HttpPut("price/{id}/{newPrice}")]
         public async Task<IActionResult> UpdatePrice(int id, decimal newPrice)
         {
-            var isSuccessful = await _manageProductService.UpdatePrice(id, newPrice);
-            if (isSuccessful)
-                return Ok();
+            try
+            {
+                var isSuccessful = await _manageProductService.UpdatePrice(id, newPrice);
+                if (isSuccessful)
+                    return Ok();
 
-            return BadRequest();
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
+        //http://localhost:port/api/product/addviewcount/1
+        [HttpPut("addviewcount/{id}")]
+        public async Task<IActionResult> AddViewCount(int id)
+        {
+            try
+            {
+                 await _manageProductService.AddViewcount(id);
+                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        //http://localhost:port/api/product/updatequanity
+        [HttpPut("updatequanity")]
+        public async Task<IActionResult> UpdateQuanity([FromQuery]int id, int addedQuantity)
+        {
+            try
+            {
+                await _manageProductService.UpdataQuanity(id, addedQuantity);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }
