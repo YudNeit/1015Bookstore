@@ -25,6 +25,8 @@ namespace _1015bookstore.application.Catalog.Products
         public async Task AddViewcount(int id)
         {
             var product = await _context.Products.FindAsync(id);
+            if (product == null) throw new _1015Exception($"Cannot find a product with id: {id}");
+
             product.view_count += 1;
             await _context.SaveChangesAsync();
         }
@@ -100,7 +102,9 @@ namespace _1015bookstore.application.Catalog.Products
         {
             var query = from p in _context.Products
                         join pic in _context.ProductInCategory on p.id equals pic.product_id
+                        where p.status != ProductStatus.Delete
                         select new { p, pic};
+
             if (!string.IsNullOrEmpty(request.keyword))
                 query = query.Where(x => x.p.name.Contains(request.keyword));
             if (request.categoryids.Count > 0)
@@ -132,6 +136,7 @@ namespace _1015bookstore.application.Catalog.Products
                 author = x.p.author,
                 nop = x.p.nop,
                 yop = x.p.yop,
+                status = x.p.status,
             }).ToListAsync();
             var pagedResult = new PagedResult<ProductViewModel>()
             {
@@ -168,6 +173,7 @@ namespace _1015bookstore.application.Catalog.Products
                 author = product.author,
                 nop = product.nop,
                 yop = product.yop,
+                status = product.status,
             };
             return data;
         }
