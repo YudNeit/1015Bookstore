@@ -9,7 +9,6 @@ using _1015bookstore.utilities.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -20,6 +19,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddDbContext<_1015DbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
+builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<_1015DbContext>().AddDefaultTokenProviders();
+
+builder.Services.AddTransient<IPublicProductService, PublicProductService>();
+builder.Services.AddTransient<IManageProductService, ManageProductService>();
+builder.Services.AddTransient<IStorageService, FileStorageService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IProductInCategoryService,  ProductInCategoryService>();
+builder.Services.AddTransient<UserManager<User>, UserManager<User>>();
+builder.Services.AddTransient<SignInManager<User>, SignInManager<User>>();
+builder.Services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
+builder.Services.AddTransient<IUserService, UserService>();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -33,7 +46,8 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement(){
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
         {
             new OpenApiSecurityScheme
             {
@@ -50,8 +64,6 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-string signingKey = builder.Configuration["Tokens:Key"];
-byte[] signingKeyBytes = System.Text.Encoding.UTF8.GetBytes(signingKey);
 
 builder.Services.AddAuthentication(opt =>
 {
@@ -70,24 +82,11 @@ builder.Services.AddAuthentication(opt =>
         ValidateLifetime = true,
 
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes),
-
-        ClockSkew = System.TimeSpan.Zero
-        
+        ClockSkew = System.TimeSpan.Zero,
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Tokens:Key"]))
     };
-});
-builder.Services.AddDbContext<_1015DbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
-builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<_1015DbContext>().AddDefaultTokenProviders();
-
-builder.Services.AddTransient<IPublicProductService, PublicProductService>();
-builder.Services.AddTransient<IManageProductService, ManageProductService>();
-builder.Services.AddTransient<IStorageService, FileStorageService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<IProductInCategoryService,  ProductInCategoryService>();
-builder.Services.AddTransient<UserManager<User>, UserManager<User>>();
-builder.Services.AddTransient<SignInManager<User>, SignInManager<User>>();
-builder.Services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
-builder.Services.AddTransient<IUserService, UserService>();
+}
+);
 
 var app = builder.Build();
 
@@ -97,10 +96,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
-
 app.UseAuthentication();
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,16 +1,11 @@
 ﻿using _1015bookstore.data.Entities;
-using _1015bookstore.utility.Exceptions;
 using _1015bookstore.viewmodel.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace _1015bookstore.application.System.Users
 {
@@ -34,7 +29,7 @@ namespace _1015bookstore.application.System.Users
             var user = await _userManager.FindByNameAsync(request.username);
             if (user == null) return null;
 
-            var result = await _signInManager.PasswordSignInAsync(user, request.passwrod, request.rememberme, true);
+            var result = await _signInManager.PasswordSignInAsync(user, request.password, request.rememberme, true);
             if (!result.Succeeded) return null;
 
             var roles = await _userManager.GetRolesAsync(user);

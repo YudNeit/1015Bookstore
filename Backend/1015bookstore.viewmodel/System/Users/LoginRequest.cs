@@ -9,7 +9,7 @@ namespace _1015bookstore.viewmodel.System.Users
     public class LoginRequest
     {
         public string username { get; set; }
-        public string passwrod { get; set; }
+        public string password { get; set; }
         public bool rememberme { get; set; }
     }
 }
