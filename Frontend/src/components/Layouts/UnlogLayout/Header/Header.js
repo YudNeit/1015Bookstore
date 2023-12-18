@@ -14,13 +14,15 @@ function Header() {
   return (
     <header className={cx("wrapper")}>
       <div className={cx("inner")}>
-        <div className={cx("menu_button")}>
+        {/* <div className={cx("menu_button")}>
           <MenuSlide />
-        </div>
-        <div className={cx("logo")}
-                    onClick={() => {
-                      navigate("/");
-                    }}>
+        </div> */}
+        <div
+          className={cx("logo")}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           <img className="logo_image" src={images.logo} alt="1015 BookStore" />
         </div>
         <div className={cx("search_bar")}>

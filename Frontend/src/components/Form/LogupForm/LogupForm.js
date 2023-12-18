@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import "./style.css";
+import "../style.css";
 import { Button, Form, Input, ConfigProvider } from "antd";
 const { Title } = Typography;
 const onFinish = (values) => {
@@ -15,7 +15,7 @@ function Logup() {
     <div className="background">
       <Form
         layout="vertical"
-        className="LogupForm"
+        className="logup_form"
         initialValues={{
           remember: true,
         }}
@@ -26,66 +26,65 @@ function Logup() {
         <Typography
           style={{
             fontWeight: "bolder",
-            fontSize: 30,
-            color: "white",
-            marginTop: 0,
-            marginBottom: 10,
+            fontSize: 24,
           }}
         >
-          Đăng nhập
+          Đăng ký
         </Typography>
-        <Form.Item
-          label={<p className="label">FirstName</p>}
-          name="firstname"
-          rules={[
-            {
-              required: true,
-              message: "Please input your firstname!",
-            },
-            {
-              validator: (_, value) => {
-                if (/^[^0-9]+$/i.test(value)) {
-                  return Promise.resolve();
-                } else {
-                  return Promise.reject("Name is not include number");
-                }
+        <div className="divide_into_2cols">
+          <Form.Item
+            className="no_margin"
+            label={<p className="label">Họ</p>}
+            name="lastname"
+            rules={[
+              {
+                validator: (_, value) => {
+                  if (!value) {
+                    return Promise.reject("Please input your username!");
+                  }
+                  if (/^[^0-9]+$/i.test(value)) {
+                    return Promise.resolve();
+                  } else {
+                    return Promise.reject("Name is not include number");
+                  }
+                },
               },
-            },
-          ]}
-        >
-          <Input size="large" placeholder="firstname" />
-        </Form.Item>
-        <Form.Item
-          label={<p className="label">LastName</p>}
-          name="lastname"
-          rules={[
-            {
-              required: true,
-              message: "Please input your lastname!",
-            },
-            {
-              validator: (_, value) => {
-                if (/^[^0-9]+$/i.test(value)) {
-                  return Promise.resolve();
-                } else {
-                  return Promise.reject("Name is not include number");
-                }
+            ]}
+          >
+            <Input size="large" placeholder="Họ" />
+          </Form.Item>
+          <Form.Item
+            className="no_margin"
+            label={<p className="label">Tên</p>}
+            name="firstname"
+            rules={[
+              {
+                validator: (_, value) => {
+                  if (!value) {
+                    return Promise.reject("Please input your username!");
+                  }
+                  if (/^[^0-9]+$/i.test(value)) {
+                    return Promise.resolve();
+                  } else {
+                    return Promise.reject("Name is not include number");
+                  }
+                },
               },
-            },
-          ]}
-        >
-          <Input size="large" placeholder="lastname" />
-        </Form.Item>
+            ]}
+          >
+            <Input size="large" placeholder="Tên" />
+          </Form.Item>
+        </div>
         <Form.Item
-          label={<p className="label">Username</p>}
+          className="no_margin red_star"
+          label={<p className="label">Tên đăng nhập</p>}
           name="username"
           rules={[
             {
-              required: true,
-              message: "Please input your username!",
-            },
-            {
               validator: (_, value) => {
+                if (!value) {
+                  return Promise.reject("Please input your username!");
+                }
                 if (value.length < 5) {
                   return Promise.reject(
                     "Username must be bigger than 5 character"
@@ -99,30 +98,32 @@ function Logup() {
             },
           ]}
         >
-          <Input size="large" placeholder="Username" />
+          <Input size="large" placeholder="Tên đăng nhập" />
         </Form.Item>
         <Form.Item
-          label={<p className="label">Password</p>}
+          className="no_margin red_star"
+          label={<p className="label">Mật khẩu</p>}
           name="password"
           rules={[
             {
-              required: true,
-              message: "Please input your password!",
-            },
-            {
-              validator: (_, value) =>
-                value.length > 6
-                  ? Promise.resolve()
-                  : Promise.reject(
-                      new Error("Password should bigger than 6 characters")
-                    ),
+              validator: (_, value) => {
+                if (!value) {
+                  return Promise.reject("Please input your password!");
+                }
+                if (value.length <= 6) {
+                  return Promise.reject(
+                    "Password should bigger than 6 characters"
+                  );
+                } else return Promise.resolve();
+              },
             },
           ]}
         >
-          <Input.Password size="large" placeholder="Password" />
+          <Input.Password size="large" placeholder="Mật khẩu" />
         </Form.Item>
         <Form.Item
-          label={<p className="label">Verify Password</p>}
+          className="no_margin"
+          label={<p className="label">Xác nhận mật khẩu</p>}
           name="verifypassword"
           dependencies={["password"]}
           hasFeedback
@@ -143,9 +144,10 @@ function Logup() {
             }),
           ]}
         >
-          <Input.Password size="large" placeholder="Verify Password" />
+          <Input.Password size="large" placeholder="Xác nhận mật khẩu" />
         </Form.Item>
         <Form.Item
+          className="no_margin"
           label={<p className="label">Email</p>}
           name="email"
           rules={[
@@ -161,7 +163,7 @@ function Logup() {
         >
           <Input size="large" placeholder="Email" />
         </Form.Item>
-        <Form.Item>
+        <Form.Item className="no_margin">
           <ConfigProvider
             theme={{
               token: {
@@ -171,17 +173,13 @@ function Logup() {
             }}
           >
             <Button
-              style={{
-                fontWeight: "bold",
-                color: "white",
-                backgroundColor: "#30CF82",
-              }}
+              className="button"
               block
               size="large"
               type="default"
               htmlType="submit"
             >
-              Sign in
+              Đăng ký
             </Button>
           </ConfigProvider>
         </Form.Item>

@@ -7,10 +7,11 @@
   display: flex;
   margin: 6px 0px;
 }
-.menu_button {
+/* .menu_button {
   float: left;
-}
+} */
 .logo {
+  margin-left: 3vh;
   display: flex;
   justify-content: center;
 }
@@ -42,11 +43,10 @@
 
 .log_inner {
   height: 48px;
-  padding-left: 70px;
 }
 .page_name {
   font-size: 30px;
   font-weight: bold;
-  margin-left: 2vh;
+  margin-right: 2vw;
   vertical-align: middle;
 }

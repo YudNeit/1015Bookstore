@@ -1,0 +1,88 @@
+.red_star {
+  .label::before {
+    content: "*";
+    position: absolute;
+    top: 0;
+    left: -10px;
+    color: red;
+    font-size: 12px;
+  }
+}
+
+.no_margin {
+  margin: 0px;
+}
+.button {
+  font-size: 14px;
+  color: white;
+  background-color: #30cf82;
+  margin: 1vh 0vh;
+}
+.background {
+  width: "100vw";
+  height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding-right: 15vw;
+}
+.functions {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.label {
+  padding: 0px;
+  margin: 0px;
+  font-size: 16;
+  color: #8c8c8c;
+}
+.divide_into_2cols {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.login_form {
+  width: 22vw;
+  height: 35vh;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 0px 20px;
+  border-color: rgba(53, 118, 192, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.logup_form {
+  width: 25vw;
+  height: 60vh;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 0px 20px;
+  border-color: rgba(53, 118, 192, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.forgotpassword_form {
+  width: 22vw;
+  height: 35vh;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 0px 20px;
+  border-color: rgba(53, 118, 192, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.changepassword_form {
+  width: 22vw;
+  height: 35vh;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 0px 20px;
+  border-color: rgba(53, 118, 192, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
