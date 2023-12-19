@@ -104,6 +104,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseCors("1015BookStore_Cors");
 
 app.MapControllers();
 
