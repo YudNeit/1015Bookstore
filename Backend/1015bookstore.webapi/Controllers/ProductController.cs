@@ -34,6 +34,7 @@ namespace _1015bookstore.webapi.Controllers
         }
         //http://localhost:port/api/product/public-paging
         [HttpGet("public-paging")]
+        [AllowAnonymous]
         public async Task<IActionResult> Get([FromQuery] GetPublicProductPagingRequest request)
         {
             try

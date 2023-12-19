@@ -60,6 +60,7 @@ namespace _1015bookstore.application.Catalog.Products
                 dateupdated = DateTime.Now,
                 status = ProductStatus.Normal
             };
+
             //Save image
             if (request.ThumbnailImage != null)
             {
@@ -102,8 +103,10 @@ namespace _1015bookstore.application.Catalog.Products
         {
             var query = from p in _context.Products
                         join pic in _context.ProductInCategory on p.id equals pic.product_id
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
                         where p.status != ProductStatus.Delete
-                        select new { p, pic};
+                        select new { p, pic, pimg };
 
             if (!string.IsNullOrEmpty(request.keyword))
                 query = query.Where(x => x.p.name.Contains(request.keyword));
@@ -137,6 +140,7 @@ namespace _1015bookstore.application.Catalog.Products
                 nop = x.p.nop,
                 yop = x.p.yop,
                 status = x.p.status,
+                pathThumbnailImage = x.pimg.imagepath
             }).ToListAsync();
             var pagedResult = new PagedResult<ProductViewModel>()
             {
@@ -148,32 +152,40 @@ namespace _1015bookstore.application.Catalog.Products
 
         public async Task<ProductViewModel> GetById(int id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.id == id);
+            var query = from p in _context.Products
+                        join pic in _context.ProductInCategory on p.id equals pic.product_id
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        where p.status != ProductStatus.Delete
+                        select new { p, pic, pimg };
+
+            var product = await query.FirstOrDefaultAsync(x => x.p.id == id);
 
             if (product == null) throw new _1015Exception($"Cannot find a product with id: {id}");
 
             var data =  new ProductViewModel
             {
-                id = product.id,
-                name = product.name,
-                price = product.price,
-                start_count = product.start_count,
-                review_count = product.review_count,
-                buy_count = product.buy_count,
-                flashsale = product.flashsale,
-                like_count = product.like_count,
-                waranty = product.waranty,
-                quanity = product.quanity,
-                view_count = product.view_count,
-                description = product.description,
-                brand = product.brand,
-                madein = product.madein,
-                mfgdate = product.mfgdate,
-                supplier = product.suppiler,
-                author = product.author,
-                nop = product.nop,
-                yop = product.yop,
-                status = product.status,
+                id = product.p.id,
+                name = product.p.name,
+                price = product.p.price,
+                start_count = product.p.start_count,
+                review_count = product.p.review_count,
+                buy_count = product.p.buy_count,
+                flashsale = product.p.flashsale,
+                like_count = product.p.like_count,
+                waranty = product.p.waranty,
+                quanity = product.p.quanity,
+                view_count = product.p.view_count,
+                description = product.p.description,
+                brand = product.p.brand,
+                madein = product.p.madein,
+                mfgdate = product.p.mfgdate,
+                supplier = product.p.suppiler,
+                author = product.p.author,
+                nop = product.p.nop,
+                yop = product.p.yop,
+                status = product.p.status,
+                pathThumbnailImage = product.pimg.imagepath
             };
             return data;
         }
