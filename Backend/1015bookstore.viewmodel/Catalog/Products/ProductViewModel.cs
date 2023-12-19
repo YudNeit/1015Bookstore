@@ -1,9 +1,4 @@
 ﻿using _1015bookstore.data.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _1015bookstore.viewmodel.Catalog.Products
 {
@@ -29,5 +24,6 @@ namespace _1015bookstore.viewmodel.Catalog.Products
         public string? nop { get; set; }
         public int yop { get; set; }
         public ProductStatus status { get; set; }
+        public string pathThumbnailImage { get; set; }
     }
 }
