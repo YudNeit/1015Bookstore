@@ -6,7 +6,7 @@
 # Migration folder
 1015bookstore.data/Migrations
 # user-content folder
-1015bookstore.webapi/Publish/user-content
+1015bookstore.webapi/Public/user-content
 
 # User-specific files
 *.rsuser
