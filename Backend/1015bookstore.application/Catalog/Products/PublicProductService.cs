@@ -22,11 +22,10 @@ namespace _1015bookstore.application.Catalog.Products
         public async Task<List<ProductViewModel>> GetAll()
         {
             var query = from p in _context.Products
-                        join pic in _context.ProductInCategory on p.id equals pic.product_id
                         join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
                         from pimg in ppimg.DefaultIfEmpty()
                         where p.status != ProductStatus.Delete
-                        select new { p, pic, pimg };
+                        select new { p, pimg };
 
             var data = await query.Select(e => new ProductViewModel
             {

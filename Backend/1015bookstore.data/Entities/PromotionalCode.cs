@@ -12,6 +12,7 @@ namespace _1015bookstore.data.Entities
         public int id { set; get; }
         public DateTime fromdate { set; get; }
         public DateTime todate { set; get; }
+        public string code { set; get; }
         public string name { get; set; }
         public string description { get; set; }
 
