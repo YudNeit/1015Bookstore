@@ -21,6 +21,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/product
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get() {
             try
             {

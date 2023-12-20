@@ -25,11 +25,11 @@ namespace _1015bookstore.webapi.Controllers
                 return BadRequest(ModelState);
 
             var resultToken = await _userService.Authencate(request);
-            if (string.IsNullOrEmpty(resultToken))
+            if (resultToken == null)
             {
                 return BadRequest("Username or password is incorrect.");
             }
-            return Ok(new { token = resultToken });
+            return Ok(resultToken);
         }
 
         [HttpPost("register")]

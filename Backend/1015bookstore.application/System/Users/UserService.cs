@@ -24,7 +24,7 @@ namespace _1015bookstore.application.System.Users
             _roleManager = roleManager;
             _config = config;
         }
-        public async Task<string> Authencate(LoginRequest request)
+        public async Task<LoginRespone> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.username);
             if (user == null) return null;
@@ -44,7 +44,11 @@ namespace _1015bookstore.application.System.Users
 
             var token = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddHours(3),signingCredentials: creds);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new LoginRespone
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                user_id = user.Id,
+            };
         }
 
         public async Task<bool> Register(RegisterRequest request)
