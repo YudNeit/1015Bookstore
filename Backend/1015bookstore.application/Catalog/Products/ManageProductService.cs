@@ -4,6 +4,7 @@ using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
 using _1015bookstore.data.Enums;
 using _1015bookstore.utility.Exceptions;
+using _1015bookstore.viewmodel.Catalog.Carts;
 using _1015bookstore.viewmodel.Catalog.Products;
 using _1015bookstore.viewmodel.Comon;
 using Microsoft.AspNetCore.Http;
@@ -77,7 +78,7 @@ namespace _1015bookstore.application.Catalog.Products
                     }
                 };
             }
-            _context.Products.Add(product);
+            await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return product.id;
         }
@@ -153,38 +154,39 @@ namespace _1015bookstore.application.Catalog.Products
         public async Task<ProductViewModel> GetById(int id)
         {
             var query = from p in _context.Products
-                        join pic in _context.ProductInCategory on p.id equals pic.product_id
                         join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
                         from pimg in ppimg.DefaultIfEmpty()
-                        where p.status != ProductStatus.Delete && p.id == id
-                        select new { p, pic, pimg };
+                        where p.status != ProductStatus.Delete
+                        select new { p, pimg };
 
-            if (await query.CountAsync() <= 0) throw new _1015Exception($"Cannot find a product with id: {id}");
+            var product = await query.FirstOrDefaultAsync(x => x.p.id == id);
 
-            var data = await query.Select(x => new ProductViewModel
+            if (product == null) throw new _1015Exception($"Cannot find a product with id: {id}");
+
+            var data =  new ProductViewModel
             {
-                id = x.p.id,
-                name = x.p.name,
-                price = x.p.price,
-                start_count = x.p.start_count,
-                review_count = x.p.review_count,
-                buy_count = x.p.buy_count,
-                flashsale = x.p.flashsale,
-                like_count = x.p.like_count,
-                waranty = x.p.waranty,
-                quanity = x.p.quanity,
-                view_count = x.p.view_count,
-                description = x.p.description,
-                brand = x.p.brand,
-                madein = x.p.madein,
-                mfgdate = x.p.mfgdate,
-                supplier = x.p.suppiler,
-                author = x.p.author,
-                nop = x.p.nop,
-                yop = x.p.yop,
-                status = x.p.status,
-                pathThumbnailImage = x.pimg.imagepath
-            }).FirstOrDefaultAsync();
+                id = product.p.id,
+                name = product.p.name,
+                price = product.p.price,
+                start_count = product.p.start_count,
+                review_count = product.p.review_count,
+                buy_count = product.p.buy_count,
+                flashsale = product.p.flashsale,
+                like_count = product.p.like_count,
+                waranty = product.p.waranty,
+                quanity = product.p.quanity,
+                view_count = product.p.view_count,
+                description = product.p.description,
+                brand = product.p.brand,
+                madein = product.p.madein,
+                mfgdate = product.p.mfgdate,
+                supplier = product.p.suppiler,
+                author = product.p.author,
+                nop = product.p.nop,
+                yop = product.p.yop,
+                status = product.p.status,
+                pathThumbnailImage = product.pimg == null ? null : product.pimg.imagepath,
+            };
             return data;
         }
 
