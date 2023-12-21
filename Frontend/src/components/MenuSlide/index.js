@@ -83,6 +83,7 @@ const MenuSlide = ({ onMenuSelect }) => {
 
   useEffect(() => {
     const pathName = location.pathname;
+    
     setSelectedKeys(pathName);
   }, [location.pathname]);
 

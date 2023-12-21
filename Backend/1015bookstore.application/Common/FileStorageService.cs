@@ -9,7 +9,7 @@ namespace _1015bookstore.application.Common
 
         public FileStorageService(IWebHostEnvironment webHostEnvironment)
         {
-            _userContentFolder = Path.Combine("./Public", USER_CONTENT_FOLDER_NAME);
+            _userContentFolder = Path.Combine("../../Frontend/src/assets/", USER_CONTENT_FOLDER_NAME);
         }
 
         public string GetFileUrl(string fileName)
