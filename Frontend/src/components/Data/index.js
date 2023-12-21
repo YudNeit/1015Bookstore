@@ -1,8 +1,9 @@
+
 export const items = [
   // ... your data
   {
     id: 1,
-    img: "https://salt.tikicdn.com/cache/750x750/ts/product/67/2b/2b/4b805127f2bb04452bbffcbf9ddffbe7.jpg.webp",
+    img: require('../../assets/user-content/' + '58a36cfd-ee2b-4301-a889-f4db94c8ca5c.png'),
     title: "Tháng 8 Cùng Em Và Những Ký Ức Vụn Vỡ",
     price: 100000,
     description: "1234567890edfghjasvydasgbfklfjnldksjrl",
@@ -14,7 +15,7 @@ export const items = [
   },
   {
     id: 2,
-    img: "https://salt.tikicdn.com/cache/750x750/ts/product/67/2b/2b/4b805127f2bb04452bbffcbf9ddffbe7.jpg.webp",
+    img: require('../../assets/user-content/' + '58a36cfd-ee2b-4301-a889-f4db94c8ca5c.png'),
     title: "Tháng 8 Cùng Em Và Những Ký Ức Vụn Vỡ",
     price: 200000,
     description: "1234567890edfghjasvydasgbfklfjnldksjrl",
@@ -26,7 +27,7 @@ export const items = [
   },
   {
     id: 3,
-    img: "https://salt.tikicdn.com/cache/750x750/ts/product/67/2b/2b/4b805127f2bb04452bbffcbf9ddffbe7.jpg.webp",
+    img: require('../../assets/user-content/' + '58a36cfd-ee2b-4301-a889-f4db94c8ca5c.png'),
     title: "Tháng 8 Cùng Em Và Những Ký Ức Vụn Vỡ",
     price: 300000,
     description: "1234567890edfghjasvydasgbfklfjnldksjrl",
