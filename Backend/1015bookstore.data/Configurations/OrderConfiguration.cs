@@ -19,6 +19,9 @@ namespace _1015bookstore.data.Configurations
             builder.Property(x => x.id).UseIdentityColumn();
             builder.Property(x => x.status).HasDefaultValue(OrderStatus.InProgress);
             builder.HasOne(x => x.user).WithMany(t => t.orders).HasForeignKey(t => t.user_id);
+            builder.Property(x => x.name_reciver).IsRequired(false).HasMaxLength(100).IsUnicode();
+            builder.Property(x => x.phone_reciver).IsRequired(false).HasMaxLength(10).IsUnicode(false);
+            builder.Property(x => x.address_reciver).IsRequired(false).IsUnicode();
         }
     }
 }

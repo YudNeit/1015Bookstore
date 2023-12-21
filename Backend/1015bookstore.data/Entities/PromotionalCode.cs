@@ -22,8 +22,9 @@ namespace _1015bookstore.data.Entities
         public DateTime dateupdated { get; set; }
 
         public int discount_rate { get; set; }
+        public int amount {  get; set; }
         public PromotionalCodeStatus status { set; get; }
 
-
+        public List<UserUsePromotionalCode> usedpromotionalcode_lists { get; set; }
     }
 }
