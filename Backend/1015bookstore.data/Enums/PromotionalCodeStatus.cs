@@ -9,6 +9,7 @@ namespace _1015bookstore.data.Enums
     public enum PromotionalCodeStatus
     {
         InActive,
-        Active
+        Active,
+        OOS,
     }
 }

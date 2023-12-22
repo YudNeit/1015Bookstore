@@ -18,7 +18,7 @@ namespace _1015bookstore.webapi.Controllers
             _cartservice = cartservice;
         }
         //http:localhost:port/api/cart/setcart
-        [HttpGet("setcart")]
+        [HttpPut("setcart")]
         public async Task<IActionResult> SetCart([FromQuery]ProductAdd productadd, Guid user_id) 
         {
             try
@@ -34,7 +34,7 @@ namespace _1015bookstore.webapi.Controllers
             }
         }
         //http:localhost:port/api/cart/removecart
-        [HttpGet("removecart/{id}")]
+        [HttpDelete("removecart/{id}")]
         public async Task<IActionResult> RemoveCart(int id)
         {
             try
@@ -64,7 +64,7 @@ namespace _1015bookstore.webapi.Controllers
             }
         }
         //http:localhost:port/api/cart/updateamountcart/{id}/{amountadd}
-        [HttpGet("updateamountcart/{id}/{amountadd}")]
+        [HttpPut("updateamountcart/{id}/{amountadd}")]
         public async Task<IActionResult> UpdateAmountCart(int id, int amountadd)
         {
             try

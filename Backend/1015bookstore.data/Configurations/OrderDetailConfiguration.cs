@@ -18,6 +18,9 @@ namespace _1015bookstore.data.Configurations
             builder.HasKey(x => new {x.product_id, x.order_id});
             builder.HasOne(x => x.product).WithMany(t=>t.orderdetails).HasForeignKey(t => t.product_id);
             builder.HasOne(x => x.order).WithMany(t => t.orderdetails).HasForeignKey(t => t.order_id);
+            builder.Property(x => x.price).HasColumnType("decimal(18,2)");
+            builder.Property(x => x.product_name).IsRequired().IsUnicode().HasMaxLength(100);
+            builder.Property(x => x.imgpath).IsRequired(false);
         }
     }
 }

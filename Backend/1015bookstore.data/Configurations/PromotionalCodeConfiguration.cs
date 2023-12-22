@@ -20,7 +20,9 @@ namespace _1015bookstore.data.Configurations
             builder.Property(x => x.description).IsUnicode().HasMaxLength(1000);
             builder.Property(x => x.name).IsRequired().IsUnicode().HasMaxLength(100);
             builder.Property(x => x.discount_rate).IsRequired().HasDefaultValue(0);
+            builder.Property(x => x.code).IsRequired().IsUnicode(false).HasMaxLength(8);
             builder.Property(x => x.status).HasDefaultValue(PromotionalCodeStatus.Active);
+            builder.Property(x => x.amount).HasDefaultValue(0);
         }
     }
 }
