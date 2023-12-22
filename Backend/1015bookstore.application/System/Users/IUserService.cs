@@ -9,5 +9,6 @@ namespace _1015bookstore.application.System.Users
         Task<string> ForgotPassword(string email);
         Task<bool> CofirmCodeForgotPassword(ConfirmCodeFPRequest request);
         Task<bool> ChangePasswordForgotPassword(ChangePasswordFPRequest request);
+        Task<bool> ChangePassword(ChangePasswordRequest request);
     }
 }

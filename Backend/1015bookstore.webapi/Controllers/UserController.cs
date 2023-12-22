@@ -95,5 +95,25 @@ namespace _1015bookstore.webapi.Controllers
             }
 
         }
+        [HttpPost("ChangePassword")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromForm]ChangePasswordRequest request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var result = await _userService.ChangePassword(request);
+                if (result)
+                    return Ok("Current password is incorrect");
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
     }
 }

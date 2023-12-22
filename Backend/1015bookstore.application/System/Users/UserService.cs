@@ -146,9 +146,12 @@ namespace _1015bookstore.application.System.Users
             return true;
         }
 
-
         public async Task<bool> ChangePasswordForgotPassword(ChangePasswordFPRequest request)
         {
+            if (request.password != request.confirmpassword)
+            {
+                throw new _1015Exception("The password and confirmation password do not match");
+            }
             var code_db = await _context.CodesForgotPassword.Where(x => x.token == request.token).OrderByDescending(x => x.createdate).FirstOrDefaultAsync();
             if (code_db == null)
             {
@@ -158,13 +161,26 @@ namespace _1015bookstore.application.System.Users
             {
                 throw new _1015Exception("Process is wrong, load page ...");
             }
-            if (request.password != request.confirmpassword)
-            {
-                throw new _1015Exception("The password and confirmation password do not match");
-            }
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == code_db.user_id);
             var resetPassResult = await _userManager.ResetPasswordAsync(user, request.token, request.password);
             return resetPassResult.Succeeded;
+        }
+    
+        public async Task<bool> ChangePassword(ChangePasswordRequest request)
+        {
+            if (request.confirmnewPassword != request.newPassword)
+            {
+                throw new _1015Exception("The password and confirmation password do not match");
+            }
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == request.user_id);
+            if (user == null)
+            {
+                throw new _1015Exception($"Can not find a user with id: {request.user_id}");
+            }
+            var resetPassResult = await _userManager.ChangePasswordAsync(user,request.oldPassword, request.newPassword);
+            return resetPassResult.Succeeded;
+
+
         }
     }
 }
