@@ -38,10 +38,10 @@ namespace _1015bookstore.application.Catalog.Carts
 
             var listcart = await query.Select(x => new CartViewModel {
                 cart_id = x.c.id,
-                product_name = x.p.name,
-                price = x.p.price,
+                product_name = x.c.product_name,
+                price = x.c.price,
                 amount = x.c.quantity,
-                pathimage = x.pimg.imagepath,
+                pathimage = x.c.imgpath,
                 status = x.p.status == ProductStatus.OOS ? CartStatus.OOS : x.c.status,
             }).ToListAsync();
 
@@ -71,12 +71,19 @@ namespace _1015bookstore.application.Catalog.Carts
                 {
                     throw new _1015Exception("Quantity is not enough to add to cart");
                 }
+
+                var imgproduct = await _context.ProductImages.FirstOrDefaultAsync(x => x.product_id == productadd.product_id);
+
                 var newcart = new Cart
                 {
                     product_id = productadd.product_id,
                     user_id = user_id,
+                    product_name = product.name,
                     quantity = productadd.amount,
-                    status = CartStatus.Normal
+                    status = CartStatus.Normal,
+                    price = product.price,
+                    imgpath = imgproduct == null ? null : imgproduct.imagepath,
+                    datecreated = DateTime.Now,
                 };
                 _context.Carts.Add(newcart);
             }

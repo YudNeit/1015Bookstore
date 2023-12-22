@@ -166,5 +166,39 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
             return await _context.SaveChangesAsync();
 
         }
+
+        public async Task<PromotionalCodeViewModel> CheckCode(string stringcode, Guid user_id)
+        {
+            var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == stringcode);
+            if (code == null)
+            {
+                throw new _1015Exception($"Can not find promotional code with code: {stringcode}");
+            }
+            if (DateTime.Now < code.fromdate)
+            {
+                throw new _1015Exception("Can not use code because the release date hasn't arrived yet");
+            }
+            if (DateTime.Now > code.todate)
+            {
+                throw new _1015Exception("Can not use code because it has expired");
+            }
+            var codeuse = await _context.UserUsePromotionalCode.FirstOrDefaultAsync(x => x.promotionalcode_id == code.id && x.user_id == user_id);
+            if (codeuse != null) 
+            {
+                throw new _1015Exception("Can not use code because you used it");
+            }
+            return new PromotionalCodeViewModel
+            {
+                id = code.id,
+                code = code.code,
+                name = code.name,
+                description = code.description,
+                discount_rate = code.discount_rate,
+                amount = code.amount,
+                fromdate = code.fromdate,
+                todate = code.todate,
+                status = code.status,
+            };
+        }
     }
 }

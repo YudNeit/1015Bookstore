@@ -34,6 +34,20 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        //http:localhost:port/api/promotionalcode
+        [HttpGet("checkcode")]
+        public async Task<IActionResult> CheckCode([FromQuery]string stringcode, [FromQuery] Guid user)
+        {
+            try
+            {
+                var code = await _promotionalCodeService.CheckCode(stringcode, user);
+                return Ok(code);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
         //http://localhost:port/api/promotionalcode/1
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -112,7 +126,7 @@ namespace _1015bookstore.webapi.Controllers
         }
         //http://localhost:port/api/promotionalcode/updatetodate
         [HttpPut("updatetodate")]
-        public async Task<IActionResult> UpdateToDate(int id,[FromBody]DateTime updatetodate)
+        public async Task<IActionResult> UpdateToDate([FromQuery] int id,[FromBody]DateTime updatetodate)
         {
             try
             {

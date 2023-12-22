@@ -12,5 +12,6 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
         Task<int> UpdatePromotionalCode(PromotionalCodeUpdateRequest request);
         Task<bool> UpdataAmount(int id, int addedamount);
         Task<bool> UpdataToDate(int id, DateTime todate);
+        Task<PromotionalCodeViewModel> CheckCode(string stringcode, Guid user_id);
     } 
 }

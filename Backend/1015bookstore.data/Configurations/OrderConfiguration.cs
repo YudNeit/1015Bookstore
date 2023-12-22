@@ -22,6 +22,11 @@ namespace _1015bookstore.data.Configurations
             builder.Property(x => x.name_reciver).IsRequired(false).HasMaxLength(100).IsUnicode();
             builder.Property(x => x.phone_reciver).IsRequired(false).HasMaxLength(10).IsUnicode(false);
             builder.Property(x => x.address_reciver).IsRequired(false).IsUnicode();
+            builder.Property(x => x.paymentdate).IsRequired(false);
+            builder.Property(x => x.deliverydate).IsRequired(false);
+            builder.Property(x => x.completedate).IsRequired(false);
+            builder.Property(x => x.promotionalcode).IsRequired(false).HasMaxLength(8).IsUnicode(false);
+            builder.Property(x => x.total).HasColumnType("decimal(18,2)");
         }
     }
 }

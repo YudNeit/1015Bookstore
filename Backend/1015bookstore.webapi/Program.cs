@@ -1,5 +1,6 @@
 using _1015bookstore.application.Catalog.Carts;
 using _1015bookstore.application.Catalog.Categories;
+using _1015bookstore.application.Catalog.Orders;
 using _1015bookstore.application.Catalog.ProductIsnCategories;
 using _1015bookstore.application.Catalog.Products;
 using _1015bookstore.application.Catalog.PromotionalCodes;
@@ -36,6 +37,7 @@ builder.Services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICartService, CartService>();
 builder.Services.AddTransient<IPromotionalCodeService, PromotionalCodeService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddSwaggerGen(c =>
 {
