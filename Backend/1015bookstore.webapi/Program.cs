@@ -27,8 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<_1015DbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<_1015DbContext>().AddDefaultTokenProviders();
 
-builder.Services.AddTransient<IPublicProductService, PublicProductService>();
-builder.Services.AddTransient<IManageProductService, ManageProductService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStorageService, FileStorageService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IProductInCategoryService,  ProductInCategoryService>();

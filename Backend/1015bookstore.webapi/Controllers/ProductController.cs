@@ -11,12 +11,10 @@ namespace _1015bookstore.webapi.Controllers
     [Authorize]
     public class ProductController : ControllerBase
     {
-        private readonly IPublicProductService _publicProductService;
-        private readonly IManageProductService _manageProductService;
+        private readonly IProductService _productService;
 
-        public ProductController(IPublicProductService publicProductService, IManageProductService manageProductService) {
-            _publicProductService = publicProductService;
-            _manageProductService = manageProductService;
+        public ProductController(IProductService ProductService) {
+            _productService = ProductService;
         }
 
         //http:localhost:port/api/product
@@ -25,7 +23,7 @@ namespace _1015bookstore.webapi.Controllers
         public async Task<IActionResult> Get() {
             try
             {
-                var product = await _publicProductService.GetAll();
+                var product = await _productService.GetAll();
                 return Ok(product);
             }
             catch (Exception ex)
@@ -36,11 +34,26 @@ namespace _1015bookstore.webapi.Controllers
         //http://localhost:port/api/product/public-paging
         [HttpGet("public-paging")]
         [AllowAnonymous]
-        public async Task<IActionResult> Get([FromQuery] GetPublicProductPagingRequest request)
+        public async Task<IActionResult> Get([FromQuery] GetProductByCategoryPagingRequest request)
         {
             try
             {
-                var pageResult = await _publicProductService.GetAllByCategoryId(request);
+                var pageResult = await _productService.GetProductByCategoryId(request);
+                return Ok(pageResult);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        //http://localhost:port/api/product/public-paging
+        [HttpGet("public-paging-keyword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetByKeyWord([FromQuery] GetProductByKeyWordPagingRequest request)
+        {
+            try
+            {
+                var pageResult = await _productService.GetProductByKeyWordPaging(request);
                 return Ok(pageResult);
             }
             catch (Exception ex)
@@ -54,7 +67,7 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var product = await _manageProductService.GetById(id);
+                var product = await _productService.GetById(id);
                 if (product == null)
                     return BadRequest("Cannot find product");
                 return Ok(product);
@@ -70,11 +83,11 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var productId = await _manageProductService.Create(request);
+                var productId = await _productService.Create(request);
                 if (productId == 0)
                     return BadRequest();
 
-                var product = await _manageProductService.GetById(productId);
+                var product = await _productService.GetById(productId);
                 return CreatedAtAction(nameof(GetById), new { id = productId }, product);
             }
             catch (Exception ex)
@@ -88,7 +101,7 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var affectedResult = await _manageProductService.Update(request);
+                var affectedResult = await _productService.Update(request);
                 if (affectedResult == 0)
                     return BadRequest();
                 return Ok();
@@ -104,7 +117,7 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var affectedResult = await _manageProductService.Delete(id);
+                var affectedResult = await _productService.Delete(id);
                 if (affectedResult == 0)
                     return BadRequest();
                 return Ok();
@@ -120,7 +133,7 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var isSuccessful = await _manageProductService.UpdatePrice(id, newPrice);
+                var isSuccessful = await _productService.UpdatePrice(id, newPrice);
                 if (isSuccessful)
                     return Ok();
 
@@ -137,7 +150,7 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                 await _manageProductService.AddViewcount(id);
+                 await _productService.AddViewcount(id);
                  return Ok();
             }
             catch (Exception ex)
@@ -151,7 +164,7 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                await _manageProductService.UpdataQuanity(id, addedQuantity);
+                await _productService.UpdataQuanity(id, addedQuantity);
                 return Ok();
             }
             catch (Exception ex)
