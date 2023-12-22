@@ -32,6 +32,7 @@ namespace _1015bookstore.data.EF
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
             modelBuilder.ApplyConfiguration(new UserUsePromotionalCodeConfiguration());
+            modelBuilder.ApplyConfiguration(new CodeForgotPasswordConfiguration());
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles").HasKey(x => new {x.UserId, x.RoleId});
@@ -54,6 +55,8 @@ namespace _1015bookstore.data.EF
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<UserUsePromotionalCode> UserUsePromotionalCode { get; set;}
+
+        public DbSet<CodeForgotPassword> CodesForgotPassword { get; set;}
 
     }
 }

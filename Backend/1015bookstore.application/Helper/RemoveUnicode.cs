@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace _1015bookstore.application.Helper
 {
-    public class RemoveUnicode
+    public class RemoveUnicode : IRemoveUnicode
     {
-        public static string Removeunicode(string text)
+        public string Removeunicode(string text)
         {
             string[] arr1 = new string[] { "á", "à", "ả", "ã", "ạ", "â", "ấ", "ầ", "ẩ", "ẫ", "ậ", "ă", "ắ", "ằ", "ẳ", "ẵ", "ặ",
     "đ",

@@ -5,6 +5,7 @@ using _1015bookstore.application.Catalog.ProductIsnCategories;
 using _1015bookstore.application.Catalog.Products;
 using _1015bookstore.application.Catalog.PromotionalCodes;
 using _1015bookstore.application.Common;
+using _1015bookstore.application.Helper;
 using _1015bookstore.application.System.Users;
 using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
@@ -26,8 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<_1015DbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<_1015DbContext>().AddDefaultTokenProviders();
 
-builder.Services.AddTransient<IPublicProductService, PublicProductService>();
-builder.Services.AddTransient<IManageProductService, ManageProductService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStorageService, FileStorageService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IProductInCategoryService,  ProductInCategoryService>();
@@ -38,6 +38,8 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICartService, CartService>();
 builder.Services.AddTransient<IPromotionalCodeService, PromotionalCodeService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IRemoveUnicode, RemoveUnicode>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddSwaggerGen(c =>
 {

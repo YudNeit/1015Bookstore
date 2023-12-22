@@ -13,14 +13,17 @@ using Microsoft.Net.Http.Headers;
 
 namespace _1015bookstore.application.Catalog.Products
 {
-    public class ManageProductService : IManageProductService
+    public class ProductService : IProductService
     {
         private readonly _1015DbContext _context;
         private readonly IStorageService _storageService;
-        public ManageProductService(_1015DbContext context, IStorageService storageService)
+        private readonly IRemoveUnicode _removeUnicode;
+
+        public ProductService(_1015DbContext context, IStorageService storageService, IRemoveUnicode removeUnicode)
         {
             _context = context;
             _storageService = storageService;
+            _removeUnicode = removeUnicode;
         }
 
         public async Task AddViewcount(int id)
@@ -37,7 +40,7 @@ namespace _1015bookstore.application.Catalog.Products
             var product = new Product()
             {
                 name = request.name,
-                alias = RemoveUnicode.Removeunicode(request.name),
+                alias = _removeUnicode.Removeunicode(request.name),
                 price = request.price,
                 start_count = 0,
                 review_count = 0,
@@ -100,7 +103,7 @@ namespace _1015bookstore.application.Catalog.Products
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request)
+        public async Task<PagedResult<ProductViewModel>> GetProductByKeyWordPaging(GetProductByKeyWordPagingRequest request)
         {
             var query = from p in _context.Products
                         join pic in _context.ProductInCategory on p.id equals pic.product_id
@@ -110,11 +113,7 @@ namespace _1015bookstore.application.Catalog.Products
                         select new { p, pic, pimg };
 
             if (!string.IsNullOrEmpty(request.keyword))
-                query = query.Where(x => x.p.name.Contains(request.keyword));
-            if (request.categoryids.Count > 0)
-            {
-                query = query.Where(p => request.categoryids.Contains(p.pic.category_id));
-            }
+                query = query.Where(x => x.p.alias.Contains(_removeUnicode.Removeunicode(request.keyword)));
 
             int totalRow = await query.CountAsync();
 
@@ -252,6 +251,90 @@ namespace _1015bookstore.application.Catalog.Products
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return fileName;
+        }
+
+        public async Task<List<ProductViewModel>> GetAll()
+        {
+            var query = from p in _context.Products
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        where p.status != ProductStatus.Delete
+                        select new { p, pimg };
+
+            var data = await query.Select(e => new ProductViewModel
+            {
+                id = e.p.id,
+                name = e.p.name,
+                price = e.p.price,
+                start_count = e.p.start_count,
+                review_count = e.p.review_count,
+                buy_count = e.p.buy_count,
+                flashsale = e.p.flashsale,
+                like_count = e.p.like_count,
+                waranty = e.p.waranty,
+                quanity = e.p.quanity,
+                view_count = e.p.view_count,
+                description = e.p.description,
+                brand = e.p.brand,
+                madein = e.p.madein,
+                mfgdate = e.p.mfgdate,
+                supplier = e.p.suppiler,
+                author = e.p.author,
+                nop = e.p.nop,
+                yop = e.p.yop,
+                status = e.p.status,
+                pathThumbnailImage = e.pimg.imagepath
+            }).ToListAsync();
+            return data;
+        }
+
+        public async Task<PagedResult<ProductViewModel>> GetProductByCategoryId(GetProductByCategoryPagingRequest request)
+        {
+            var query = from p in _context.Products
+                        join pic in _context.ProductInCategory on p.id equals pic.product_id
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        where p.status != ProductStatus.Delete
+                        select new { p, pic, pimg };
+
+            if (request.category_ids.Count > 0)
+            {
+                query = query.Where(p => request.category_ids.Contains(p.pic.category_id));
+            }
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.pageindex - 1) * request.pagesize).Take(request.pagesize)
+            .Select(x => new ProductViewModel()
+            {
+                id = x.p.id,
+                name = x.p.name,
+                price = x.p.price,
+                start_count = x.p.start_count,
+                review_count = x.p.review_count,
+                buy_count = x.p.buy_count,
+                flashsale = x.p.flashsale,
+                like_count = x.p.like_count,
+                waranty = x.p.waranty,
+                quanity = x.p.quanity,
+                view_count = x.p.view_count,
+                description = x.p.description,
+                brand = x.p.brand,
+                madein = x.p.madein,
+                mfgdate = x.p.mfgdate,
+                supplier = x.p.suppiler,
+                author = x.p.author,
+                nop = x.p.nop,
+                yop = x.p.yop,
+                status = x.p.status,
+                pathThumbnailImage = x.pimg.imagepath,
+            }).ToListAsync();
+            var pagedResult = new PagedResult<ProductViewModel>()
+            {
+                totalrecord = totalRow,
+                items = data
+            };
+            return pagedResult;
         }
     }
 }

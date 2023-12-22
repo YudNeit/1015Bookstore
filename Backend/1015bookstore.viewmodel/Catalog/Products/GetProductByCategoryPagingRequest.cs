@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace _1015bookstore.viewmodel.Catalog.Products
 {
-    public class GetPublicProductPagingRequest : PagingRequestBase
+    public class GetProductByCategoryPagingRequest : PagingRequestBase
     {
         public List<int> category_ids { get; set; }
     }
