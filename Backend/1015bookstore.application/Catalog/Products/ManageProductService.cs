@@ -17,10 +17,13 @@ namespace _1015bookstore.application.Catalog.Products
     {
         private readonly _1015DbContext _context;
         private readonly IStorageService _storageService;
-        public ManageProductService(_1015DbContext context, IStorageService storageService)
+        private readonly IRemoveUnicode _removeUnicode;
+
+        public ManageProductService(_1015DbContext context, IStorageService storageService, IRemoveUnicode removeUnicode)
         {
             _context = context;
             _storageService = storageService;
+            _removeUnicode = removeUnicode;
         }
 
         public async Task AddViewcount(int id)
@@ -37,7 +40,7 @@ namespace _1015bookstore.application.Catalog.Products
             var product = new Product()
             {
                 name = request.name,
-                alias = RemoveUnicode.Removeunicode(request.name),
+                alias = _removeUnicode.Removeunicode(request.name),
                 price = request.price,
                 start_count = 0,
                 review_count = 0,

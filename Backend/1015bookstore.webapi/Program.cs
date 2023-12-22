@@ -5,6 +5,7 @@ using _1015bookstore.application.Catalog.ProductIsnCategories;
 using _1015bookstore.application.Catalog.Products;
 using _1015bookstore.application.Catalog.PromotionalCodes;
 using _1015bookstore.application.Common;
+using _1015bookstore.application.Helper;
 using _1015bookstore.application.System.Users;
 using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
@@ -38,6 +39,8 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICartService, CartService>();
 builder.Services.AddTransient<IPromotionalCodeService, PromotionalCodeService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IRemoveUnicode, RemoveUnicode>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddSwaggerGen(c =>
 {

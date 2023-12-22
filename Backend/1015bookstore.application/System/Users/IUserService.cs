@@ -1,9 +1,4 @@
 ﻿using _1015bookstore.viewmodel.System.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _1015bookstore.application.System.Users
 {
@@ -11,5 +6,8 @@ namespace _1015bookstore.application.System.Users
     {
         Task<LoginRespone> Authencate(LoginRequest request);
         Task<bool> Register(RegisterRequest request);
+        Task<string> ForgotPassword(string email);
+        Task<bool> CofirmCodeForgotPassword(ConfirmCodeFPRequest request);
+        Task<bool> ChangePasswordForgotPassword(ChangePasswordFPRequest request);
     }
 }

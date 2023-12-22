@@ -1,5 +1,6 @@
 ﻿using _1015bookstore.application.Catalog.Orders;
 using _1015bookstore.viewmodel.Catalog.Orders;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace _1015bookstore.webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;

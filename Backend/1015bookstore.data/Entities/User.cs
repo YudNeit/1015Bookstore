@@ -18,5 +18,6 @@ namespace _1015bookstore.data.Entities
         public List<UserAddress> addresses { get; set; }
         public List<Transaction> transactions { get; set; }
         public List<UserUsePromotionalCode> usedpromotionalcode_lists { get; set; }
+        public List<CodeForgotPassword> codes { get; set; }
     }
 }
