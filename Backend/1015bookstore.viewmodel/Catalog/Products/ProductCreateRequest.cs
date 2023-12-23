@@ -18,11 +18,11 @@ namespace _1015bookstore.viewmodel.Catalog.Products
         #region Detail
         public string? brand { get; set; }
         public string? madein { get; set; }
-        public DateTime mfgdate { get; set; }
+        public DateTime? mfgdate { get; set; }
         public string? suppiler { get; set; }
         public string? author { get; set; }
         public string? nop { get; set; }
-        public int yop { get; set; }
+        public int? yop { get; set; }
         #endregion
 
         public IFormFile? ThumbnailImage { get; set; }

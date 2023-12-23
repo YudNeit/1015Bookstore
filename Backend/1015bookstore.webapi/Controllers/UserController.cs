@@ -97,7 +97,7 @@ namespace _1015bookstore.webapi.Controllers
         }
         [HttpPost("ChangePassword")]
         [Authorize]
-        public async Task<IActionResult> ChangePassword([FromForm]ChangePasswordRequest request)
+        public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordRequest request)
         {
             try
             {
@@ -105,15 +105,47 @@ namespace _1015bookstore.webapi.Controllers
                     return BadRequest(ModelState);
                 var result = await _userService.ChangePassword(request);
                 if (result)
-                    return Ok("Current password is incorrect");
+                    return Ok();
                 else
-                    return BadRequest();
+                    return BadRequest("Current password is incorrect");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
 
+        }
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            try
+            {
+                var user = await _userService.GetUserById(id);
+                if (user == null)
+                    return BadRequest("Cannot find user");
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpPost("updateuser")]
+        [Authorize]
+        public async Task<IActionResult> UpdateUser([FromForm]UserUpdateRequest request)
+        {
+            try
+            {
+                var result = await _userService.UpdateInforUser(request);
+                if (result == false)
+                    return BadRequest();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
