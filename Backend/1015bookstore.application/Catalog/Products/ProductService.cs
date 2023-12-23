@@ -51,12 +51,12 @@ namespace _1015bookstore.application.Catalog.Products
                 quanity = request.quanity,
                 view_count = 0,
                 description = request.description,
-                brand = request.brand == null ? "" : request.brand,
-                madein = request.madein == null ? "" : request.madein,
+                brand = request.brand,
+                madein = request.madein,
                 mfgdate = request.mfgdate,
-                suppiler = request.suppiler == null ? "" : request.suppiler,
-                author = request.author == null ? "" : request.author,
-                nop = request.nop == null ? "" : request.nop,
+                suppiler = request.suppiler,
+                author = request.author,
+                nop = request.nop,
                 yop = request.yop,
                 createdby = "Hệ thống",
                 datecreated = DateTime.Now,
@@ -214,12 +214,12 @@ namespace _1015bookstore.application.Catalog.Products
             product.waranty = request.waranty;
             product.quanity = request.quanity;
             product.description = request.description;
-            product.brand = request.brand == null ? "" : request.brand;
-            product.madein = request.madein == null ? "" : request.madein;
+            product.brand = request.brand;
+            product.madein = request.madein;
             product.mfgdate = request.mfgdate;
-            product.suppiler = request.suppiler == null ? "" : request.suppiler;
-            product.author = request.author == null ? "" : request.author;
-            product.nop = request.nop == null ? "" : request.nop;
+            product.suppiler = request.suppiler;
+            product.author = request.author;
+            product.nop = request.nop;
             product.yop = request.yop;
 
             //Save image

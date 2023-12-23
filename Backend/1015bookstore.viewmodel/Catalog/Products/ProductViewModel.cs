@@ -18,12 +18,12 @@ namespace _1015bookstore.viewmodel.Catalog.Products
         public string? description { get; set; }
         public string? brand { get; set; }
         public string? madein { get; set; }
-        public DateTime mfgdate { get; set; }
+        public DateTime? mfgdate { get; set; }
         public string? supplier { get; set; }
         public string? author { get; set; }
         public string? nop { get; set; }
-        public int yop { get; set; }
+        public int? yop { get; set; }
         public ProductStatus status { get; set; }
-        public string pathThumbnailImage { get; set; }
+        public string? pathThumbnailImage { get; set; }
     }
 }

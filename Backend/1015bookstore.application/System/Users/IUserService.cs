@@ -10,5 +10,7 @@ namespace _1015bookstore.application.System.Users
         Task<bool> CofirmCodeForgotPassword(ConfirmCodeFPRequest request);
         Task<bool> ChangePasswordForgotPassword(ChangePasswordFPRequest request);
         Task<bool> ChangePassword(ChangePasswordRequest request);
+        Task<UserViewModel> GetUserById(Guid id);
+        Task<bool> UpdateInforUser(UserUpdateRequest request);
     }
 }

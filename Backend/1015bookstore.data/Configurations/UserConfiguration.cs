@@ -16,6 +16,8 @@ namespace _1015bookstore.data.Configurations
             builder.ToTable("Users");
             builder.Property(x => x.firstname).IsRequired().HasMaxLength(100);
             builder.Property(x => x.lastname).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.dob).IsRequired(false);
+            builder.Property(x => x.sex).IsRequired(false);
         }
     }
 }

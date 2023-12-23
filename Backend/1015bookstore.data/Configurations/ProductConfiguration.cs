@@ -30,11 +30,13 @@ namespace _1015bookstore.data.Configurations
             builder.Property(x => x.quanity).IsRequired().HasDefaultValue(0);
             builder.Property(x => x.description).IsUnicode().HasMaxLength(1000);
 
-            builder.Property(x => x.brand).IsUnicode().HasMaxLength(100);
-            builder.Property(x => x.madein).IsUnicode().HasMaxLength(100);
-            builder.Property(x => x.suppiler).IsUnicode().HasMaxLength(100);
-            builder.Property(x => x.author).IsUnicode().HasMaxLength(100);
-            builder.Property(x => x.nop).IsUnicode().HasMaxLength(100);
+            builder.Property(x => x.brand).IsUnicode().HasMaxLength(100).IsRequired(false);
+            builder.Property(x => x.madein).IsUnicode().HasMaxLength(100).IsRequired(false);
+            builder.Property(x => x.suppiler).IsUnicode().HasMaxLength(100).IsRequired(false);
+            builder.Property(x => x.author).IsUnicode().HasMaxLength(100).IsRequired(false);
+            builder.Property(x => x.nop).IsUnicode().HasMaxLength(100).IsRequired(false);
+            builder.Property(x => x.mfgdate).IsRequired(false);
+            builder.Property(x => x.yop).IsRequired(false);
 
             builder.Property(x => x.status).HasDefaultValue(ProductStatus.Normal);
             builder.Property(x => x.price).HasColumnType("decimal(18,2)");

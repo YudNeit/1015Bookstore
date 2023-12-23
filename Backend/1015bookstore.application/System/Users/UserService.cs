@@ -103,14 +103,14 @@ namespace _1015bookstore.application.System.Users
 
         public async Task<bool> Register(RegisterRequest request)
         {
+            if (request.password != request.confirmpassword)
+                throw new _1015Exception("The password and confirmation password do not match");
             var user_old = await _userManager.FindByNameAsync(request.username);
             if (user_old != null)
                 throw new _1015Exception("Username is existed");
             user_old = await _userManager.FindByEmailAsync(request.email);
             if (user_old != null)
                 throw new _1015Exception("Email is existed");
-            if (request.password != request.confirmpassword)
-                throw new _1015Exception("The password and confirmation password do not match");
             var user = new User()
             {
                 Email = request.email,
@@ -181,6 +181,40 @@ namespace _1015bookstore.application.System.Users
             return resetPassResult.Succeeded;
 
 
+        }
+
+        public async Task<UserViewModel> GetUserById(Guid id)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                throw new _1015Exception($"Can not find a user with id: {id}");
+            }
+            return new UserViewModel
+            {
+                id = id,
+                firstname = user.firstname,
+                lastname = user.lastname,
+                dob = user.dob,
+                sex = user.sex,
+                phonenumber = user.PhoneNumber,
+                email = user.Email,
+            };
+        }
+
+        public async Task<bool> UpdateInforUser(UserUpdateRequest request)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == request.id);
+            if (user == null)
+            {
+                throw new _1015Exception($"Can not find a user with id: {request.id}");
+            }
+            user.firstname = request.firstname;
+            user.lastname = request.lastname;
+            user.dob = request.dob;
+            user.sex = request.sex;
+            user.PhoneNumber = request.phonenumber;
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
