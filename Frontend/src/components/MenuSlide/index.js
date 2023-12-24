@@ -1,28 +1,30 @@
 import { MenuOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
-function getItem(label, key, icon, children, type) {
+const { SubMenu } = Menu;
+
+function getItem(label, key, icon, items, type) {
   return {
     key,
     icon,
-    children,
+    items,
     label,
     type,
   };
 }
 
-const items = [
+const categories = [
   getItem("", "", <MenuOutlined />, [
     getItem("Sách Thiếu Nhi", "1", null, [
       getItem("Đạo Đức và Kỹ Năng Sống", "12"),
-      getItem("Truyện Cổ Tích", "truyen-co-tich"),
+      getItem("Truyện Cổ Tích", "13"),
       getItem("Văn học Thiếu Nhi", "14"),
       getItem("Tô Màu - Luyện Chữ", "15"),
     ]),
     getItem("Sách Kinh Tế", "2", null, [
-      getItem("Sách Doanh Nhân", "sach-doanh-nhan"),
+      getItem("Sách Doanh Nhân", "16"),
       getItem("Sách Khởi Nghiệp", "17"),
       getItem("Sách Kinh Tế Học", "18"),
       getItem("Sách Kỹ Năng Làm Việc", "19"),
@@ -31,7 +33,7 @@ const items = [
       getItem("Luật - Văn bản Luật", "20"),
       getItem("Lý Luận Chính Trị", "21"),
     ]),
-    getItem("Sách Tâm Lý", "sach-tam-ly"),
+    getItem("Sách Tâm Lý", "4"),
     getItem("Sách Y Học", "5"),
     getItem("Sách Văn Học", "6", null, [
       getItem("Light Novel", "22"),
@@ -61,43 +63,43 @@ const items = [
   ]),
 ];
 
-// const items1 = [
-//   {
-//     label: '',
-//     key: 'Menu',
-//     icon: <MenuOutlined />,
-//     getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
-//       getItem('Option 5', '5'),
-//       getItem('Option 6', '6'),
-//       getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-//     ])}
-// ];
-
 const MenuSlide = ({ onMenuSelect }) => {
+  const location = useLocation();
+  const [selectedKeys, setSelectedKeys] = useState("/");
   const handleMenuClick = (selectedValue) => {
     onMenuSelect(selectedValue);
   };
-  const location = useLocation();
-  const [selectedKeys, setSelectedKeys] = useState("/");
-  const navigate = useNavigate();
 
   useEffect(() => {
     const pathName = location.pathname;
-    
     setSelectedKeys(pathName);
   }, [location.pathname]);
+
+  const renderMenuItems = (menuItems) => {
+    return menuItems.map((item) => {
+      if (item.items) {
+        return (
+          <SubMenu key={item.key} icon={item.icon} title={item.label}>
+            {renderMenuItems(item.items)}
+          </SubMenu>
+        );
+      } else {
+        return <Menu.Item key={item.key}>{item.label}</Menu.Item>;
+      }
+    });
+  };
 
   return (
     <Menu
       className="SideMenuVertical"
       theme="light"
       selectedKeys={[selectedKeys]}
-      style={{ width: 70, borderRight: "none" }}
-      items={items}
-      onClick={(item) => {
-        handleMenuClick(item.key);
-      }}
-    />
+      style={{ width: 200, borderRight: "none" }}
+      onClick={({ key }) => handleMenuClick(key)}
+    >
+      {renderMenuItems(categories)}
+    </Menu>
   );
 };
+
 export default MenuSlide;

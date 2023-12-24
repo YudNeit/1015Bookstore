@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Avatar, Button, Col, Image, InputNumber, List, Rate, Row } from "antd";
-import { useCart } from "../../components/Context/CartContext";
 
 const data = [
   {
@@ -26,36 +25,60 @@ const data = [
 ];
 
 function ProductPage() {
-  const { addToCart } = useCart();
   const location = useLocation();
   const { state } = location;
   const item = state ? state.item : null;
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(1);
+  const [amount, setAmount] = useState(1);
 
   useEffect(() => {
     // Scroll đến đầu trang khi component đã mount
     window.scrollTo(0, 0);
   }, []);
 
-  const handleAddToCart = () => {
-    const cartItem = {
-      id: item.id,
-      name: item.title,
-      quantity: quantity,
-      price: item.price,
-      img: item.img,
-    };
-    addToCart(cartItem);
-    // Thêm sản phẩm vào giỏ hàng (đây là nơi lưu trữ tạm thời, bạn có thể sử dụng Redux hoặc Context API để quản lý giỏ hàng toàn cục)
-
-    // Đoạn mã dưới đây là để mô phỏng việc thêm vào giỏ hàng. Bạn cần thay thế nó với logic thực tế.
-    console.log("Đã thêm vào giỏ hàng:", cartItem);
-    setQuantity(1); // Đặt lại số lượng sau khi thêm vào giỏ hàng
-
-    // (Tùy chọn) Chuyển hướng đến trang giỏ hàng sau khi thêm vào giỏ hàng
-    navigate("/cart");
+  const getCookie = (cookieName) => {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name === cookieName) {
+        return value;
+      }
+    }
+    return null;
   };
+  const jwtToken = getCookie('accessToken');
+  const userId = getCookie('userid');
+  
+  console.log(item);
+
+  const handleAddToCart = async () => {
+
+    setAmount(1); // Đặt lại số lượng sau khi thêm vào giỏ hàng
+    try {
+      const response = await fetch(
+        `https://localhost:7139/api/Cart/setcart?product_id=${item.id}&amount=${amount}&user_id=${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${jwtToken}`,
+          },
+        }
+      );
+        console.log(response);
+      if (response.ok) {
+        // Handle the success case
+        console.log("Item added to the cart in the database");
+
+      } else {
+        // Handle the error case
+        console.error("Failed to add item to the cart in the database");
+      }
+    } catch (error) {
+      console.error("Error adding item to the cart:", error);
+    }
+  };
+
 
   return (
     <div>
@@ -63,12 +86,16 @@ function ProductPage() {
         <div>
           <Row>
             <Col md={4}>
-              <Image src={item.img} alt={item.title} />
+              <Image src={
+                    item.pathThumbnailImage == null
+                      ? require(`../../assets/user-content/img_1.webp`)
+                      : require(`../../assets/user-content/${item.pathThumbnailImage}`)
+                  } alt={item.title} />
             </Col>
             <Col>
               <List>
                 <List.Item>
-                  <h3>{item.title}</h3>
+                  <h3>{item.name}</h3>
                 </List.Item>
                 <List.Item>
                   <Rate disabled defaultValue={item.rate} />
@@ -78,13 +105,12 @@ function ProductPage() {
                   Số lượng:{" "}
                   <InputNumber
                     min={1}
-                    value={quantity}
-                    onChange={setQuantity}
+                    value={amount}
+                    onChange={setAmount}
                   />
                 </List.Item>
                 <List.Item>
                   <Button onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
-                  <Button>Mua Ngay</Button>
                 </List.Item>
               </List>
             </Col>
@@ -96,9 +122,9 @@ function ProductPage() {
                   <h3>Thông tin sản phẩm</h3>
                 </List.Item>
                 <List.Item>Danh Mục: {item.category}</List.Item>
-                <List.Item>Nhà xuất bản: {item.Nhaxuatban}</List.Item>
-                <List.Item>Nhà cung cấp: {item.Nhacungcap}</List.Item>
-                <List.Item>Tác giả: {item.Tacgia}</List.Item>
+                <List.Item>Nhà xuất bản: {item.brand}</List.Item>
+                <List.Item>Nhà cung cấp: {item.supplier}</List.Item>
+                <List.Item>Tác giả: {item.author}</List.Item>
                 <List.Item>
                   <h3>Mô tả sản phẩm</h3>
                 </List.Item>

@@ -8,9 +8,6 @@
 # testing
 /coverage
 
-# user-content folder
-/src/assets/user-content
-
 # production
 /build
 
