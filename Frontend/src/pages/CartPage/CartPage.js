@@ -1,23 +1,118 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { List, Row, Card, Button, InputNumber, Checkbox, Image } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../components/Context/CartContext";
 
 function CartPage() {
-  const { cartItems, removeFromCart, updateCartItemQuantity } = useCart();
   const [selectedItems, setSelectedItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [items, setItems] = useState([]);
 
-  const handleCheckout = () => {
-    // Filter out the selected items from the cartItems
-    const selectedItemsForCheckout = cartItems.filter((item) =>
-      selectedItems.includes(item.id)
-    );
+  const getCookie = (cookieName) => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === cookieName) {
+        return value;
+      }
+    }
+    return null;
+  };
+  const userId = getCookie("userid");
+  const jwtToken = getCookie("accessToken");
 
-    // Now navigate to the checkout page with the selected items in the state
-    navigate("/checkout", {
-      state: { selectedItems: selectedItemsForCheckout },
-    });
+  const fetchCartData = async (userId) => {
+    try {
+      if (!userId) {
+        console.error("User ID not found in sessionStorage");
+        return;
+      }
+
+      const response = await fetch(
+        `https://localhost:7139/api/Cart/getcart/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setItems(data);
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+      throw error; // Propagate the error to handle it in the calling code
+    }
+  };
+
+  const removeCartItem = async (cartItemId) => {
+    try {
+      const response = await fetch(
+        `https://localhost:7139/api/Cart/removecart/${cartItemId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      await fetchCartData(userId);
+    } catch (error) {
+      console.error("Error removing cart item:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartData(userId);
+  }, [setItems]);
+
+  const handleCheckout = async () => {
+    try {
+      const selectedIds = items
+        .filter((item) => selectedItems.includes(item.cart_id))
+        .map((item) => item.cart_id);
+
+      const formData = new FormData();
+      selectedIds.forEach((id) => {
+        formData.append("cart_ids", id);
+      });
+      formData.append("user_id", userId);
+      console.log("Response:", formData);
+
+      const response = await fetch("https://localhost:7139/api/Order", {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        body: formData,
+      });
+
+      console.log("Response:", response);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const orderResponse = await response.json();
+      const orderId = orderResponse.id;
+      localStorage.setItem("orderId", orderId);
+      navigate(`/checkout`);
+      console.log("Order placed successfully!");
+    } catch (error) {
+      console.error("Error placing the order:", error);
+    }
   };
 
   const handleCheckboxChange = (e, itemId) => {
@@ -33,31 +128,56 @@ function CartPage() {
 
   const handleCheckAllChange = () => {
     setSelectedItems((prevSelectedItems) => {
-      return prevSelectedItems.length === cartItems.length
+      return prevSelectedItems.length === items.length
         ? []
-        : cartItems.map((item) => item.id);
+        : items.map((item) => item.cart_id);
     });
   };
 
-  const handleQuantityChange = (itemId, value) => {
-    updateCartItemQuantity(itemId, value);
+  const handleCardClick = (item) => {
+    console.log("Card clicked:", item);
+    navigate(`/product-detail/${item.cart_id}`, { state: { item } });
   };
 
-  const handleRemoveItem = (itemId) => {
-    removeFromCart(itemId);
+  const handleQuantityChange = async (itemId, value) => {
+    try {
+      const response = await fetch(
+        `https://localhost:7139/api/Cart/updateamountcart/${itemId}/${value}`,
+        {
+          method: "PUT", // Assuming that the API uses PUT for updating the quantity
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Fetch the updated cart data after updating the quantity
+      await fetchCartData(userId);
+    } catch (error) {
+      console.error("Error updating cart item quantity:", error);
+    }
   };
 
-  const totalAmount = cartItems.reduce(
+  const handleRemoveItem = (cartItemId) => {
+    removeCartItem(cartItemId);
+  };
+
+  const totalAmount = items.reduce(
     (total, item) =>
-      selectedItems.includes(item.id)
-        ? total + item.price * item.quantity
+      selectedItems.includes(item.cart_id)
+        ? total + item.price * item.amount
         : total,
     0
   );
 
-  const totalQuantity = cartItems.reduce(
+  const totalQuantity = items.reduce(
     (total, item) =>
-      selectedItems.includes(item.id) ? total + item.quantity : total,
+      selectedItems.includes(item.cart_id) ? total + item.amount : total,
     0
   );
 
@@ -67,10 +187,10 @@ function CartPage() {
         <List>
           <List.Item>
             <Checkbox
-              checked={cartItems.length === selectedItems.length}
+              checked={items.length === selectedItems.length}
               onChange={handleCheckAllChange}
             >
-              {cartItems.length === selectedItems.length
+              {items.length === selectedItems.length
                 ? "Hủy chọn tất cả"
                 : "Chọn tất cả"}
             </Checkbox>
@@ -82,34 +202,40 @@ function CartPage() {
         </List>
       </div>
       <div>
-        {cartItems.map((item) => (
-          <Card key={item.id}>
+        {items.map((item) => (
+          <Card key={item.cart_id}>
             <Row align="middle">
               <Checkbox
-                checked={selectedItems.includes(item.id)}
-                onChange={(e) => handleCheckboxChange(e, item.id)}
+                checked={selectedItems.includes(item.cart_id)}
+                onChange={(e) => handleCheckboxChange(e, item.cart_id)}
               />
               <List.Item>
                 <Image
                   style={{
                     height: 50,
                   }}
-                  src={item.img}
-                  alt={item.title}
+                  src={
+                    item.pathimage == null
+                      ? require(`../../assets/user-content/img_1.webp`)
+                      : require(`../../assets/user-content/${item.pathimage}`)
+                  }
+                  alt={item.product_name}
                 />
               </List.Item>
-              <List.Item>{item.name}</List.Item>
+              <List.Item>{item.product_name}</List.Item>
               <List.Item>{item.price}đ</List.Item>
               <List.Item>
-                <InputNumber
-                  min={1}
-                  value={item.quantity}
-                  onChange={(value) => handleQuantityChange(item.id, value)}
-                />
+                <Button onClick={() => handleQuantityChange(item.cart_id, +1)}>+</Button>
               </List.Item>
-              <List.Item>{item.price * item.quantity}đ</List.Item>
+              <List.Item>{item.amount}</List.Item>
               <List.Item>
-                <Button onClick={() => handleRemoveItem(item.id)}>Xóa</Button>
+                <Button onClick={() => handleQuantityChange(item.cart_id, -1)}>-</Button>
+              </List.Item>
+              <List.Item>{item.price * item.amount}đ</List.Item>
+              <List.Item>
+                <Button onClick={() => handleRemoveItem(item.cart_id)}>
+                  Xóa
+                </Button>
               </List.Item>
             </Row>
           </Card>
@@ -123,13 +249,7 @@ function CartPage() {
           <List.Item>Tổng số lượng: {totalQuantity}</List.Item>
           <List.Item>Tổng thanh toán: {totalAmount}đ</List.Item>
           <List.Item>
-            <Button
-  onClick={() => {
-    handleCheckout(); // Add parentheses to invoke the function
-  }}
->
-              Mua Hàng
-            </Button>
+            <Button onClick={handleCheckout}>Mua Hàng</Button>
           </List.Item>
         </List>
       </div>

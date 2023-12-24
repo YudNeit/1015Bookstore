@@ -1,46 +1,75 @@
-import { Typography } from "antd";
-import "../style.css";
-import { Button, Form, Input, ConfigProvider } from "antd";
-const { Title } = Typography;
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
+import { Typography, ConfigProvider, Form, Input, Button } from "antd";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+const Login = () => {
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-function Login() {
+  const handleLogIn = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const values = await form.validateFields();
+      const { username, password } = values;
+
+      const formDataObject = new FormData();
+      formDataObject.append('username', username);
+      formDataObject.append('password', password);
+      formDataObject.append('rememberme', true);
+
+      const response = await fetch('https://localhost:7139/api/User/authenticate', {
+        method: 'POST',
+        mode: 'cors',
+        body: formDataObject,
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          setError('Invalid username or password');
+        } else {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } else {
+        const responseData = await response.json();
+        console.log(responseData);
+
+        document.cookie = `accessToken=${responseData.token}; path=/`;
+        document.cookie = `userid=${responseData.user_id}; path=/`;
+
+      }
+    } catch (error) {
+      setError('Login failed. Please try again.');
+      console.error('Login failed', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return (
     <div className="background">
       <Form
+        form={form}
         layout="vertical"
         className="login_form"
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Typography
-          style={{
-            fontWeight: "bolder",
-            fontSize: 36,
-          }}
-        >
+        <Typography style={{ fontWeight: "bolder", fontSize: 36 }}>
           Đăng nhập
         </Typography>
+
         <Form.Item
           className="no_margin"
           label={<p className="label">Tên đăng nhập</p>}
           name="username"
-          rules={[
-            {
-              required: true,
-              message: "Please input your username!",
-            },
-          ]}
+          rules={[{ required: true, message: "Please input your username!" }]}
         >
           <Input size="large" placeholder="Tên đăng nhập/Email" />
         </Form.Item>
@@ -49,15 +78,11 @@ function Login() {
           className="no_margin"
           label={<p className="label">Mật khẩu</p>}
           name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
+          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password size="large" placeholder="Mật khẩu" />
         </Form.Item>
+
         <Form.Item className="no_margin">
           <ConfigProvider
             theme={{
@@ -72,11 +97,13 @@ function Login() {
               size="large"
               type="default"
               htmlType="submit"
+              onClick={handleLogIn}
             >
               Đăng nhập
             </Button>
           </ConfigProvider>
         </Form.Item>
+
         <div className="functions">
           <Form.Item className="no_margin">
             <a
@@ -104,6 +131,6 @@ function Login() {
       </Form>
     </div>
   );
-}
+};
 
 export default Login;
