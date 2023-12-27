@@ -35,7 +35,7 @@ namespace _1015bookstore.application.Catalog.Products
             await _context.SaveChangesAsync();
         }
 
-        public async Task<int> Create(ProductCreateRequest request)
+        public async Task<ResponseService<ProductViewModel>> Create(ProductCreateRequest request)
         {
             var product = new Product()
             {
@@ -65,25 +65,61 @@ namespace _1015bookstore.application.Catalog.Products
                 status = ProductStatus.Normal
             };
 
+            
+            ProductImage productImage = null;
+
             //Save image
             if (request.ThumbnailImage != null)
             {
+                
+                productImage = new ProductImage()
+                {
+                    caption = "Thumbnail image",
+                    createdate = DateTime.Now,
+                    sizeimage = request.ThumbnailImage.Length,
+                    imagepath = await this.SaveFile(request.ThumbnailImage),
+                    is_default = true,
+                    sortorder = 1
+                };
+
                 product.productimages = new List<ProductImage>()
                 {
-                    new ProductImage()
-                    {
-                        caption = "Thumbnail image",
-                        createdate = DateTime.Now,
-                        sizeimage = request.ThumbnailImage.Length,
-                        imagepath = await this.SaveFile(request.ThumbnailImage),
-                        is_default = true,
-                        sortorder = 1
-                    }
+                    productImage
                 };
             }
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
-            return product.id;
+            return new ResponseService<ProductViewModel>
+            {
+                CodeStatus = 201,
+                Status = true,
+                Message = "Success",
+                Data = new ProductViewModel
+                {
+                    id = product.id,
+                    name = product.name,
+                    price = product.price,
+                    start_count = product.start_count,
+                    review_count = product.review_count,
+                    buy_count = product.buy_count,
+                    flashsale = product.flashsale,
+                    like_count = product.like_count,
+                    waranty = product.waranty,
+                    quanity = product.quanity,
+                    view_count = product.view_count,
+                    description = product.description,
+                    brand = product.brand,
+                    madein = product.madein,
+                    mfgdate = product.mfgdate,
+                    supplier = product.suppiler,
+                    author = product.author,
+                    nop = product.nop,
+                    yop = product.yop,
+                    status = product.status,
+                    pathThumbnailImage = productImage == null ? null : productImage.imagepath,
+                },
+            };
+        
         }
 
         public async Task<int> Delete(int id)
@@ -150,7 +186,7 @@ namespace _1015bookstore.application.Catalog.Products
             return pagedResult;
         }
 
-        public async Task<ProductViewModel> GetById(int id)
+        public async Task<ResponseService<ProductViewModel>> GetById(int id)
         {
             var query = from p in _context.Products
                         join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
@@ -160,7 +196,12 @@ namespace _1015bookstore.application.Catalog.Products
 
             var product = await query.FirstOrDefaultAsync(x => x.p.id == id);
 
-            if (product == null) throw new _1015Exception($"Cannot find a product with id: {id}");
+            if (product == null)
+                return new ResponseService<ProductViewModel> {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a product with id: {id}",
+                };
 
             var data =  new ProductViewModel
             {
@@ -186,28 +227,80 @@ namespace _1015bookstore.application.Catalog.Products
                 status = product.p.status,
                 pathThumbnailImage = product.pimg == null ? null : product.pimg.imagepath,
             };
-            return data;
+
+            return new ResponseService<ProductViewModel>
+            {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = data,
+            };
         }
 
-        public async Task<bool> UpdataQuanity(int id, int addedQuantity)
+        public async Task<ResponseService> UpdataQuanity(int id, int addedQuantity)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product == null) throw new _1015Exception($"Cannot find a product with id: {id}");
+            if (product == null)
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a product with id: {id}",
+                };
+            
+            if (product.status == ProductStatus.OOS && addedQuantity < 0)
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot update because product is out of stock",
+                };
+
             if (product.quanity + addedQuantity >= 1)
                 product.quanity += addedQuantity;
-            else
+            else if (product.quanity + addedQuantity == 0)
             {
                 product.quanity = 0;
                 product.status = ProductStatus.OOS;
             }
-            return await _context.SaveChangesAsync() > 0;
+            else
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot update because product is out of stock",
+                };
+            }
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a product with id: {id}",
+            };
         }
 
-        public async Task<int> Update(ProductUpdateRequest request)
+        public async Task<ResponseService> Update(ProductUpdateRequest request)
         {
             var product = await _context.Products.FindAsync(request.id);
 
-            if (product == null) throw new _1015Exception($"Cannot find a product with id: {request.id}");
+            if (product == null)
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a product with id: {request.id}",
+                };
 
             product.name = request.name;
             product.price = request.price;
@@ -234,15 +327,49 @@ namespace _1015bookstore.application.Catalog.Products
                 }
             }
 
-            return await _context.SaveChangesAsync();
+            if(await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a product with id: {request.id}",
+            };
         }
 
-        public async Task<bool> UpdatePrice(int id, decimal newPrice)
+        public async Task<ResponseService> UpdatePrice(int id, decimal newPrice)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product == null) throw new _1015Exception($"Cannot find a product with id: {id}");
+            if (product == null)
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a product with id: {id}",
+                };
             product.price = newPrice;
-            return await _context.SaveChangesAsync() > 0;
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a product with id: {id}",
+            };
         }
 
         private async Task<string> SaveFile(IFormFile file)

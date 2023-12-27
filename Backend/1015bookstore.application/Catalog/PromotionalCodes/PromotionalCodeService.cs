@@ -3,6 +3,7 @@ using _1015bookstore.data.Entities;
 using _1015bookstore.data.Enums;
 using _1015bookstore.utility.Exceptions;
 using _1015bookstore.viewmodel.Catalog.PromotionalCodes;
+using _1015bookstore.viewmodel.Comon;
 using Microsoft.EntityFrameworkCore;
 
 namespace _1015bookstore.application.Catalog.PromotionalCodes
@@ -15,12 +16,17 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
         {
             _context = context;
         }
-        public async Task<int> CreatePromotionalCode(PromotionalCodeCreateRequest request)
+        public async Task<ResponseService<PromotionalCodeViewModel>> CreatePromotionalCode(PromotionalCodeCreateRequest request)
         {
             var promotionalCode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.code);
             if (promotionalCode != null)
             {
-                throw new _1015Exception($"Code {request.code} is existed");
+                return new ResponseService<PromotionalCodeViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Code {request.code} is existed"
+                };
             }
 
             var code = new PromotionalCode
@@ -40,7 +46,24 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
             };
             await _context.PromotionCodes.AddAsync(code);
             await _context.SaveChangesAsync();
-            return code.id;
+            return new ResponseService<PromotionalCodeViewModel>
+            {
+                CodeStatus = 201,
+                Status = true,
+                Message = "Success",
+                Data = new PromotionalCodeViewModel
+                {
+                    id = code.id,
+                    code = code.code,
+                    name = code.name,
+                    description = code.description,
+                    discount_rate = code.discount_rate,
+                    amount = code.amount,
+                    fromdate = code.fromdate,
+                    todate = code.todate,
+                    status = code.status,
+                }
+            };
         }
 
         public async Task<List<PromotionalCodeViewModel>> GetAll()

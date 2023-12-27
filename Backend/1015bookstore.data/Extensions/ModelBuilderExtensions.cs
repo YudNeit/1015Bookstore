@@ -85,7 +85,7 @@ namespace _1015bookstore.data.Extensions
                     description = "Đây là sách toán hay dành cho trẻ em",
                     brand = "",
                     madein = "",
-                    mfgdate = DateTime.Now,
+                    mfgdate = new DateTime(2023,12,10),
                     suppiler = "",
                     author = "",
                     nop = "",

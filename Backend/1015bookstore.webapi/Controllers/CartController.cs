@@ -23,10 +23,11 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var affectedResult = await _cartservice.SetProductInCart(productadd, user_id);
-                if (affectedResult == 0)
-                    return BadRequest();
-                return Ok();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _cartservice.SetProductInCart(productadd, user_id);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {
@@ -39,10 +40,11 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var affectedResult = await _cartservice.DeleteProductInCart(id);
-                if (affectedResult == 0)
-                    return BadRequest();
-                return Ok();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _cartservice.DeleteProductInCart(id);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {
@@ -55,8 +57,14 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var data = await _cartservice.GetCardOfUser(user_id);
-                return Ok(data);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _cartservice.GetCardOfUser(user_id);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
             }
             catch (Exception ex)
             {
@@ -69,8 +77,11 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                await _cartservice.UpdateAmountCart(id, amountadd);
-                return Ok();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _cartservice.UpdateAmountCart(id, amountadd);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {

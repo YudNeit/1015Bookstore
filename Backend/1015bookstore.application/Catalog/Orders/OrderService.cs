@@ -3,6 +3,8 @@ using _1015bookstore.data.Entities;
 using _1015bookstore.data.Enums;
 using _1015bookstore.utility.Exceptions;
 using _1015bookstore.viewmodel.Catalog.Orders;
+using _1015bookstore.viewmodel.Comon;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -16,13 +18,16 @@ namespace _1015bookstore.application.Catalog.Orders
             _context = context;
         }
 
-        public async Task<bool> Buy(OrderBuyRequest request)
+        public async Task<ResponseService> Buy(OrderBuyRequest request)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(x => x.id == request.order_id);
             if (order == null)
-            {
-                throw new _1015Exception($"Can not find order with id: {request.order_id}");
-            }
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find order with id: {request.order_id}"
+                };
 
             order.name_reciver = request.name_reciver;
             order.phone_reciver = request.phone_reciver;
@@ -31,25 +36,25 @@ namespace _1015bookstore.application.Catalog.Orders
             if (request.promotionalcode != null)
             {
                 var promotionalcode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.promotionalcode);
-                if (promotionalcode == null)
+                if (promotionalcode != null)
                 {
-                    throw new _1015Exception($"Can not find promotional code with code: {request.promotionalcode}");
-                }
-                promotionalcode.amount -= 1;
-                if (promotionalcode.amount <= 0)
-                {
-                    promotionalcode.status = PromotionalCodeStatus.OOS;
-                }
+                    promotionalcode.amount -= 1;
+                    if (promotionalcode.amount <= 0)
+                    {
+                        promotionalcode.status = PromotionalCodeStatus.OOS;
+                    }
 
-                var codeused = new UserUsePromotionalCode
-                {
-                    user_id = order.user_id,
-                    promotionalcode_id = promotionalcode.id,
-                    useddate = DateTime.UtcNow,
-                };
-                await _context.UserUsePromotionalCode.AddAsync(codeused);
+                    var codeused = new UserUsePromotionalCode
+                    {
+                        user_id = order.user_id,
+                        promotionalcode_id = promotionalcode.id,
+                        useddate = DateTime.UtcNow,
+                    };
+                    await _context.UserUsePromotionalCode.AddAsync(codeused);
 
-                order.total = order.total - (promotionalcode.discount_rate * order.total / 100);
+                    order.total = order.total - (promotionalcode.discount_rate * order.total / 100);
+                }
+                request.promotionalcode = null;
             }
 
             order.promotionalcode = request.promotionalcode;
@@ -72,16 +77,35 @@ namespace _1015bookstore.application.Catalog.Orders
                 _context.Carts.Remove(cart);
             }
 
-            return await _context.SaveChangesAsync() > 0;
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 201,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot buy with order id: {request.order_id}",
+            };
 
         }
 
-        public async Task<int> CreateOrder(OrderCreateRequest request)
+        public async Task<ResponseService<OrderViewModel>> CreateOrder(OrderCreateRequest request)
         {
             if (request.cart_ids.Count() == 0) 
-            {
-                throw new _1015Exception("Can not create order when not enough cart item");
-            }
+                return new ResponseService<OrderViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = "Can not create order when not enough cart item"
+                };
+
+            
             var order = new Order
             {
                 orderdate = DateTime.Now,
@@ -109,16 +133,43 @@ namespace _1015bookstore.application.Catalog.Orders
             }    
 
             await _context.SaveChangesAsync();
-            return order.id;
+            
+            var data = new OrderViewModel
+            {
+                id = order.id,
+                name_reciver = order.name_reciver,
+                address_reciver = order.address_reciver,
+                phone_reciver = order.phone_reciver,
+                promoionalcode = order.promotionalcode,
+                total = order.total,
+                orderdetails = _context.OrderDetails.Where(x => x.order_id == order.id).Select(x => new OrderDetailViewModel
+                {
+                    name = x.product_name,
+                    price = x.price,
+                    quantity = x.quantity,
+                    imgpath = x.imgpath
+                }).ToList(),
+            };
+
+            return new ResponseService<OrderViewModel>
+            {
+                CodeStatus = 201,
+                Status = true,
+                Message = "Success",
+                Data = data
+            };
         }
 
-        public async Task<OrderViewModel> GetById(int id)
+        public async Task<ResponseService<OrderViewModel>> GetById(int id)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(x => x.id == id);
             if (order == null)
-            {
-                throw new _1015Exception($"Can not find order with id: {id}");
-            }
+                return new ResponseService<OrderViewModel>()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find order with id: {id}"
+                };
 
             var data = new OrderViewModel
             {
@@ -136,7 +187,14 @@ namespace _1015bookstore.application.Catalog.Orders
                     imgpath = x.imgpath
                 }).ToList(),
             };
-            return data;
+
+            return new ResponseService<OrderViewModel>
+            {
+                CodeStatus = 201,
+                Status = true,
+                Message = "Success",
+                Data = data
+            };
         }
     }
 }
