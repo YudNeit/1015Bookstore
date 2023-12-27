@@ -6,24 +6,40 @@ import Layout404 from "../Layouts/Layout404";
 
 //Pages
 import CartPage from "../../pages/CartPage/CartPage";
-import ConfirmEmail from "../../pages/ConfirmEmail/ConfirmEmail";
+import ConfirmCode from "../../pages/ConfirmCode";
 import ForgotPasswordPage from "../../pages/ForgotPassword/ForgotPassword";
 import MainPage from "../../pages/MainPage/MainPage";
 import ProductPage from "../../pages/ProductPage/ProductPage";
 import SignIn from "../../pages/SignIn/SignIn";
 import SignUp from "../../pages/SignUp/SignUp";
 import ChangePasswordPage from "../../pages/ChangePasswordPage";
-import UserPage from "../../pages/UserPage/UserPage";
 import ProfilePage from "../../pages/ProflePage";
 import Page404 from "../../pages/404Page";
 import CheckoutPage from "../../pages/CheckoutPage";
 import FilteredPage from "../../pages/Category";
 
 
-const isLogin = true;
+
 
 function DefineLayout() {
-  return isLogin === false ? LogLayout : UnlogLayout;
+  const isUserAuthenticated = () => {
+    // Replace this with your actual authentication logic
+    const accessToken = getCookie('accessToken');
+    const userid = getCookie('userid');
+    return accessToken && userid;
+  };
+
+  const getCookie = (cookieName) => {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name === cookieName) {
+        return value;
+      }
+    }
+    return null;
+  };
+  return isUserAuthenticated() ? DefaultLayout : UnlogLayout;
 }
 
 //PublicRoutes
@@ -38,20 +54,22 @@ const publicRoutes = [
     component: ForgotPasswordPage,
     layout: LogLayout,
   },
-  { path: "/cart", component: CartPage },
   {
     path: "/change_password",
     component: ChangePasswordPage,
     layout: LogLayout,
   },
-  { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
   { path: "/404_page", component: Page404, layout: Layout404 },
-  { path: "/checkout", component: CheckoutPage, layout: DefineLayout() },
+  { path: "/confirm_code", component: ConfirmCode, layout: LogLayout },
+
 ];
 //PrivateRoutes
 const privateRoutes = [
-  { path: "/confirm_email", component: ConfirmEmail, layout: null },
-  { path: "/user_page", component: UserPage, layout: UnlogLayout },
+  { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
+  { path: "/checkout", component: CheckoutPage, layout: DefineLayout() },
+  { path: "/cart", component: CartPage },
+
+
 ];
 
 export { publicRoutes, privateRoutes };

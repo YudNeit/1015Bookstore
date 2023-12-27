@@ -48,7 +48,6 @@ const FilteredPage = () => {
         setCategories(categoriesData);
         console.log("ádsayudsayudasgyud:" + categoriesData);
 
-        // Fetch products based on the selected category
         const productData = await fetchPaginatedProductData(
           selectedMenu,
           pagination.current,
@@ -78,36 +77,49 @@ const FilteredPage = () => {
   console.log(items);
 
   return (
-    <div>
-      <MenuSlide onMenuSelect={handleMenuSelect} />
-      {/* Display filtered items */}
-      {Array.isArray(items) ? (
-        items.map((item) => (
-          <Row gutter={16} key={item.name}>
-            <Col span={8}>
-              <Card
-                hoverable
-                style={{ width: 240 }}
-                cover={<img alt={item.name} src={item.img} />}
-                onClick={() => handleProductClick(item)}
-              >
-                <Meta title={item.name} />
-                <div>Price: {item.price}</div>
-                <Button>Add to cart</Button>
-              </Card>
-            </Col>
-          </Row>
-        ))
-      ) : (
-        <p>No items available.</p>
-      )}
-      {/* Pagination component */}
-      <Pagination
-        current={pagination.current}
-        pageSize={pagination.pageSize}
-        total={pagination.total}
-        onChange={handlePageChange}
-      />
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <Col>
+        <MenuSlide onMenuSelect={handleMenuSelect} />
+      </Col>
+      <Col>
+        {Array.isArray(items) ? (
+          items.map((item) => (
+            <Card
+              key={item.title}
+              style={{
+                border: "1px solid black",
+                display: "inline-block",
+                margin: "0px 30px 30px 0px",
+              }}
+              hoverable
+              cover={
+                <img
+                  style={{ height: 300, width: 260 }}
+                  alt={item.name}
+                  src={
+                    item.pathThumbnailImage == null
+                      ? require(`../../assets/user-content/img_1.webp`)
+                      : require(`../../assets/user-content/${item.pathThumbnailImage}`)
+                  }
+                />
+              }
+              onClick={() => handleProductClick(item)}
+            >
+              <Meta title={item.name} />
+              <div>Price: {item.price}</div>
+              <Button>Add to cart</Button>
+            </Card>
+          ))
+        ) : (
+          <p>No items available.</p>
+        )}
+        <Pagination
+          current={pagination.current}
+          pageSize={pagination.pageSize}
+          total={pagination.total}
+          onChange={handlePageChange}
+        />
+      </Col>
     </div>
   );
 };

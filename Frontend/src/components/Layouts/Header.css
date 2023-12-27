@@ -17,6 +17,7 @@
 }
 .logo_image {
   max-height: 45px;
+  cursor: pointer;
 }
 .search_bar {
   margin: 0vh 2vh;

@@ -1,22 +1,42 @@
-import { Fragment } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { publicRoutes, privateRoutes } from "../Routes/index";
-import DefaultLayout from "../Layouts/DefaultLayout";
+import { Fragment, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { publicRoutes, privateRoutes } from '../Routes/index';
+import DefaultLayout from '../Layouts/DefaultLayout';
+import { message } from 'antd';
+
 function AppRoutes() {
+  useEffect(() => {
+  }, []);
+
+  const isUserAuthenticated = () => {
+    // Replace this with your actual authentication logic
+    const accessToken = getCookie('accessToken');
+    const userid = getCookie('userid');
+    return accessToken && userid;
+  };
+
+  const getCookie = (cookieName) => {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name === cookieName) {
+        return value;
+      }
+    }
+    return null;
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         {publicRoutes.map((route, index) => {
           const Page = route.component;
-          let Layout = DefaultLayout
+          let Layout = DefaultLayout;
 
-          if(route.layout)
-          {
-            Layout = route.layout
-          }
-          else if(route.layout === null)
-          {
-            Layout = Fragment
+          if (route.layout) {
+            Layout = route.layout;
+          } else if (route.layout === null) {
+            Layout = Fragment;
           }
 
           return (
@@ -31,7 +51,35 @@ function AppRoutes() {
             />
           );
         })}
-        
+
+        {privateRoutes.map((route, index) => {
+          const Page = route.component;
+          let Layout = DefaultLayout;
+
+          if (route.layout) {
+            Layout = route.layout;
+          } else if (route.layout === null) {
+            Layout = Fragment;
+          }
+
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                isUserAuthenticated() ? (
+                  <Layout>
+                    <Page />
+                  </Layout>
+                ) : (
+                  <>
+                  <Navigate to="/sign_in" />
+                  </>
+                )
+              }
+            />
+          );
+        })}
       </Routes>
     </BrowserRouter>
   );

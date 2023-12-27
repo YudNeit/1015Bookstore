@@ -1,0 +1,38 @@
+.detail_h2 {
+  width: 100vw;
+  height: 4vh;
+  border-radius: 6px;
+  padding: 10px 20px;
+  vertical-align: middle;
+  background-color: #30cf82;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 3vh 10vw;
+}
+.profilepage_container {
+  width: 100vw;
+  padding-top: 3vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cover {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+}
+.profilepage_button {
+  background-color: #d5ffea;
+  color: #30cf82;
+  font-weight: 600;
+  border-radius: 2px !important;
+}

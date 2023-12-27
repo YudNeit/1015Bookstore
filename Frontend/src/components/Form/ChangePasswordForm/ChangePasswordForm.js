@@ -1,16 +1,90 @@
 import { Typography } from "antd";
 import "../style.css";
-import { Button, Form, Input, ConfigProvider } from "antd";
-const { Title } = Typography;
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
+import { useState, useEffect } from "react";
+import { Button, Form, Input, ConfigProvider, message } from "antd";
+import { useNavigate } from "react-router-dom";
 
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+const { Title } = Typography;
 
 function ChangePassword() {
+  const navigate = useNavigate();
+  const [isSuccess, setSuccess] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmpassword] = useState("");
+
+  const onFinish = (values) => {
+    setSuccess(true);
+    console.log("Success:", values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    setSuccess(false);
+    console.log("Failed:", errorInfo);
+  };
+
+  useEffect(() => {}, []);
+
+  const getCookie = (cookieName) => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === cookieName) {
+        return value;
+      }
+    }
+    return null;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "password") {
+      setPassword(value);
+    } else if (name === "confirmpassword") {
+      setConfirmpassword(value);
+    }
+  };
+
+  const handleChange = async () => {
+    try {
+      const apiUrl = `https://localhost:7139/api/User/ChangePasswordForgotPassword`;
+      const jwtToken = getCookie("forgotToken");
+
+      const data = {
+        token: jwtToken,
+        password: password,
+        confirmpassword: confirmpassword,
+      };
+      console.log(data);
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        try {
+          const error = await response.text();
+          if (error) {
+            message.error(`${error}`);
+          }
+        } catch (error) {
+          message.error("Change Password failed.");
+        }
+      } else {
+        message.success("Change Password is successful.");
+        document.cookie = `forgotToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+
+        window.location.reload();
+        navigate(`/sign_in`);
+      }
+    } catch (error) {
+      console.error("Error Change Password:", error);
+      message.error("Confirmation Code failed. Please try again later.");
+    }
+  };
+
   return (
     <div className="background">
       <Form
@@ -32,19 +106,62 @@ function ChangePassword() {
           Đổi mật khẩu
         </Typography>
         <Form.Item
-          className="no_margin"
+          className="no_margin red_star"
           label={<p className="label">Mật khẩu</p>}
           name="password"
+          rules={[
+            {
+              validator: (_, value) => {
+                if (!value) {
+                  return Promise.reject("Please input your password!");
+                }
+                if (value.length <= 6) {
+                  return Promise.reject(
+                    "Password should bigger than 6 characters"
+                  );
+                } else return Promise.resolve();
+              },
+            },
+          ]}
         >
-          <Input.Password size="large" placeholder="Mật khẩu" />
+          <Input.Password
+            size="large"
+            placeholder="Mật khẩu"
+            name="password"
+            value={password}
+            onChange={handleInputChange}
+          />
         </Form.Item>
-
         <Form.Item
           className="no_margin"
           label={<p className="label">Xác nhận mật khẩu</p>}
-          name="verifypassword"
+          name="confirmpassword"
+          dependencies={["password"]}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: "Please confirm your password!",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error("The new password that you entered do not match!")
+                );
+              },
+            }),
+          ]}
         >
-          <Input.Password size="large" placeholder="Xác nhận mật khẩu" />
+          <Input.Password
+            size="large"
+            placeholder="Xác nhận mật khẩu"
+            name="confirmpassword"
+            value={confirmpassword}
+            onChange={handleInputChange}
+          />
         </Form.Item>
         <Form.Item className="no_margin">
           <ConfigProvider
@@ -60,6 +177,11 @@ function ChangePassword() {
               size="large"
               type="default"
               htmlType="submit"
+              onClick={() =>
+                isSuccess
+                  ? handleChange()
+                  : message.error(`Vui lòng nhập đầy đủ thông tin!`)
+              }
             >
               Xác nhận
             </Button>
