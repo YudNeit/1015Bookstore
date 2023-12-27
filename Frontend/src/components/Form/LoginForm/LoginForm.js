@@ -1,6 +1,6 @@
-import { Typography, ConfigProvider, Form, Input, Button } from "antd";
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Typography, ConfigProvider, Form, Input, Button, message } from "antd";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -17,20 +17,25 @@ const Login = () => {
       const { username, password } = values;
 
       const formDataObject = new FormData();
-      formDataObject.append('username', username);
-      formDataObject.append('password', password);
-      formDataObject.append('rememberme', true);
+      formDataObject.append("username", username);
+      formDataObject.append("password", password);
+      formDataObject.append("rememberme", true);
 
-      const response = await fetch('https://localhost:7139/api/User/authenticate', {
-        method: 'POST',
-        mode: 'cors',
-        body: formDataObject,
-      });
+      const response = await fetch(
+        "https://localhost:7139/api/User/authenticate",
+        {
+          method: "POST",
+          mode: "cors",
+          body: formDataObject,
+        }
+      );
 
       if (!response.ok) {
         if (response.status === 401) {
-          setError('Invalid username or password');
+          message.error("Đăng nhập thất bại!");
+          setError("Invalid username or password");
         } else {
+          message.error("Đăng nhập thất bại!");
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
       } else {
@@ -39,16 +44,17 @@ const Login = () => {
 
         document.cookie = `accessToken=${responseData.token}; path=/`;
         document.cookie = `userid=${responseData.user_id}; path=/`;
-
+        message.success("Đăng nhập thành công!");
+        navigate(`/`);
+        window.location.reload();
       }
     } catch (error) {
-      setError('Login failed. Please try again.');
-      console.error('Login failed', error);
+      setError("Login failed. Please try again.");
+      console.error("Login failed", error);
     } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="background">
@@ -71,7 +77,7 @@ const Login = () => {
           name="username"
           rules={[{ required: true, message: "Please input your username!" }]}
         >
-          <Input size="large" placeholder="Tên đăng nhập/Email" />
+          <Input size="large" placeholder="Tên đăng nhập" />
         </Form.Item>
 
         <Form.Item

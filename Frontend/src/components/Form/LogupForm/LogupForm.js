@@ -1,16 +1,82 @@
 import { Typography } from "antd";
 import "../style.css";
-import { Button, Form, Input, ConfigProvider } from "antd";
+import { Button, Form, Input, ConfigProvider, message } from "antd";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const { Title } = Typography;
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
 
 function Logup() {
+  const navigate = useNavigate();
+  const [lastname, setLastname] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmpassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [isSuccess, setSuccess] = useState(false);
+
+  useEffect(() => { }, []);
+  
+  const onFinish = (values) => {
+    handleLogUp();
+    setSuccess(true);
+    console.log("Success:", values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    setSuccess(false);
+    message.error(`Vui lòng nhập đầy đủ thông tin!`);
+    console.log("Failed:", errorInfo);
+  };
+  
+  console.log("isSuccess:", isSuccess);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "lastname") {
+      setLastname(value);
+    } else if (name === "firstname") {
+      setFirstname(value);
+    } else if (name === "username") {
+      setUsername(value);
+    } else if (name === "password") {
+      setPassword(value);
+    } else if (name === "confirmpassword") {
+      setConfirmpassword(value);
+    } else if (name === "email") {
+      setEmail(value);
+    }
+  };
+
+  const handleLogUp = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("firstname", firstname);
+      formData.append("lastname", lastname);
+      formData.append("username", username);
+      formData.append("password", password);
+      formData.append("confirmpassword", confirmpassword);
+      formData.append("email", email);
+
+      const response = await fetch("https://localhost:7139/api/User/register", {
+        method: "POST",
+        body: formData,
+      });
+
+      console.log("Response:", response);
+      console.log("formData:", formData);
+
+      if (!response.ok) {
+        message.error(`Sign Up failed!`);
+      } else {
+        message.success(`Sign Up Successfully.`);
+        navigate(`/sign_in`);
+      }
+    } catch (error) {
+      console.error("Error sign up:", error);
+    }
+  };
+
   return (
     <div className="background">
       <Form
@@ -51,7 +117,13 @@ function Logup() {
               },
             ]}
           >
-            <Input size="large" placeholder="Họ" />
+            <Input
+              size="large"
+              placeholder="Họ"
+              name="lastname"
+              value={lastname}
+              onChange={handleInputChange}
+            />
           </Form.Item>
           <Form.Item
             className="no_margin"
@@ -72,7 +144,13 @@ function Logup() {
               },
             ]}
           >
-            <Input size="large" placeholder="Tên" />
+            <Input
+              size="large"
+              placeholder="Tên"
+              name="firstname"
+              value={firstname}
+              onChange={handleInputChange}
+            />
           </Form.Item>
         </div>
         <Form.Item
@@ -98,7 +176,13 @@ function Logup() {
             },
           ]}
         >
-          <Input size="large" placeholder="Tên đăng nhập" />
+          <Input
+            size="large"
+            placeholder="Tên đăng nhập"
+            name="username"
+            value={username}
+            onChange={handleInputChange}
+          />
         </Form.Item>
         <Form.Item
           className="no_margin red_star"
@@ -110,21 +194,54 @@ function Logup() {
                 if (!value) {
                   return Promise.reject("Please input your password!");
                 }
+
                 if (value.length <= 6) {
                   return Promise.reject(
-                    "Password should bigger than 6 characters"
+                    "Password should be at least 6 characters"
                   );
-                } else return Promise.resolve();
+                }
+
+                if (!/[A-Z]/.test(value)) {
+                  return Promise.reject(
+                    "Password should contain at least one uppercase letter"
+                  );
+                }
+
+                if (!/[a-z]/.test(value)) {
+                  return Promise.reject(
+                    "Password should contain at least one lowercase letter"
+                  );
+                }
+
+                if (!/\d/.test(value)) {
+                  return Promise.reject(
+                    "Password should contain at least one digit"
+                  );
+                }
+
+                if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+                  return Promise.reject(
+                    "Password should contain at least one special character"
+                  );
+                }
+
+                return Promise.resolve();
               },
             },
           ]}
         >
-          <Input.Password size="large" placeholder="Mật khẩu" />
+          <Input.Password
+            size="large"
+            placeholder="Mật khẩu"
+            name="password"
+            value={password}
+            onChange={handleInputChange}
+          />
         </Form.Item>
         <Form.Item
           className="no_margin"
           label={<p className="label">Xác nhận mật khẩu</p>}
-          name="verifypassword"
+          name="confirmpassword"
           dependencies={["password"]}
           hasFeedback
           rules={[
@@ -144,7 +261,13 @@ function Logup() {
             }),
           ]}
         >
-          <Input.Password size="large" placeholder="Xác nhận mật khẩu" />
+          <Input.Password
+            size="large"
+            placeholder="Xác nhận mật khẩu"
+            name="confirmpassword"
+            value={confirmpassword}
+            onChange={handleInputChange}
+          />
         </Form.Item>
         <Form.Item
           className="no_margin"
@@ -161,7 +284,13 @@ function Logup() {
             },
           ]}
         >
-          <Input size="large" placeholder="Email" />
+          <Input
+            size="large"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={handleInputChange}
+          />
         </Form.Item>
         <Form.Item className="no_margin">
           <ConfigProvider

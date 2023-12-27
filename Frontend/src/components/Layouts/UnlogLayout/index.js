@@ -5,7 +5,15 @@ function UnlogLayout({ children }) {
   return (
     <div>
       <Header />
-      <div className="content">{children}</div>
+      <div
+        className="content"
+        style={{
+          backgroundColor: "#f5f5f5",
+          padding: "1vh 0px",
+        }}
+      >
+        {children}
+      </div>
       <Footer />
     </div>
   );

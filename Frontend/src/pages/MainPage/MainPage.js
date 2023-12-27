@@ -3,6 +3,8 @@ import { Button, Card, Col, Row } from "antd";
 import MenuSlide from "../../components/MenuSlide";
 import { useNavigate } from "react-router-dom";
 import { fetchProductData } from "../../components/Data/api";
+import "./MainPage.css";
+import { floatButtonPrefixCls } from "antd/es/float-button/FloatButton";
 
 const { Meta } = Card;
 
@@ -28,7 +30,6 @@ function MainPage() {
     const fetchData = async () => {
       try {
         const jwtToken = getCookie("accessToken");
-
         const data = await fetchProductData(jwtToken);
         setItems(data);
       } catch (error) {
@@ -53,33 +54,49 @@ function MainPage() {
 
   return (
     <div>
-      <MenuSlide onMenuSelect={handleMenuSelect} />
-      {/* Display filtered data */}
-      {items.map((item) => (
-        <Row gutter={16} key={item.title}>
-          <Col span={8}>
-            <Card
-              hoverable
-              style={{ width: 240 }}
-              cover={
-                <img
-                  alt={item.name}
-                  src={
-                    item.pathThumbnailImage == null
-                      ? require(`../../assets/user-content/img_1.webp`)
-                      : require(`../../assets/user-content/${item.pathThumbnailImage}`)
-                  }
-                />
-              }
-              onClick={() => handleCardClick(item)}
-            >
-              <Meta title={item.name} />
-              <div>Price: {item.price}</div>
-              <Button>Add to cart</Button>
-            </Card>
-          </Col>
-        </Row>
-      ))}
+      <Row className="title_bar">
+        <Col>
+          <MenuSlide
+            style={{ backgroundColor: "#30cf82" }}
+            onMenuSelect={handleMenuSelect}
+          />
+        </Col>
+        <Col offset={1} style={{ borderRadius: "30px" }}>
+          <h2 className="page_title">DANH MỤC SẢN PHẨM</h2>
+        </Col>
+      </Row>
+      <div className="cart_container">
+        {items.map((item) => (
+          <Card
+            key={item.title}
+            style={{
+              border: "2px solid #ededed",
+              display: "inline-block",
+              margin: "0px 30px 30px 0px",
+              padding: "10px 5px",
+            }}
+            hoverable
+            cover={
+              <img
+                style={{ height: 300, width: 260 }}
+                alt={item.name}
+                src={
+                  item.pathThumbnailImage == null
+                    ? require(`../../assets/user-content/img_1.webp`)
+                    : require(`../../assets/user-content/${item.pathThumbnailImage}`)
+                }
+              />
+            }
+            onClick={() => handleCardClick(item)}
+          >
+            <div className="flex_column">
+              <span className="title">{item.name}</span>
+              <span className="price">{item.price}đ</span>
+              {/* <Button size="large">Add to cart</Button> */}
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

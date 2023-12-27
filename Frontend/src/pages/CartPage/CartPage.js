@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { List, Row, Card, Button, InputNumber, Checkbox, Image } from "antd";
+import {
+  List,
+  Card,
+  Button,
+  InputNumber,
+  Checkbox,
+  Image,
+  message,
+  Col,
+  Row,
+} from "antd";
 import { useNavigate } from "react-router-dom";
+import "./CartPage.css";
 
 function CartPage() {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -111,6 +122,7 @@ function CartPage() {
       navigate(`/checkout`);
       console.log("Order placed successfully!");
     } catch (error) {
+      message.error("Vui lòng chọn sản phẩm bạn muốn thanh toán!");
       console.error("Error placing the order:", error);
     }
   };
@@ -144,7 +156,7 @@ function CartPage() {
       const response = await fetch(
         `https://localhost:7139/api/Cart/updateamountcart/${itemId}/${value}`,
         {
-          method: "PUT", // Assuming that the API uses PUT for updating the quantity
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${jwtToken}`,
@@ -159,6 +171,7 @@ function CartPage() {
       // Fetch the updated cart data after updating the quantity
       await fetchCartData(userId);
     } catch (error) {
+      message.error("Không thể đặt thêm sản phẩm này!");
       console.error("Error updating cart item quantity:", error);
     }
   };
@@ -182,74 +195,118 @@ function CartPage() {
   );
 
   return (
-    <div className="container">
-      <div className="results">
-        <List>
-          <List.Item>
+    <div>
+      <div>
+        <div className="cartlist_item">
+          <Col md={2} offset={0}>
             <Checkbox
               checked={items.length === selectedItems.length}
               onChange={handleCheckAllChange}
             >
-              {items.length === selectedItems.length
-                ? "Hủy chọn tất cả"
-                : "Chọn tất cả"}
+              {items.length === selectedItems.length ? (
+                <h3>Hủy chọn tất cả</h3>
+              ) : (
+                <h3>Chọn tất cả</h3>
+              )}
             </Checkbox>
+          </Col>
+          <Col md={11} offset={0}>
             <h3>Sản phẩm</h3>
+          </Col>
+          <Col md={3}>
             <h3>Đơn giá</h3>
+          </Col>
+          <Col md={3}>
             <h3>Số lượng</h3>
+          </Col>
+          <Col md={3}>
             <h3>Thành tiền</h3>
-          </List.Item>
-        </List>
+          </Col>
+          <Col md={1}></Col>
+        </div>
       </div>
       <div>
         {items.map((item) => (
           <Card key={item.cart_id}>
             <Row align="middle">
-              <Checkbox
-                checked={selectedItems.includes(item.cart_id)}
-                onChange={(e) => handleCheckboxChange(e, item.cart_id)}
-              />
-              <List.Item>
-                <Image
-                  style={{
-                    height: 50,
-                  }}
-                  src={
-                    item.pathimage == null
-                      ? require(`../../assets/user-content/img_1.webp`)
-                      : require(`../../assets/user-content/${item.pathimage}`)
-                  }
-                  alt={item.product_name}
+              <Col md={2} offset={0}>
+                <Checkbox
+                  checked={selectedItems.includes(item.cart_id)}
+                  onChange={(e) => handleCheckboxChange(e, item.cart_id)}
                 />
-              </List.Item>
-              <List.Item>{item.product_name}</List.Item>
-              <List.Item>{item.price}đ</List.Item>
-              <List.Item>
-                <Button onClick={() => handleQuantityChange(item.cart_id, +1)}>+</Button>
-              </List.Item>
-              <List.Item>{item.amount}</List.Item>
-              <List.Item>
-                <Button onClick={() => handleQuantityChange(item.cart_id, -1)}>-</Button>
-              </List.Item>
-              <List.Item>{item.price * item.amount}đ</List.Item>
-              <List.Item>
+              </Col>
+              <Col md={11} offset={0}>
+                <div className="cartlist_item">
+                  <Image
+                    style={{
+                      height: 120,
+                      width: 100,
+                    }}
+                    src={
+                      item.pathimage == null
+                        ? require(`../../assets/user-content/img_1.webp`)
+                        : require(`../../assets/user-content/${item.pathimage}`)
+                    }
+                    alt={item.product_name}
+                  />
+                  <span>{item.product_name}</span>
+                </div>
+              </Col>
+              <Col md={3}>
+                <span> {item.price}đ</span>
+              </Col>
+              <Col md={3}>
+                <div className="cartlist_item">
+                  <Button
+                    className="fit_content"
+                    onClick={() => handleQuantityChange(item.cart_id, +1)}
+                  >
+                    +
+                  </Button>
+
+                  <span style={{ fontSize: "20px", margin: "0px 10px" }}>
+                    {item.amount}
+                  </span>
+
+                  <Button
+                    onClick={() => handleQuantityChange(item.cart_id, -1)}
+                  >
+                    -
+                  </Button>
+                </div>
+              </Col>
+              <Col md={3}>
+                <span>{item.price * item.amount}đ</span>
+              </Col>
+              <Col md={1}>
                 <Button onClick={() => handleRemoveItem(item.cart_id)}>
                   Xóa
                 </Button>
-              </List.Item>
+              </Col>
             </Row>
           </Card>
         ))}
       </div>
-      <div>
+      <div className="order_info_cover">
         <List>
           <List.Item>
-            <h3>Thanh toán</h3>
+            <h2>Thanh toán</h2>
           </List.Item>
-          <List.Item>Tổng số lượng: {totalQuantity}</List.Item>
-          <List.Item>Tổng thanh toán: {totalAmount}đ</List.Item>
           <List.Item>
-            <Button onClick={handleCheckout}>Mua Hàng</Button>
+            <span>Tổng số lượng: {totalQuantity}</span>
+          </List.Item>
+          <List.Item>
+            <span>Tổng thanh toán: {totalAmount}đ</span>
+          </List.Item>
+
+          <List.Item>
+            <Button
+              size="large"
+              className="cart_button"
+              onClick={handleCheckout}
+            >
+              Mua Hàng
+            </Button>
           </List.Item>
         </List>
       </div>

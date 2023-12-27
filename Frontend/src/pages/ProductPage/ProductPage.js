@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Avatar, Button, Col, Image, InputNumber, List, Rate, Row } from "antd";
+import {
+  Avatar,
+  Button,
+  Col,
+  Image,
+  InputNumber,
+  List,
+  Rate,
+  Row,
+  message,
+} from "antd";
+import "./ProductPage.css";
 
 const data = [
   {
     title: "Ant Design Title 1",
-    description: "1234567890edfghjasvydasgbfklfjnldksjrl",
+    description:
+      "1234567890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvydasgbfklfjnldksjrl",
     rate: 2.5,
   },
   {
@@ -37,22 +49,21 @@ function ProductPage() {
   }, []);
 
   const getCookie = (cookieName) => {
-    const cookies = document.cookie.split('; ');
+    const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
-      const [name, value] = cookie.split('=');
+      const [name, value] = cookie.split("=");
       if (name === cookieName) {
         return value;
       }
     }
     return null;
   };
-  const jwtToken = getCookie('accessToken');
-  const userId = getCookie('userid');
-  
+  const jwtToken = getCookie("accessToken");
+  const userId = getCookie("userid");
+
   console.log(item);
 
   const handleAddToCart = async () => {
-
     setAmount(1); // Đặt lại số lượng sau khi thêm vào giỏ hàng
     try {
       const response = await fetch(
@@ -61,124 +72,149 @@ function ProductPage() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${jwtToken}`,
+            Authorization: `Bearer ${jwtToken}`,
           },
         }
       );
-        console.log(response);
+      console.log(response);
       if (response.ok) {
-        // Handle the success case
+        navigate(`/cart`);
         console.log("Item added to the cart in the database");
-
       } else {
-        // Handle the error case
+        message.error("Sản phẩm đã hết! Mong bạn thông cảm!");
         console.error("Failed to add item to the cart in the database");
       }
     } catch (error) {
+      message.error("Vui lòng đăng nhập!");
       console.error("Error adding item to the cart:", error);
     }
   };
 
-
   return (
     <div>
       {item && (
-        <div>
-          <Row>
-            <Col md={4}>
-              <Image src={
-                    item.pathThumbnailImage == null
-                      ? require(`../../assets/user-content/img_1.webp`)
-                      : require(`../../assets/user-content/${item.pathThumbnailImage}`)
-                  } alt={item.title} />
+        <div className="padding">
+          <Row className="short_cover_row white_bg">
+            <Col md={5} offset={1} className="image_column">
+              <Image
+                src={
+                  item.pathThumbnailImage == null
+                    ? require(`../../assets/user-content/img_1.webp`)
+                    : require(`../../assets/user-content/${item.pathThumbnailImage}`)
+                }
+                alt={item.title}
+              />
             </Col>
-            <Col>
-              <List>
-                <List.Item>
-                  <h3>{item.name}</h3>
+            <Col md={4} offset={1} className="shortdetail_column">
+              <List className="detail_list">
+                <List.Item style={{ padding: "0px 0px 20px" }}>
+                  <h1>{item.name}</h1>
                 </List.Item>
-                <List.Item>
+                <List.Item className="star">
                   <Rate disabled defaultValue={item.rate} />
                 </List.Item>
-                <List.Item>Price: {item.price}đ</List.Item>
                 <List.Item>
-                  Số lượng:{" "}
-                  <InputNumber
-                    min={1}
-                    value={amount}
-                    onChange={setAmount}
-                  />
+                  <span className="price">{item.price}đ</span>
                 </List.Item>
-                <List.Item>
-                  <Button onClick={handleAddToCart}>Thêm vào giỏ hàng</Button>
-                </List.Item>
+                <Row>
+                  <List.Item className="amount">
+                    <span>Số lượng:</span>
+                    <InputNumber min={1} value={amount} onChange={setAmount} />
+                  </List.Item>
+                  <List.Item>
+                    <Button
+                      className="addtocart_button"
+                      size="large"
+                      onClick={handleAddToCart}
+                    >
+                      Thêm vào giỏ hàng
+                    </Button>
+                  </List.Item>
+                </Row>
               </List>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <List>
-                <List.Item>
-                  <h3>Thông tin sản phẩm</h3>
-                </List.Item>
-                <List.Item>Danh Mục: {item.category}</List.Item>
-                <List.Item>Nhà xuất bản: {item.brand}</List.Item>
-                <List.Item>Nhà cung cấp: {item.supplier}</List.Item>
-                <List.Item>Tác giả: {item.author}</List.Item>
-                <List.Item>
-                  <h3>Mô tả sản phẩm</h3>
-                </List.Item>
-                <List.Item>{item.description}</List.Item>
-              </List>
-            </Col>
-          </Row>
-          <Row>
-            <h3>Đánh giá sản phẩm</h3>
-          </Row>
-          <Row>
-            <Col>
-              <Row> "Biến +" trên 5 </Row>
+          <Col className="padding white_bg">
+            <Row className="productdetail_cover_row">
+              <Col className="productdetail_column">
+                <List>
+                  <List.Item>
+                    <h2 className="detail_h2">Thông tin sản phẩm</h2>
+                  </List.Item>
+                  <List.Item style={{ fontSize: "20px", color: "#8c8c8c" }}>
+                    Danh Mục: {item.category}
+                  </List.Item>
+                  <List.Item style={{ fontSize: "20px", color: "#8c8c8c" }}>
+                    Nhà xuất bản: {item.brand}
+                  </List.Item>
+                  <List.Item style={{ fontSize: "20px", color: "#8c8c8c" }}>
+                    Nhà cung cấp: {item.supplier}
+                  </List.Item>
+                  <List.Item style={{ fontSize: "20px", color: "#8c8c8c" }}>
+                    Tác giả: {item.author}
+                  </List.Item>
+                  <List.Item>
+                    <h2 className="detail_h2">Mô tả sản phẩm</h2>
+                  </List.Item>
+                  <List.Item style={{ fontSize: "16px", color: "#8c8c8c" }}>
+                    {item.description}
+                  </List.Item>
+                </List>
+              </Col>
+            </Row>
+            <Row className="review">
               <Row>
-                <Rate disabled defaultValue={5} />
+                <h2 className="review_title">Đánh giá sản phẩm</h2>
               </Row>
-            </Col>
-            <Button>Tất cả</Button>
-            <Col></Col>
-            <Button>5*</Button>
-            <Col></Col>
-            <Button>4*</Button>
-            <Col></Col>
-            <Button>3*</Button>
-            <Col></Col>
-            <Button>2*</Button>
-            <Col></Col>
-            <Col>
-              <Button>1*</Button>
-            </Col>
-          </Row>
-          <Row>
-            <List
-              dataSource={data}
-              renderItem={(item, index) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
-                      />
-                    }
-                    title={<div>{item.title}</div>}
-                    description={
-                      <div>
-                        <Rate allowHalf disabled defaultValue={item.rate} />
-                        {item.description}
-                      </div>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          </Row>
+              <Row>
+                <Col>
+                  <Row className="rate">
+                    <span className="myrate green">3</span>
+                    <span className="allrate green">trên 5</span>
+                  </Row>
+                  <Row>
+                    <Rate className="green" defaultValue={3} />
+                  </Row>
+                </Col>
+                <Col>
+                  <Button className="rate_filter_button">Tất cả</Button>
+                  <Button className="rate_filter_button">5 sao</Button>
+                  <Button className="rate_filter_button">4 sao</Button>
+                  <Button className="rate_filter_button">3 sao</Button>
+                  <Button className="rate_filter_button">2 sao</Button>
+                  <Button className="rate_filter_button">1 sao</Button>
+                </Col>
+              </Row>
+            </Row>
+            <Row>
+              <List
+                className="review_list"
+                dataSource={data}
+                renderItem={(item, index) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar
+                          className="avatar"
+                          src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
+                        />
+                      }
+                      title={<div>{item.title}</div>}
+                      description={
+                        <div className="review_description">
+                          <Rate allowHalf disabled defaultValue={item.rate} />
+                          <br></br>
+                          <span style={{ fontSize: "12px", color: "#8c8c8c" }}>
+                            {item.description}
+                          </span>
+                        </div>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            </Row>
+          </Col>
         </div>
       )}
     </div>

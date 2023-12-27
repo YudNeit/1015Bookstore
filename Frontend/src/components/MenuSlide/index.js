@@ -91,10 +91,12 @@ const MenuSlide = ({ onMenuSelect }) => {
 
   return (
     <Menu
-      className="SideMenuVertical"
-      theme="light"
       selectedKeys={[selectedKeys]}
-      style={{ width: 200, borderRight: "none" }}
+      style={{
+        width: "fit-content",
+        backgroundColor: "#f5f5f5",
+        borderRight: "none",
+      }}
       onClick={({ key }) => handleMenuClick(key)}
     >
       {renderMenuItems(categories)}

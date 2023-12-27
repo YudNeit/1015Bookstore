@@ -6,16 +6,31 @@ import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
-function ForgotPassword() {
+function ConfirmCodeForm() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [confirmcode, setConfirmcode] = useState("");
   const [isSuccess, setSuccess] = useState(false);
 
   useEffect(() => {}, []);
+
   const onFinish = (values) => {
     setSuccess(true);
     console.log("Success:", values);
   };
+
+  
+  const getCookie = (cookieName) => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name === cookieName) {
+        return value;
+      }
+    }
+    return null;
+  };
+
+
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
@@ -25,31 +40,49 @@ function ForgotPassword() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "email") {
-      setEmail(value);
+    if (name === "confirmcode") {
+      setConfirmcode(value);
     }
   };
-  const handleSendCodeClick = async () => {
+  
+  const handleConfirmClick = async () => {
     try {
-      const apiUrl = `https://localhost:7139/api/User/forgotpassword?email=${encodeURIComponent(email)}`;
+      const apiUrl = "https://localhost:7139/api/User/confirmCodeforgotpassword";
+      const jwtToken = getCookie("forgotToken");
 
+      const data = {
+        token: jwtToken,
+        code: confirmcode,
+      };
+      console.log(data);
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.status === 400) {
+          message.error("Vui lòng nhập mã xác nhận!");
+        } else {
+          try {
+            const error = await response.text();
+            if (error) {
+              message.error(`${error}`);
+            }
+          } catch (error) {
+            message.error("Confirm Code is not valid.");
+          }
+        }
+      } else {
+        message.success("Confirm Code is successful.");
+        navigate(`/change_password`);
       }
-      const responseData = await response.text();
-      document.cookie = `forgotToken=${responseData}; path=/`;
-      navigate(`/confirm_code`)
-      message.success("Mã xác nhận đã được gửi thành công.");
     } catch (error) {
-      console.error("Error sending confirmation code:", error);
-      message.error("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+      console.error("Error Confirmation Code:", error);
+      message.error("Confirmation Code failed. Please try again later.");
     }
   };
 
@@ -57,7 +90,7 @@ function ForgotPassword() {
     <div className="background">
       <Form
         layout="vertical"
-        className="forgotpassword_form"
+        className="confirmcode_form"
         initialValues={{
           remember: true,
         }}
@@ -72,38 +105,25 @@ function ForgotPassword() {
               fontSize: 36,
             }}
           >
-            Quên mật khẩu
+            Mã xác nhận
           </Typography>
-          <Typography
-            style={{
-              fontSize: 12,
-              color: "#bebebe",
-            }}
-          >
-            Có vẻ như có chuyện gì đó xãy ra với tài khoản của bạn. Hãy điền
-            Email mà bạn đã tạo tài khoản để tiến hành khôi phục tài khoản!
-          </Typography>
-        </div>
+                  </div>
         <Form.Item
           className="no_margin"
-          label={<p className="label">Email</p>}
-          name="email"
+          label={<p className="label">Confirmcode</p>}
+          name="comfirm"
           rules={[
             {
-              type: "email",
-              message: "The input is not valid E-mail!",
-            },
-            {
               required: true,
-              message: "Please input your E-mail!",
+              message: "Please input confirm code!",
             },
           ]}
         >
           <Input
             size="large"
-            placeholder="Email"
-            name="email"
-            value={email}
+            placeholder="Confirmcode"
+            name="confirmcode"
+            value={confirmcode}
             onChange={handleInputChange}
           />
         </Form.Item>
@@ -124,11 +144,11 @@ function ForgotPassword() {
               htmlType="submit"
               onClick={() =>
                 isSuccess
-                  ? handleSendCodeClick()
+                  ? handleConfirmClick()
                   : message.error(`Vui lòng nhập đầy đủ thông tin!`)
               }
             >
-              Gửi mã xác nhận
+              Xác nhận
             </Button>
           </ConfigProvider>
         </Form.Item>
@@ -137,4 +157,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ConfirmCodeForm;
