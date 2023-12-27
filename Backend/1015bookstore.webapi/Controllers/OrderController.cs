@@ -20,14 +20,15 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/Order/buy
         [HttpPut("buy")]
-        public async Task<IActionResult> CreateOrder([FromForm]OrderBuyRequest request)
+        public async Task<IActionResult> Buy([FromForm]OrderBuyRequest request)
         {
             try
             {
-                var affectedrow = await _orderService.Buy(request);
-                if (!affectedrow)
-                    return BadRequest();
-                return Ok();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _orderService.Buy(request);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {
@@ -42,12 +43,14 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var orderid = await _orderService.CreateOrder(request);
-                if (orderid == 0)
-                    return BadRequest();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-                var order = await _orderService.GetById(orderid);
-                return CreatedAtAction(nameof(GetById), new { id = orderid }, order);
+                var response = await _orderService.CreateOrder(request);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
             }
             catch (Exception ex)
             {
@@ -60,10 +63,14 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var order = await _orderService.GetById(id);
-                if (order == null)
-                    return BadRequest("Cannot find order");
-                return Ok(order);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _orderService.GetById(id);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
             }
             catch (Exception ex)
             {

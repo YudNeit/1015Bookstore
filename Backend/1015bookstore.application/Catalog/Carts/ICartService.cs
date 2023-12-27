@@ -1,4 +1,5 @@
 ﻿using _1015bookstore.viewmodel.Catalog.Carts;
+using _1015bookstore.viewmodel.Comon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace _1015bookstore.application.Catalog.Carts
 {
     public interface ICartService
     {
-        Task<int> SetProductInCart(ProductAdd productadd, Guid user_id);
-        Task<int> DeleteProductInCart(int cart_id);
-        Task<List<CartViewModel>> GetCardOfUser(Guid user_id);
-        Task UpdateAmountCart(int cart_id, int amoutadd);
+        Task<ResponseService> SetProductInCart(ProductAdd productadd, Guid user_id);
+        Task<ResponseService> DeleteProductInCart(int cart_id);
+        Task<ResponseService<List<CartViewModel>>> GetCardOfUser(Guid user_id);
+        Task<ResponseService> UpdateAmountCart(int cart_id, int amoutadd);
     }
 }

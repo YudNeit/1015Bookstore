@@ -16,24 +16,28 @@ namespace _1015bookstore.webapi.Controllers
         {
             _promotionalCodeService = promotionalCodeService;
         }
+
         //http:localhost:port/api/promotionalcode
         [HttpPost]
         public async Task<IActionResult> Create(PromotionalCodeCreateRequest request)
         {
             try
             {
-                var promotionalCodeId = await _promotionalCodeService.CreatePromotionalCode(request);
-                if (promotionalCodeId == 0)
-                    return BadRequest();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-                var code = await _promotionalCodeService.GetById(promotionalCodeId);
-                return CreatedAtAction(nameof(GetById), new { id = promotionalCodeId }, code);
+                var response = await _promotionalCodeService.CreatePromotionalCode(request);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http:localhost:port/api/promotionalcode
         [HttpGet("checkcode")]
         public async Task<IActionResult> CheckCode([FromQuery]string stringcode, [FromQuery] Guid user)
@@ -48,6 +52,7 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http://localhost:port/api/promotionalcode/1
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -64,6 +69,7 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http:localhost:port/api/promotionalcode
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -78,6 +84,7 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http://localhost:port/api/promotionalcode/ABCDFWE
         [HttpGet("getbycode/{code}")]
         public async Task<IActionResult> GetByCode(string code)
@@ -94,6 +101,7 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http://localhost:port/api/promotionalcode/1
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -110,6 +118,7 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http://localhost:port/api/promotionalcode/updateamount
         [HttpPut("updateamount")]
         public async Task<IActionResult> UpdateQuanity([FromQuery] int id, int updateamount)
@@ -124,6 +133,7 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http://localhost:port/api/promotionalcode/updatetodate
         [HttpPut("updatetodate")]
         public async Task<IActionResult> UpdateToDate([FromQuery] int id,[FromBody]DateTime updatetodate)
@@ -138,6 +148,7 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http:localhost:port/api/updatetodate
         [HttpPut]
         public async Task<IActionResult> Update([FromForm] PromotionalCodeUpdateRequest request)

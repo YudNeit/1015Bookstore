@@ -1,10 +1,11 @@
 ﻿using _1015bookstore.viewmodel.Catalog.PromotionalCodes;
+using _1015bookstore.viewmodel.Comon;
 
 namespace _1015bookstore.application.Catalog.PromotionalCodes
 {
     public interface IPromotionalCodeService
     {
-        Task<int> CreatePromotionalCode(PromotionalCodeCreateRequest request);
+        Task<ResponseService<PromotionalCodeViewModel>> CreatePromotionalCode(PromotionalCodeCreateRequest request);
         Task<List<PromotionalCodeViewModel>> GetAll();
         Task<PromotionalCodeViewModel> GetById(int id);
         Task<PromotionalCodeViewModel> GetByCode(string code);
