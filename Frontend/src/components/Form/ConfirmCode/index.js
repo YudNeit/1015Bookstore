@@ -14,6 +14,7 @@ function ConfirmCodeForm() {
   useEffect(() => {}, []);
 
   const onFinish = (values) => {
+     handleConfirmClick();
     setSuccess(true);
     console.log("Success:", values);
   };
@@ -34,6 +35,7 @@ function ConfirmCodeForm() {
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
+    message.error(`Vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
   console.log("isSuccess:", isSuccess);
@@ -142,11 +144,7 @@ function ConfirmCodeForm() {
               size="large"
               type="default"
               htmlType="submit"
-              onClick={() =>
-                isSuccess
-                  ? handleConfirmClick()
-                  : message.error(`Vui lòng nhập đầy đủ thông tin!`)
-              }
+            
             >
               Xác nhận
             </Button>
