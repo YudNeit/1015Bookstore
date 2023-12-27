@@ -14,11 +14,13 @@ function ForgotPassword() {
   useEffect(() => {}, []);
   const onFinish = (values) => {
     setSuccess(true);
+    handleSendCodeClick();
     console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
+    message.error(`Vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
   console.log("isSuccess:", isSuccess);
@@ -31,7 +33,9 @@ function ForgotPassword() {
   };
   const handleSendCodeClick = async () => {
     try {
-      const apiUrl = `https://localhost:7139/api/User/forgotpassword?email=${encodeURIComponent(email)}`;
+      const apiUrl = `https://localhost:7139/api/User/forgotpassword?email=${encodeURIComponent(
+        email
+      )}`;
 
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -45,7 +49,7 @@ function ForgotPassword() {
       }
       const responseData = await response.text();
       document.cookie = `forgotToken=${responseData}; path=/`;
-      navigate(`/confirm_code`)
+      navigate(`/confirm_code`);
       message.success("Mã xác nhận đã được gửi thành công.");
     } catch (error) {
       console.error("Error sending confirmation code:", error);
@@ -122,11 +126,6 @@ function ForgotPassword() {
               size="large"
               type="default"
               htmlType="submit"
-              onClick={() =>
-                isSuccess
-                  ? handleSendCodeClick()
-                  : message.error(`Vui lòng nhập đầy đủ thông tin!`)
-              }
             >
               Gửi mã xác nhận
             </Button>

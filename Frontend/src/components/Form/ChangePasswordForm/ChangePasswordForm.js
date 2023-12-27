@@ -14,11 +14,13 @@ function ChangePassword() {
 
   const onFinish = (values) => {
     setSuccess(true);
+    handleChange();
     console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
+    message.error(`Vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
 
@@ -177,11 +179,7 @@ function ChangePassword() {
               size="large"
               type="default"
               htmlType="submit"
-              onClick={() =>
-                isSuccess
-                  ? handleChange()
-                  : message.error(`Vui lòng nhập đầy đủ thông tin!`)
-              }
+             
             >
               Xác nhận
             </Button>
