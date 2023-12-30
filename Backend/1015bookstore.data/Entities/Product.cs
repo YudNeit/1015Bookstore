@@ -45,5 +45,6 @@ namespace _1015bookstore.data.Entities
         public List<OrderDetail> orderdetails { get; set; }
         public List<Cart> carts { get; set; }   
         public List<ProductImage> productimages { get; set; }
+        public List<Review> reviews { get; set; }
     }
 }
