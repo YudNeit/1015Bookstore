@@ -10,8 +10,8 @@ namespace _1015bookstore.viewmodel.System.Users
     public class LoginRequest
     {
         [Required(ErrorMessage = "Please enter your Username and Pasword!")]
-        public string username { get; set; }
+        public string sUser_username { get; set; }
         [Required(ErrorMessage = "Please enter your Username and Pasword!")]
-        public string password { get; set; }
+        public string sUser_password { get; set; }
     }
 }

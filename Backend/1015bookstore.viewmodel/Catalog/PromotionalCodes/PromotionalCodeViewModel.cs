@@ -9,15 +9,15 @@ namespace _1015bookstore.viewmodel.Catalog.PromotionalCodes
 {
     public class PromotionalCodeViewModel
     {
-        public int id {  get; set; }
-        public string code { set; get; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public int discount_rate { get; set; }
-        public int amount { get; set; }
-        public DateTime fromdate { set; get; }
-        public DateTime todate { set; get; }
-        public PromotionalCodeStatus status { get; set; }
+        public int iPromotionalCode_id {  get; set; }
+        public string sPromotionalCode_code { set; get; }
+        public string sPromotionalCode_name { get; set; }
+        public string sPromotionalCode_description { get; set; }
+        public int iPromotionalCode_discount_rate { get; set; }
+        public int iPromotionalCode_amount { get; set; }
+        public DateTime dtPromotionalCode_fromdate { set; get; }
+        public DateTime dtPromotionalCode_todate { set; get; }
+        public PromotionalCodeStatus stPromotionalCode_status { get; set; }
 
     }
 }

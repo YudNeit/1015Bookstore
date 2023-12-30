@@ -9,13 +9,13 @@ namespace _1015bookstore.viewmodel.Catalog.Orders
 {
     public class OrderViewModel
     {
-        public int id { get; set; }
-        public string? name_reciver { get; set; }
-        public string? phone_reciver { set; get; }
-        public string? address_reciver { set; get; }
-        public string? promoionalcode { get; set; }
-        public Decimal total {  get; set; }
-        public List<OrderDetailViewModel> orderdetails { get; set; }
+        public int iOrder_id { get; set; }
+        public string? sOrder_name_receiver { get; set; }
+        public string? sOrder_phone_receiver { set; get; }
+        public string? sOrder_address_receiver { set; get; }
+        public string? sPromoionalCode_code { get; set; }
+        public Decimal vOrder_total {  get; set; }
+        public List<OrderDetailViewModel> lOrder_items { get; set; }
 
     }
 }

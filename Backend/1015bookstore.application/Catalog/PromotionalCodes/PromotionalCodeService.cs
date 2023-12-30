@@ -2,6 +2,7 @@
 using _1015bookstore.data.Entities;
 using _1015bookstore.data.Enums;
 using _1015bookstore.utility.Exceptions;
+using _1015bookstore.viewmodel.Catalog.Categories;
 using _1015bookstore.viewmodel.Catalog.PromotionalCodes;
 using _1015bookstore.viewmodel.Comon;
 using Microsoft.EntityFrameworkCore;
@@ -16,31 +17,51 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
         {
             _context = context;
         }
-        public async Task<ResponseService<PromotionalCodeViewModel>> CreatePromotionalCode(PromotionalCodeCreateRequest request)
+        public async Task<ResponseService<PromotionalCodeViewModel>> PromotionalCode_Create(PromotionalCodeCreateRequest request, Guid? creator_id)
         {
-            var promotionalCode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.code);
+            var promotionalCode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.sPromotionalCode_code);
             if (promotionalCode != null)
             {
                 return new ResponseService<PromotionalCodeViewModel>
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = $"Code {request.code} is existed"
+                    Message = $"Code {request.sPromotionalCode_name} is existed"
                 };
+            }
+
+            string creator_username;
+            if (creator_id == null)
+            {
+                creator_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == creator_id);
+                if (user == null)
+                    return new ResponseService<PromotionalCodeViewModel>
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {creator_id}"
+                    };
+                else
+                    creator_username = user.UserName;
             }
 
             var code = new PromotionalCode
             {
-                code = request.code,
-                name = request.name,
-                description = request.description,
-                discount_rate = request.discount_rate,
-                amount = request.amount,
-                fromdate = request.fromdate,
-                todate = request.todate,
-                createdby = "Hệ thống",
+                code = request.sPromotionalCode_code,
+                name = request.sPromotionalCode_name,
+                description = request.sPromotionalCode_description,
+                discount_rate = request.iPromotionalCode_discount_rate,
+                amount = request.iPromotionalCode_amount,
+                fromdate = request.dtPromotionalCode_fromdate,
+                todate = request.dtPromotionalCode_todate,
+
+                createdby = creator_username,
                 datecreated = DateTime.Now,
-                updatedby = "Hệ thống",
+                updatedby = creator_username,
                 dateupdated = DateTime.Now,
                 status = PromotionalCodeStatus.Active,
             };
@@ -53,95 +74,127 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
                 Message = "Success",
                 Data = new PromotionalCodeViewModel
                 {
-                    id = code.id,
-                    code = code.code,
-                    name = code.name,
-                    description = code.description,
-                    discount_rate = code.discount_rate,
-                    amount = code.amount,
-                    fromdate = code.fromdate,
-                    todate = code.todate,
-                    status = code.status,
+                    iPromotionalCode_id = code.id,
+                    sPromotionalCode_code = code.code,
+                    sPromotionalCode_name = code.name,
+                    sPromotionalCode_description = code.description,
+                    iPromotionalCode_discount_rate = code.discount_rate,
+                    iPromotionalCode_amount = code.amount,
+                    dtPromotionalCode_fromdate = code.fromdate,
+                    dtPromotionalCode_todate = code.todate,
+                    stPromotionalCode_status = code.status,
                 }
             };
         }
 
-        public async Task<List<PromotionalCodeViewModel>> GetAll()
+        public async Task<ResponseService<List<PromotionalCodeViewModel>>> PromotionalCode_GetAll()
         {
             var data = await _context.PromotionCodes.Select(x => new PromotionalCodeViewModel
             {
-                id = x.id,
-                code = x.code,
-                name = x.name,
-                description = x.description,
-                discount_rate = x.discount_rate,
-                amount = x.amount,
-                fromdate = x.fromdate,
-                todate = x.todate,
-                status = x.status,
+                iPromotionalCode_id = x.id,
+                sPromotionalCode_code = x.code,
+                sPromotionalCode_name = x.name,
+                sPromotionalCode_description = x.description,
+                iPromotionalCode_discount_rate = x.discount_rate,
+                iPromotionalCode_amount = x.amount,
+                dtPromotionalCode_fromdate = x.fromdate,
+                dtPromotionalCode_todate = x.todate,
+                stPromotionalCode_status = x.status,
             }).ToListAsync();
-            return data;
-        }
-
-        public async Task<PromotionalCodeViewModel> GetByCode(string code)
-        {
-            var promotionalCode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == code);
-            if (promotionalCode == null)
-            {
-                throw new _1015Exception($"Can not find promotional code with code: {code}");
-            }
-            var data = new PromotionalCodeViewModel
-            {
-                id = promotionalCode.id,
-                code = promotionalCode.code,
-                name = promotionalCode.name,
-                description = promotionalCode.description,
-                discount_rate = promotionalCode.discount_rate,
-                amount = promotionalCode.amount,
-                fromdate = promotionalCode.fromdate,
-                todate = promotionalCode.todate,
-                status = promotionalCode.status,
+            return new ResponseService<List<PromotionalCodeViewModel>> {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = data
             };
-            return data;
         }
 
-        public async Task<PromotionalCodeViewModel> GetById(int id)
+        public async Task<ResponseService> PromotionalCode_Delete(int id, Guid? updater_id)
         {
             var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.id == id);
             if (code == null)
             {
-                throw new _1015Exception($"Can not find promotional code with id: {id}");
-            }    
-            var data = new PromotionalCodeViewModel
-            {
-                id = code.id,
-                code = code.code,
-                name = code.name,
-                description = code.description,
-                discount_rate = code.discount_rate,
-                amount = code.amount,
-                fromdate = code.fromdate,
-                todate = code.todate,
-                status = code.status,   
-            }; 
-            return data;
-        }
-
-        public async Task<int> DeletePromotionalCode(int id)
-        {
-            var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.id == id);
-            if (code == null)
-            {
-                throw new _1015Exception($"Can not find promotional code with id: {id}");
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find promotional code with id: {id}"
+                };
             }
+
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
             code.status = PromotionalCodeStatus.InActive;
-            return await _context.SaveChangesAsync();
+            code.dateupdated = DateTime.Now;
+            code.updatedby = updater_username;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = "Success",
+                };
+            }
+            return new ResponseService
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot delete a promotional code with id: {id}",
+            };
+           
         }
 
-        public async Task<bool> UpdataAmount(int id, int addedamount)
+        public async Task<ResponseService> PromotionalCode_UpdataAmount(int id, Guid? updater_id, int addedamount)
         {
-            var code = await _context.PromotionCodes.FindAsync(id);
-            if (code == null) throw new _1015Exception($"Cannot find a promotional code with id: {id}");
+            var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.id == id);
+            if (code == null)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find promotional code with id: {id}"
+                };
+            }
+
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
             if (code.amount + addedamount >= 1)
                 code.amount += addedamount;
             else
@@ -149,78 +202,232 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
                 code.amount = 0;
                 code.status = PromotionalCodeStatus.OOS;
             }
-            return await _context.SaveChangesAsync() > 0;
+
+            code.dateupdated = DateTime.Now;
+            code.updatedby = updater_username;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = "Success",
+                };
+            }
+            return new ResponseService
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a promotional code with id: {id}",
+            };
         }
 
-        public async Task<bool> UpdataToDate(int id, DateTime todate)
+        public async Task<ResponseService> PromotionalCode_UpdataToDate(int id, Guid? updater_id, DateTime todate)
         {
-            var code = await _context.PromotionCodes.FindAsync(id);
-            if (code == null) throw new _1015Exception($"Cannot find a promotional code with id: {id}");
-            if (code.fromdate > todate) throw new _1015Exception($"Todate is less than Fromdate");
+            var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.id == id);
+            if (code == null)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find promotional code with id: {id}"
+                };
+            }
+
+            if (code.fromdate > todate)
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Todate is less than Fromdate"
+                };
             else
             {
                 code.todate = todate;
             }
-            return await _context.SaveChangesAsync() > 0;
-        }
 
-        public async Task<int> UpdatePromotionalCode(PromotionalCodeUpdateRequest request)
-        {
-            var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.id == request.id);
-            if (code == null)
+            string updater_username;
+            if (updater_id == null)
             {
-                throw new _1015Exception($"Can not find promotional code with id: {request.id}");
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
             }
 
-            var promotionalCode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.code);
+            code.dateupdated = DateTime.Now;
+            code.updatedby = updater_username;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = "Success",
+                };
+            }
+            return new ResponseService
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a promotional code with id: {id}",
+            };
+        }
+
+        public async Task<ResponseService> PromotionalCode_Update(PromotionalCodeUpdateRequest request, Guid? updater_id)
+        {
+            var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.id == request.iPromotionalCode_id);
+            if (code == null)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find promotional code with id: {request.iPromotionalCode_id}"
+                };
+            }
+
+            var promotionalCode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.sPromotionalCode_code);
             if (!((promotionalCode == null) || (promotionalCode != null && promotionalCode.code == code.code)))
             {
-                throw new _1015Exception($"Code {request.code} is existed");
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Code {request.sPromotionalCode_code} is existed"
+                };
             }    
 
-            code.name = request.name;
-            code.description = request.description;
-            code.code = request.code;
-            code.discount_rate = request.discount_rate;
-            code.amount = request.amount;
-            code.fromdate = request.fromdate;
-            code.todate = request.todate;
+            code.name = request.sPromotionalCode_name;
+            code.description = request.sPromotionalCode_description;
+            code.code = request.sPromotionalCode_code;
+            code.discount_rate = request.iPromotionalCode_discount_rate;
+            code.amount = request.iPromotionalCode_amount;
+            code.fromdate = request.dtPromotionalCode_fromdate;
+            code.todate = request.dtPromotionalCode_todate;
 
-            return await _context.SaveChangesAsync();
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
+            code.dateupdated = DateTime.Now;
+            code.updatedby = updater_username;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = "Success",
+                };
+            }
+            return new ResponseService
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a promotional code with id: {request.iPromotionalCode_id}",
+            };
 
         }
 
-        public async Task<PromotionalCodeViewModel> CheckCode(string stringcode, Guid user_id)
+        public async Task<ResponseService<PromotionalCodeViewModel>> PromotionalCode_CheckCode(string stringcode, Guid user_id)
         {
             var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == stringcode);
             if (code == null)
             {
-                throw new _1015Exception($"Can not find promotional code with code: {stringcode}");
+                return new ResponseService<PromotionalCodeViewModel> { 
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find promotional code with code: {stringcode}",
+                };
             }
             if (DateTime.Now < code.fromdate)
             {
-                throw new _1015Exception("Can not use code because the release date hasn't arrived yet");
+                return new ResponseService<PromotionalCodeViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = "Can not use code because the release date hasn't arrived yet",
+                };
             }
             if (DateTime.Now > code.todate)
             {
-                throw new _1015Exception("Can not use code because it has expired");
+                return new ResponseService<PromotionalCodeViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = "Can not use code because it has expired",
+                };  
             }
+            if (code.status == PromotionalCodeStatus.OOS)
+            {
+                return new ResponseService<PromotionalCodeViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = "Can not use code because it out of stock",
+                };
+            }
+
             var codeuse = await _context.UserUsePromotionalCode.FirstOrDefaultAsync(x => x.promotionalcode_id == code.id && x.user_id == user_id);
             if (codeuse != null) 
             {
-                throw new _1015Exception("Can not use code because you used it");
+                return new ResponseService<PromotionalCodeViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = "Can not use code because you used it",
+                };
             }
-            return new PromotionalCodeViewModel
+
+            var data = new PromotionalCodeViewModel
             {
-                id = code.id,
-                code = code.code,
-                name = code.name,
-                description = code.description,
-                discount_rate = code.discount_rate,
-                amount = code.amount,
-                fromdate = code.fromdate,
-                todate = code.todate,
-                status = code.status,
+                iPromotionalCode_id = code.id,
+                sPromotionalCode_code = code.code,
+                sPromotionalCode_name = code.name,
+                sPromotionalCode_description = code.description,
+                iPromotionalCode_discount_rate = code.discount_rate,
+                iPromotionalCode_amount = code.amount,
+                dtPromotionalCode_fromdate = code.fromdate,
+                dtPromotionalCode_todate = code.todate,
+                stPromotionalCode_status = code.status,
+            };
+
+            return new ResponseService<PromotionalCodeViewModel>
+            {
+                CodeStatus = 200,
+                Status =true,
+                Message = "Success",
+                Data = data
             };
         }
     }

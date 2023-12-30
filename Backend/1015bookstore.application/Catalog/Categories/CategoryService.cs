@@ -3,6 +3,7 @@ using _1015bookstore.data.Entities;
 using _1015bookstore.data.Enums;
 using _1015bookstore.utility.Exceptions;
 using _1015bookstore.viewmodel.Catalog.Categories;
+using _1015bookstore.viewmodel.Comon;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,114 +21,280 @@ namespace _1015bookstore.application.Catalog.Categories
         {
             _context = context;
         }
-        public async Task<int> Create(CategoryCreateRequest request)
+        public async Task<ResponseService<CategoryViewModel>> Cate_Create(CategoryCreateRequest request, Guid ?creator_id)
         {
+            string creator_username;
+            if (creator_id == null) {
+                creator_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == creator_id);
+                if (user == null)
+                    return new ResponseService<CategoryViewModel>
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {creator_id}"
+                    };
+                else 
+                    creator_username = user.UserName;
+            }    
+
             var cate = new Category
             {
-                name = request.name,
-                categoryparentid = request.parent_id,
-                createdby = "Hệ thống",
+                name = request.sCate_name,
+                categoryparentid = request.iCate_parent_id == null ? 0 : request.iCate_parent_id,
+                createdby = creator_username,
                 datecreated = DateTime.Now,
-                updatedby = "Hệ thống",
+                updatedby = creator_username,
                 dateupdated = DateTime.Now,
-                status = CategoryStatus.Normal
+                status = CategoryStatus.Normal,
+                show = CategoryShow.None,
             };
             _context.Categories.Add(cate);
             await _context.SaveChangesAsync();
-            return cate.id;
+            return new ResponseService<CategoryViewModel> { 
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = new CategoryViewModel
+                {
+                    iCate_id = cate.id,
+                    sCate_name = cate.name,
+                    iCate_parent_id = cate.categoryparentid,
+                    stCate_status = cate.status,
+                    stCate_show = cate.show,
+                },
+            };
         }
 
-        public async Task<int> Delete(int id)
+        public async Task<ResponseService> Cate_Delete(int id, Guid? updater_id)
         {
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
             var cate = await _context.Categories.FindAsync(id);
 
-            if (cate == null) throw new _1015Exception($"Cannot find a categoy with id: {id}");
+            if (cate == null)
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a categoy with id: {id}"
+                };
 
             cate.status = CategoryStatus.Delete;
+            cate.dateupdated = DateTime.Now;
+            cate.updatedby = updater_username;
 
-            return await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<CategoryViewModel>> GetAll()
-        {
-            var data = await _context.Categories.Select(e => new CategoryViewModel
+            if (await _context.SaveChangesAsync() > 0)
             {
-                id = e.id,
-                name = e.name,
-                parent_id = e.categoryparentid,
-                status = e.status,
-            }).ToListAsync();
-            return data;
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot delete a category with id: {id}",
+            };
         }
 
-        public async Task<CategoryViewModel> GetById(int id)
+        public async Task<ResponseService> Cate_ChangeParent(int id, int parent_id, Guid? updater_id)
         {
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
             var cate = await _context.Categories.FindAsync(id);
 
-            if (cate == null) throw new _1015Exception($"Cannot find a categoy with id: {id}");
+            if (cate == null)
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a categoy with id: {id}"
+                };
 
-            var data = new CategoryViewModel
+            cate.categoryparentid = parent_id;
+            cate.dateupdated = DateTime.Now;
+            cate.updatedby = updater_username;
+
+            if (await _context.SaveChangesAsync() > 0)
             {
-                id = cate.id,
-                name = cate.name,
-                parent_id = cate.categoryparentid,
-                status = cate.status,
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot change parent id a category with id: {id}",
             };
-            return data;
         }
 
-        public async Task<List<CategoryParentAndChildViewModel>> GetParentAndChildAll()
+        public async Task<ResponseService<List<CategoryParentAndChildViewModel>>> Cate_GetAll()
         {
-            var data = await _context.Categories.Select(e => new CategoryParentAndChildViewModel
+            var data = await _context.Categories.Where(x => x.categoryparentid == 0).Select(e => new CategoryParentAndChildViewModel
             {
-                id = e.id,
-                name = e.name,
-                parent_id = e.categoryparentid,
-                status = e.status,
-                childCategories = _context.Categories.Where(x => x.categoryparentid == e.id).Select(x => new CategoryViewModel { 
-                    id = x.id,
-                    name = x.name,
-                    parent_id = x.categoryparentid,
-                    status = x.status,
+                iCate_id = e.id,
+                sCate_name = e.name,
+                iCate_parent_id = e.categoryparentid,
+                stCate_status = e.status,
+                stCate_show = e.show,
+                lCate_childs = _context.Categories.Where(x => x.categoryparentid == e.id).Select(x => new CategoryViewModel { 
+                    iCate_id = x.id,
+                    sCate_name = x.name,
+                    iCate_parent_id = x.categoryparentid,
+                    stCate_status = x.status,
+                    stCate_show = x.show,
                 }).ToList(),
             }).ToListAsync();
-            return data;
-        }
-
-        public async Task<CategoryParentAndChildViewModel> GetParentAndChildById(int id)
-        {
-            var cate = await _context.Categories.FindAsync(id);
-
-            if (cate == null) throw new _1015Exception($"Cannot find a categoy with id: {id}");
-
-            var data = new CategoryParentAndChildViewModel
-            {
-                id = cate.id,
-                name = cate.name,
-                parent_id = cate.categoryparentid,
-                status = cate.status,
-                childCategories = await _context.Categories.Where(x => x.categoryparentid == id).Select(x => new CategoryViewModel
-                {
-                    id = x.id,
-                    name = x.name,
-                    parent_id = x.categoryparentid,
-                    status = x.status,
-                }).ToListAsync(),
+            return new ResponseService<List<CategoryParentAndChildViewModel>> {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = data
             };
-            return data;
         }
 
-        public async Task<int> Update(CategoryUpdateRequest request)
+        public async Task<ResponseService> Cate_Update(CategoryUpdateRequest request, Guid? updater_id)
         {
-            var cate = await _context.Categories.FindAsync(request.id);
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
 
-            if (cate == null) throw new _1015Exception($"Cannot find a categoy with id: {request.id}");
+            var cate = await _context.Categories.FindAsync(request.iCate_id);
 
-            cate.name = request.name;
-            cate.categoryparentid = request.parent_id;
+            if (cate == null)
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a categoy with id: {request.iCate_id}"
+                };
 
-            return await _context.SaveChangesAsync();
+            cate.name = request.sCate_name;
+            cate.categoryparentid = request.iCate_parent_id;
+            cate.dateupdated = DateTime.Now;
+            cate.updatedby = updater_username;
 
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a category with id: {request.iCate_id}",
+            };
+
+        }
+    
+        public async Task<ResponseService<List<CategoryViewModel>>> Cate_GetParent()
+        {
+            var data = await _context.Categories.Where(x => x.categoryparentid == 0).Select(e => new CategoryViewModel
+            {
+                iCate_id = e.id,
+                sCate_name = e.name,
+                iCate_parent_id = e.categoryparentid,
+                stCate_status = e.status,
+                stCate_show = e.show,
+            }).ToListAsync();
+            return new ResponseService<List<CategoryViewModel>>
+            {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = data
+            };
+        }
+        public async Task<ResponseService<List<CategoryParentAndChildViewModel>>> Cate_GetTaskbar()
+        {
+            var data = await _context.Categories.Where(x => x.categoryparentid == 0 && x.show == CategoryShow.Taskbar).Select(e => new CategoryParentAndChildViewModel
+            {
+                iCate_id = e.id,
+                sCate_name = e.name,
+                iCate_parent_id = e.categoryparentid,
+                stCate_status = e.status,
+                stCate_show = e.show,
+                lCate_childs = _context.Categories.Where(x => x.categoryparentid == e.id && x.show == CategoryShow.Taskbar).Select(x => new CategoryViewModel
+                {
+                    iCate_id = x.id,
+                    sCate_name = x.name,
+                    iCate_parent_id = x.categoryparentid,
+                    stCate_status = x.status,
+                    stCate_show = x.show,
+                }).ToList(),
+            }).ToListAsync();
+            return new ResponseService<List<CategoryParentAndChildViewModel>>
+            {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = data
+            };
         }
     }
 }

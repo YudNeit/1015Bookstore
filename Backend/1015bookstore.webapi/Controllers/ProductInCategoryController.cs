@@ -18,14 +18,15 @@ namespace _1015bookstore.webapi.Controllers
         }
         //http:localhost:port/api/productincategory/set
         [HttpGet("set")]
-        public async Task<IActionResult> Set([FromQuery]int product_id, int category_id)
+        public async Task<IActionResult> Set([FromQuery]int product_id, [FromQuery] int category_id)
         {
             try
             {
-                var affectedResult = await _productInCategoryService.Create(product_id, category_id);
-                if (affectedResult == 0)
-                    return BadRequest();
-                return Ok();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _productInCategoryService.Create(product_id, category_id);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {
@@ -33,15 +34,16 @@ namespace _1015bookstore.webapi.Controllers
             }
         }
         //http:localhost:port/api/productincategory/remove
-        [HttpGet("remove")]
-        public async Task<IActionResult> Remove([FromQuery]int product_id, int category_id)
+        [HttpGet("delete")]
+        public async Task<IActionResult> Delete([FromQuery]int product_id, [FromQuery] int category_id)
         {
             try
             {
-                var affectedResult = await _productInCategoryService.Delete(product_id, category_id);
-                if (affectedResult == 0)
-                    return BadRequest();
-                return Ok();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _productInCategoryService.Delete(product_id, category_id);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {

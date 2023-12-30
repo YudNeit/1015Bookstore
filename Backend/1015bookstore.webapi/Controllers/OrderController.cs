@@ -3,6 +3,7 @@ using _1015bookstore.viewmodel.Catalog.Orders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace _1015bookstore.webapi.Controllers
 {
@@ -20,14 +21,14 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/Order/buy
         [HttpPut("buy")]
-        public async Task<IActionResult> Buy([FromForm]OrderBuyRequest request)
+        public async Task<IActionResult> Order_Buy([FromForm]OrderBuyRequest request)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var response = await _orderService.Buy(request);
+                var response = await _orderService.Order_Buy(request);
                 return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
@@ -39,34 +40,14 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/Order
         [HttpPut]
-        public async Task<IActionResult> CreateOrder([FromForm]OrderCreateRequest request)
+        public async Task<IActionResult> Order_Create([FromForm]OrderCreateRequest request)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var response = await _orderService.CreateOrder(request);
-                if (!response.Status)
-                    return StatusCode(response.CodeStatus, response.Message);
-
-                return StatusCode(response.CodeStatus, response.Data);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        //http://localhost:port/api/Order/1
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var response = await _orderService.GetById(id);
+                var response = await _orderService.Order_Create(request);
                 if (!response.Status)
                     return StatusCode(response.CodeStatus, response.Message);
 
@@ -78,5 +59,25 @@ namespace _1015bookstore.webapi.Controllers
             }
         }
 
+        //http:localhost:port/api/order/history
+        [HttpGet("history")]
+        public async Task<IActionResult> Order_HistoryOfUser([Required]Guid gUser_id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _orderService.Order_HistoryOfUser(gUser_id);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

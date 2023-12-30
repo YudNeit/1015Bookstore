@@ -11,37 +11,33 @@ namespace _1015bookstore.viewmodel.Catalog.Products
     public class ProductUpdateRequest
     {
         [Required]
-        public int id {  get; set; }
+        public int iProduct_id {  get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [MaxLength(100, ErrorMessage = "Name is limited max length 100 characters")]
-        public string name { get; set; }
+        public string sProduct_name { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [Range(0, int.MaxValue, ErrorMessage = "The price is bigger than 0")]
-        public decimal price { get; set; }
+        public decimal vProduct_price { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [Range(1, int.MaxValue, ErrorMessage = "The waranty is bigger than 0")]
-        public int waranty { get; set; }
+        public int iProduct_waranty { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "The quantity is bigger than 0")]
-        public int quanity { get; set; }
-
-        [Required(ErrorMessage = "The * field is required")]
-        public string description { get; set; }
+        public string sProduct_description { get; set; }
 
         #region Detail
-        public string? brand { get; set; }
-        public string? madein { get; set; }
-        public DateTime? mfgdate { get; set; }
-        public string? suppiler { get; set; }
-        public string? author { get; set; }
-        public string? nop { get; set; }
-        public int? yop { get; set; }
+        public string? sProduct_brand { get; set; }
+        public string? sProduct_madein { get; set; }
+        public DateTime? dtProduct_mfgdate { get; set; }
+        public string? sProduct_supplier { get; set; }
+        public string? sProduct_author { get; set; }
+        public string? sProduct_nop { get; set; }
+        public int? iProduct_yop { get; set; }
         #endregion
 
-        public IFormFile? ThumbnailImage { get; set; }
+        public IFormFile? sImage_pathThumbnail { get; set; }
     }
 }

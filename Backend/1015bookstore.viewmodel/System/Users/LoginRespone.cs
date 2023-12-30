@@ -8,7 +8,7 @@ namespace _1015bookstore.viewmodel.System.Users
 {
     public class LoginRespone
     {
-        public string token {  get; set; }
-        public Guid user_id { get; set; }
+        public string sUser_tokenL {  get; set; }
+        public Guid gUser_id { get; set; }
     }
 }

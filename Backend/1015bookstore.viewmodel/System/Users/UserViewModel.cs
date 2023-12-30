@@ -8,12 +8,12 @@ namespace _1015bookstore.viewmodel.System.Users
 {
     public class UserViewModel
     {
-        public Guid id { get; set; }
-        public string firstname { get; set; }
-        public string lastname { get; set; }
-        public DateTime? dob {  get; set; }
-        public bool? sex { get; set; }
-        public string? phonenumber { get; set; }
-        public string email { get; set; }
+        public Guid gUser_id { get; set; }
+        public string sUser_firstname { get; set; }
+        public string sUser_lastname { get; set; }
+        public DateTime? dtUser_dob {  get; set; }
+        public bool? bUser_sex { get; set; }
+        public string? sUser_phonenumber { get; set; }
+        public string sUser_email { get; set; }
     }
 }

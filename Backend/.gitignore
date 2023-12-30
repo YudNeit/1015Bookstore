@@ -5,6 +5,8 @@
 
 # Migration folder
 1015bookstore.data/Migrations
+# user-content folder
+1015bookstore.webadmin/wwwroot/img/user-content
 
 
 # User-specific files

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _1015bookstore.viewmodel.Comon;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace _1015bookstore.application.Catalog.ProductIsnCategories
 {
     public interface IProductInCategoryService
     {
-        Task<int> Create(int product_id, int category_id);
-        Task<int> Delete(int product_id, int category_id);
+        Task<ResponseService> Create(int iProduct_id, int iCate_id);
+        Task<ResponseService> Delete(int iProduct_id, int iCate_id);
     }
 }

@@ -2,6 +2,7 @@
 using _1015bookstore.viewmodel.Catalog.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace _1015bookstore.webapi.Controllers
 {
@@ -16,114 +17,135 @@ namespace _1015bookstore.webapi.Controllers
         {
             _categoryService = categoryService;
         }
+
         //http:localhost:port/api/category
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CategoryCreateRequest request)
+        public async Task<IActionResult> Cate_Create([FromForm] CategoryCreateRequest request, Guid? gCreator_id)
         {
             try
             {
-                var productId = await _categoryService.Create(request);
-                if (productId == 0)
-                    return BadRequest();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-                var product = await _categoryService.GetById(productId);
-                return CreatedAtAction(nameof(GetById), new { id = productId }, product);
+                var response = await _categoryService.Cate_Create(request, gCreator_id);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http:localhost:port/api/category
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] CategoryUpdateRequest request)
+        public async Task<IActionResult> Cate_Update([FromForm] CategoryUpdateRequest request, Guid? gUpdater_id)
         {
             try
             {
-                var affectedResult = await _categoryService.Update(request);
-                if (affectedResult == 0)
-                    return BadRequest();
-                return Ok();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _categoryService.Cate_Update(request, gUpdater_id);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http://localhost:port/api/category/1
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{ICate_id}")]
+        public async Task<IActionResult> Cate_Delete([Required]int iCate_id, Guid? gUpdater_id)
         {
             try
             {
-                var affectedResult = await _categoryService.Delete(id);
-                if (affectedResult == 0)
-                    return BadRequest();
-                return Ok();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _categoryService.Cate_Delete(iCate_id, gUpdater_id);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+
         //http:localhost:port/api/category
-        [HttpGet]
+        [HttpGet()]
         [AllowAnonymous]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Cate_GetAll()
         {
             try
             {
-                var cate = await _categoryService.GetAll();
-                return Ok(cate);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _categoryService.Cate_GetAll();
+                return StatusCode(response.CodeStatus, response.Data);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
-        //http://localhost:port/api/category/1
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+
+        //http:localhost:port/api/category/taskbar
+        [HttpGet("taskbar")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Cate_GetTaskbar()
         {
             try
             {
-                var cate = await _categoryService.GetById(id);
-                if (cate == null)
-                    return BadRequest("Cannot find category");
-                return Ok(cate);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _categoryService.Cate_GetTaskbar();
+                return StatusCode(response.CodeStatus, response.Data);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
-        //http:localhost:port/api/category/parentandchild
-        [HttpGet("parentandchild")]
-        public async Task<IActionResult> GetParentAndChild()
+
+        //http:localhost:port/api/category/parent
+        [HttpGet("parent")]
+        public async Task<IActionResult> Cate_GetParent()
         {
             try
             {
-                var cate = await _categoryService.GetParentAndChildAll();
-                return Ok(cate);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _categoryService.Cate_GetParent();
+                return StatusCode(response.CodeStatus, response.Data);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
-        //http:localhost:port/api/category/parentandchild/1
-        [HttpGet("parentandchild/{id}")]
-        public async Task<IActionResult> GetParentAndChildById(int id)
+
+        //http:localhost:port/api/changeparent
+        [HttpPatch("changeparent")]
+        public async Task<IActionResult> Cate_ChangeParent([Required]int iCate_id, [Required] int iCate_parent_id, Guid? gUpdater_id)
         {
             try
             {
-                var cate = await _categoryService.GetParentAndChildById(id);
-                return Ok(cate);
+                var response = await _categoryService.Cate_ChangeParent(iCate_id, iCate_parent_id, gUpdater_id);
+                return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
+
+        
     }
 }

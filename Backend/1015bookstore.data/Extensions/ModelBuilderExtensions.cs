@@ -25,23 +25,25 @@ namespace _1015bookstore.data.Extensions
                 {
                     id = 1,
                     name = "Sách giáo khoa",
-                    categoryparentid = null,
+                    categoryparentid = 0,
                     createdby = "HeThong",
                     datecreated = DateTime.Now,
                     updatedby = "HeThong",
                     dateupdated = DateTime.Now,
                     status = CategoryStatus.Normal,
+                    show = CategoryShow.Taskbar,
                 },
                  new Category()
                  {
                      id = 2,
                      name = "Sách ngôn ngữ",
-                     categoryparentid = null,
+                     categoryparentid = 0,
                      createdby = "HeThong",
                      datecreated = DateTime.Now,
                      updatedby = "HeThong",
                      dateupdated = DateTime.Now,
                      status = CategoryStatus.Normal,
+                     show = CategoryShow.Taskbar,
                  },
                  new Category()
                  {
@@ -53,6 +55,7 @@ namespace _1015bookstore.data.Extensions
                      updatedby = "HeThong",
                      dateupdated = DateTime.Now,
                      status = CategoryStatus.Normal,
+                     show = CategoryShow.Taskbar,
                  },
                  new Category()
                  {
@@ -64,6 +67,7 @@ namespace _1015bookstore.data.Extensions
                      updatedby = "HeThong",
                      dateupdated = DateTime.Now,
                      status = CategoryStatus.Normal,
+                     show = CategoryShow.Taskbar,
                  }
             );
 

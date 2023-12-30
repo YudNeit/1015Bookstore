@@ -10,15 +10,21 @@ namespace _1015bookstore.application.Catalog.Products
 {
     public interface IProductService
     {
-        Task<ResponseService<ProductViewModel>> Create(ProductCreateRequest request);
-        Task<ResponseService> Update(ProductUpdateRequest request);
-        Task<int> Delete(int id);
-        Task<ResponseService<ProductViewModel>> GetById(int id);
-        Task<ResponseService> UpdatePrice(int id, decimal newPrice);
-        Task<ResponseService> UpdataQuanity(int id, int addedQuantity);
-        Task AddViewcount(int id);
-        Task<PagedResult<ProductViewModel>> GetProductByKeyWordPaging(GetProductByKeyWordPagingRequest request);
-        Task<List<ProductViewModel>> GetAll();
-        Task<PagedResult<ProductViewModel>> GetProductByCategoryId(GetProductByCategoryPagingRequest request);
+        Task<ResponseService<ProductViewModel>> Product_Create(ProductCreateRequest request, Guid? creator_id);
+        Task<ResponseService> Product_Delete(int id, Guid? updater_id);
+        Task<ResponseService> Product_Update(ProductUpdateRequest request, Guid? updater_id);
+
+        Task<ResponseService> Product_UpdateQuantity(int id, int addedQuantity, Guid? updater_id);
+        Task<ResponseService> Product_UpdatePrice(int id, decimal newPrice, Guid? updater_id);
+        Task<ResponseService> Product_AddViewcount(int id);
+
+        Task<ResponseService<ProductViewModel>> Product_GetById(int id);
+
+        Task<PagedResult<ProductViewModel>> Product_GetProductByKeyWordPagingPublic(GetProductByKeyWordPagingRequest request);
+        Task<PagedResult<ProductViewModel>> Product_GetProductByCategoryPagingPublic(GetProductByCategoryPagingRequest request);
+
+        Task<PagedResult<ProductViewModel>> Product_GetProductByKeyWordPagingAdmin(GetProductByKeyWordPagingRequest request);
+        Task<PagedResult<ProductViewModel>> Product_GetProductByCategoryPagingAdmin(GetProductByCategoryPagingRequest request);
+
     }
 }

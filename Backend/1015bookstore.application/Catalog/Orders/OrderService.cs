@@ -2,6 +2,7 @@
 using _1015bookstore.data.Entities;
 using _1015bookstore.data.Enums;
 using _1015bookstore.utility.Exceptions;
+using _1015bookstore.viewmodel.Catalog.Categories;
 using _1015bookstore.viewmodel.Catalog.Orders;
 using _1015bookstore.viewmodel.Comon;
 using Microsoft.AspNetCore.Http.Headers;
@@ -18,24 +19,24 @@ namespace _1015bookstore.application.Catalog.Orders
             _context = context;
         }
 
-        public async Task<ResponseService> Buy(OrderBuyRequest request)
+        public async Task<ResponseService> Order_Buy(OrderBuyRequest request)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.id == request.order_id);
+            var order = await _context.Orders.FirstOrDefaultAsync(x => x.id == request.iOrder_id);
             if (order == null)
                 return new ResponseService()
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = $"Can not find order with id: {request.order_id}"
+                    Message = $"Can not find order with id: {request.iOrder_id}"
                 };
 
-            order.name_reciver = request.name_reciver;
-            order.phone_reciver = request.phone_reciver;
-            order.address_reciver = request.address_reciver;
+            order.name_reciver = request.sOrder_name_receiver;
+            order.phone_reciver = request.sOrder_phone_receiver;
+            order.address_reciver = request.sOrder_address_receiver;
 
-            if (request.promotionalcode != null)
+            if (request.sPromotionalCode_code != null)
             {
-                var promotionalcode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.promotionalcode);
+                var promotionalcode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.sPromotionalCode_code);
                 if (promotionalcode != null)
                 {
                     promotionalcode.amount -= 1;
@@ -54,12 +55,19 @@ namespace _1015bookstore.application.Catalog.Orders
 
                     order.total = order.total - (promotionalcode.discount_rate * order.total / 100);
                 }
-                request.promotionalcode = null;
+                else
+                {
+                    return new ResponseService()
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find promotional code with code: {request.sPromotionalCode_code}"
+                    };
+                }    
             }
 
-            order.promotionalcode = request.promotionalcode;
+            order.promotionalcode = request.sPromotionalCode_code;
 
-            
 
             order.status = OrderStatus.Success;
             order.paymentdate = DateTime.Now;
@@ -67,12 +75,16 @@ namespace _1015bookstore.application.Catalog.Orders
             order.deliverydate = DateTime.Now;
 
 
-            var product_ids = await _context.OrderDetails.Where(x => x.order_id == request.order_id).Select(x => new { x.product_id , x.quantity}).ToListAsync();
+            var product_ids = await _context.OrderDetails.Where(x => x.order_id == request.iOrder_id).Select(x => new { x.product_id , x.quantity}).ToListAsync();
 
             foreach (var item in product_ids)
             {
                 var product = await _context.Products.FirstOrDefaultAsync(x => x.id == item.product_id);
+                
+                //NOTE
                 product.quanity -= item.quantity;
+
+
                 var cart = await _context.Carts.FirstOrDefaultAsync(x => x.user_id == order.user_id && x.product_id == item.product_id);
                 _context.Carts.Remove(cart);
             }
@@ -81,7 +93,7 @@ namespace _1015bookstore.application.Catalog.Orders
             {
                 return new ResponseService()
                 {
-                    CodeStatus = 201,
+                    CodeStatus = 20,
                     Status = true,
                     Message = $"Success",
                 };
@@ -90,14 +102,14 @@ namespace _1015bookstore.application.Catalog.Orders
             {
                 CodeStatus = 500,
                 Status = false,
-                Message = $"Cannot buy with order id: {request.order_id}",
+                Message = $"Cannot buy with order id: {request.iOrder_id}",
             };
 
         }
 
-        public async Task<ResponseService<OrderViewModel>> CreateOrder(OrderCreateRequest request)
+        public async Task<ResponseService<OrderViewModel>> Order_Create(OrderCreateRequest request)
         {
-            if (request.cart_ids.Count() == 0) 
+            if (request.lCart_ids.Count() == 0) 
                 return new ResponseService<OrderViewModel>
                 {
                     CodeStatus = 400,
@@ -105,18 +117,26 @@ namespace _1015bookstore.application.Catalog.Orders
                     Message = "Can not create order when not enough cart item"
                 };
 
-            
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.gUser_id);
+            if (user == null)
+                return new ResponseService<OrderViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find user with id: {request.gUser_id}"
+                };
+
             var order = new Order
             {
                 orderdate = DateTime.Now,
-                user_id = request.user_id,
+                user_id = request.gUser_id,
                 status = OrderStatus.InProgress,
             };
             await _context.AddAsync(order);
 
             await _context.SaveChangesAsync();
 
-            foreach (var item in request.cart_ids)
+            foreach (var item in request.lCart_ids)
             {
                 var cart = await _context.Carts.FirstOrDefaultAsync(x => x.id == item);
                 order.total += cart.price * cart.quantity;
@@ -136,18 +156,18 @@ namespace _1015bookstore.application.Catalog.Orders
             
             var data = new OrderViewModel
             {
-                id = order.id,
-                name_reciver = order.name_reciver,
-                address_reciver = order.address_reciver,
-                phone_reciver = order.phone_reciver,
-                promoionalcode = order.promotionalcode,
-                total = order.total,
-                orderdetails = _context.OrderDetails.Where(x => x.order_id == order.id).Select(x => new OrderDetailViewModel
+                iOrder_id = order.id,
+                sOrder_name_receiver = order.name_reciver,
+                sOrder_address_receiver = order.address_reciver,
+                sOrder_phone_receiver = order.phone_reciver,
+                sPromoionalCode_code = order.promotionalcode,
+                vOrder_total = order.total,
+                lOrder_items = _context.OrderDetails.Where(x => x.order_id == order.id).Select(x => new OrderDetailViewModel
                 {
-                    name = x.product_name,
-                    price = x.price,
-                    quantity = x.quantity,
-                    imgpath = x.imgpath
+                    sProduct_name = x.product_name,
+                    vProduct_price = x.price,
+                    iProduct_amount = x.quantity,
+                    sImage_path = x.imgpath
                 }).ToList(),
             };
 
@@ -160,37 +180,36 @@ namespace _1015bookstore.application.Catalog.Orders
             };
         }
 
-        public async Task<ResponseService<OrderViewModel>> GetById(int id)
+        public async Task<ResponseService<List<OrderViewModel>>> Order_HistoryOfUser(Guid user_id)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.id == id);
-            if (order == null)
-                return new ResponseService<OrderViewModel>()
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == user_id);
+            if (user == null)
+                return new ResponseService<List<OrderViewModel>>
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = $"Can not find order with id: {id}"
+                    Message = $"Can not find user with id: {user_id}"
                 };
 
-            var data = new OrderViewModel
-            {
-                id = order.id,
-                name_reciver = order.name_reciver,
-                address_reciver= order.address_reciver,
-                phone_reciver = order.phone_reciver,
-                promoionalcode = order.promotionalcode,
-                total = order.total,
-                orderdetails = _context.OrderDetails.Where(x => x.order_id == id).Select(x => new OrderDetailViewModel
+            var data = await _context.Orders.Where(x => x.user_id == user_id && x.status == OrderStatus.Success).Select(x => new OrderViewModel {
+                iOrder_id = x.id,
+                sOrder_name_receiver = x.name_reciver,
+                sOrder_address_receiver = x.address_reciver,
+                sOrder_phone_receiver = x.phone_reciver,
+                sPromoionalCode_code = x.promotionalcode,
+                vOrder_total = x.total,
+                lOrder_items = _context.OrderDetails.Where(e => e.order_id == x.id).Select(e => new OrderDetailViewModel
                 {
-                    name = x.product_name,
-                    price = x.price, 
-                    quantity = x.quantity,
-                    imgpath = x.imgpath
-                }).ToList(),
-            };
+                    sProduct_name = e.product_name,
+                    vProduct_price = e.price,
+                    iProduct_amount = e.quantity,
+                    sImage_path = e.imgpath,
+                }).ToList()
+            }).ToListAsync();
 
-            return new ResponseService<OrderViewModel>
+            return new ResponseService<List<OrderViewModel>>
             {
-                CodeStatus = 201,
+                CodeStatus = 200,
                 Status = true,
                 Message = "Success",
                 Data = data

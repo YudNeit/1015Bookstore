@@ -5,6 +5,7 @@ using _1015bookstore.data.Entities;
 using _1015bookstore.data.Enums;
 using _1015bookstore.utility.Exceptions;
 using _1015bookstore.viewmodel.Catalog.Carts;
+using _1015bookstore.viewmodel.Catalog.Categories;
 using _1015bookstore.viewmodel.Catalog.Products;
 using _1015bookstore.viewmodel.Comon;
 using Microsoft.AspNetCore.Http;
@@ -26,41 +27,51 @@ namespace _1015bookstore.application.Catalog.Products
             _removeUnicode = removeUnicode;
         }
 
-        public async Task AddViewcount(int id)
+        public async Task<ResponseService<ProductViewModel>> Product_Create(ProductCreateRequest request, Guid? creator_id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null) throw new _1015Exception($"Cannot find a product with id: {id}");
+            string creator_username;
+            if (creator_id == null)
+            {
+                creator_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == creator_id);
+                if (user == null)
+                    return new ResponseService<ProductViewModel>
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {creator_id}"
+                    };
+                else
+                    creator_username = user.UserName;
+            }
 
-            product.view_count += 1;
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<ResponseService<ProductViewModel>> Create(ProductCreateRequest request)
-        {
             var product = new Product()
             {
-                name = request.name,
-                alias = _removeUnicode.Removeunicode(request.name),
-                price = request.price,
+                name = request.sProduct_name,
+                alias = _removeUnicode.Removeunicode(request.sProduct_name),
+                price = request.vProduct_price,
                 start_count = 0,
                 review_count = 0,
                 buy_count = 0,
                 flashsale = false,
                 like_count = 0,
-                waranty = request.waranty,
-                quanity = request.quanity,
+                waranty = request.iProduct_waranty,
+                quanity = request.iProduct_quantity,
                 view_count = 0,
-                description = request.description,
-                brand = request.brand,
-                madein = request.madein,
-                mfgdate = request.mfgdate,
-                suppiler = request.suppiler,
-                author = request.author,
-                nop = request.nop,
-                yop = request.yop,
-                createdby = "Hệ thống",
+                description = request.sProduct_description,
+                brand = request.sProduct_brand,
+                madein = request.sProduct_madein,
+                mfgdate = request.dtProduct_mfgdate,
+                suppiler = request.sProduct_suppiler,
+                author = request.sProduct_author,
+                nop = request.sProduct_nop,
+                yop = request.iProduct_yop,
+                createdby = creator_username,
                 datecreated = DateTime.Now,
-                updatedby = "Hệ thống",
+                updatedby = creator_username,
                 dateupdated = DateTime.Now,
                 status = ProductStatus.Normal
             };
@@ -69,15 +80,15 @@ namespace _1015bookstore.application.Catalog.Products
             ProductImage productImage = null;
 
             //Save image
-            if (request.ThumbnailImage != null)
+            if (request.sImage_pathThumbnail != null)
             {
                 
                 productImage = new ProductImage()
                 {
                     caption = "Thumbnail image",
                     createdate = DateTime.Now,
-                    sizeimage = request.ThumbnailImage.Length,
-                    imagepath = await this.SaveFile(request.ThumbnailImage),
+                    sizeimage = request.sImage_pathThumbnail.Length,
+                    imagepath = await this.SaveFile(request.sImage_pathThumbnail),
                     is_default = true,
                     sortorder = 1
                 };
@@ -96,148 +107,155 @@ namespace _1015bookstore.application.Catalog.Products
                 Message = "Success",
                 Data = new ProductViewModel
                 {
-                    id = product.id,
-                    name = product.name,
-                    price = product.price,
-                    start_count = product.start_count,
-                    review_count = product.review_count,
-                    buy_count = product.buy_count,
-                    flashsale = product.flashsale,
-                    like_count = product.like_count,
-                    waranty = product.waranty,
-                    quanity = product.quanity,
-                    view_count = product.view_count,
-                    description = product.description,
-                    brand = product.brand,
-                    madein = product.madein,
-                    mfgdate = product.mfgdate,
-                    supplier = product.suppiler,
-                    author = product.author,
-                    nop = product.nop,
-                    yop = product.yop,
-                    status = product.status,
-                    pathThumbnailImage = productImage == null ? null : productImage.imagepath,
+                    iProduct_id = product.id,
+                    sProduct_name = product.name,
+                    vProduct_price = product.price,
+                    dProduct_start_count = product.start_count,
+                    iProduct_review_count = product.review_count,
+                    iProduct_buy_count = product.buy_count,
+                    bProduct_flashsale = product.flashsale,
+                    iProduct_like_count = product.like_count,
+                    iProduct_waranty = product.waranty,
+                    iProduct_quantity = product.quanity,
+                    iProduct_view_count = product.view_count,
+                    sProduct_description = product.description,
+                    sProduct_brand = product.brand,
+                    sProduct_madein = product.madein,
+                    dtProduct_mfgdate = product.mfgdate,
+                    sProduct_supplier = product.suppiler,
+                    sProduct_author = product.author,
+                    sProduct_nop = product.nop,
+                    iProduct_yop = product.yop,
+                    stProduct_status = product.status,
+                    sImage_pathThumbnail = productImage == null ? null : productImage.imagepath,
                 },
             };
         
         }
 
-        public async Task<int> Delete(int id)
+        public async Task<ResponseService> Product_Delete(int id, Guid? updater_id)
         {
             var product = await _context.Products.FindAsync(id);
 
             if (product == null) throw new _1015Exception($"Cannot find a product with id: {id}");
 
-            var images = _context.ProductImages.Where(i => i.product_id == id);
-            foreach (var image in images)
+            string updater_username;
+            if (updater_id == null)
             {
-                await _storageService.DeleteFileAsync(image.imagepath);
+                updater_username = "Hệ thống";
             }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
+            product.dateupdated = DateTime.Now;
+            product.updatedby = updater_username;
 
             product.status = ProductStatus.Delete;
 
-            return await _context.SaveChangesAsync();
-        }
-
-        public async Task<PagedResult<ProductViewModel>> GetProductByKeyWordPaging(GetProductByKeyWordPagingRequest request)
-        {
-            var query = from p in _context.Products
-                        join pic in _context.ProductInCategory on p.id equals pic.product_id
-                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
-                        from pimg in ppimg.DefaultIfEmpty()
-                        where p.status != ProductStatus.Delete
-                        select new { p, pic, pimg };
-
-            if (!string.IsNullOrEmpty(request.keyword))
-                query = query.Where(x => x.p.alias.Contains(_removeUnicode.Removeunicode(request.keyword)));
-
-            int totalRow = await query.CountAsync();
-
-            var data = await query.Skip((request.pageindex - 1) * request.pagesize).Take(request.pagesize)
-            .Select(x => new ProductViewModel()
+            if (await _context.SaveChangesAsync() > 0)
             {
-                id = x.p.id,
-                name = x.p.name,
-                price = x.p.price,
-                start_count = x.p.start_count,
-                review_count = x.p.review_count,
-                buy_count = x.p.buy_count,
-                flashsale = x.p.flashsale,
-                like_count = x.p.like_count,
-                waranty = x.p.waranty,
-                quanity = x.p.quanity,
-                view_count = x.p.view_count,
-                description = x.p.description,
-                brand = x.p.brand,
-                madein = x.p.madein,
-                mfgdate = x.p.mfgdate,
-                supplier = x.p.suppiler,
-                author = x.p.author,
-                nop = x.p.nop,
-                yop = x.p.yop,
-                status = x.p.status,
-                pathThumbnailImage = x.pimg.imagepath
-            }).ToListAsync();
-            var pagedResult = new PagedResult<ProductViewModel>()
+                return new ResponseService
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = "Success",
+                };
+            }
+            return new ResponseService
             {
-                totalrecord = totalRow,
-                items = data
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a promotional code with id: {id}",
             };
-            return pagedResult;
         }
 
-        public async Task<ResponseService<ProductViewModel>> GetById(int id)
+        public async Task<ResponseService> Product_Update(ProductUpdateRequest request, Guid? updater_id)
         {
-            var query = from p in _context.Products
-                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
-                        from pimg in ppimg.DefaultIfEmpty()
-                        where p.status != ProductStatus.Delete
-                        select new { p, pimg };
-
-            var product = await query.FirstOrDefaultAsync(x => x.p.id == id);
+            var product = await _context.Products.FindAsync(request.iProduct_id);
 
             if (product == null)
-                return new ResponseService<ProductViewModel> {
+                return new ResponseService()
+                {
                     CodeStatus = 400,
                     Status = false,
-                    Message = $"Cannot find a product with id: {id}",
+                    Message = $"Cannot find a product with id: {request.iProduct_id}",
                 };
 
-            var data =  new ProductViewModel
-            {
-                id = product.p.id,
-                name = product.p.name,
-                price = product.p.price,
-                start_count = product.p.start_count,
-                review_count = product.p.review_count,
-                buy_count = product.p.buy_count,
-                flashsale = product.p.flashsale,
-                like_count = product.p.like_count,
-                waranty = product.p.waranty,
-                quanity = product.p.quanity,
-                view_count = product.p.view_count,
-                description = product.p.description,
-                brand = product.p.brand,
-                madein = product.p.madein,
-                mfgdate = product.p.mfgdate,
-                supplier = product.p.suppiler,
-                author = product.p.author,
-                nop = product.p.nop,
-                yop = product.p.yop,
-                status = product.p.status,
-                pathThumbnailImage = product.pimg == null ? null : product.pimg.imagepath,
-            };
+            product.name = request.sProduct_name;
+            product.price = request.vProduct_price;
+            product.waranty = request.iProduct_waranty;
+            product.description = request.sProduct_description;
+            product.brand = request.sProduct_brand;
+            product.madein = request.sProduct_madein;
+            product.mfgdate = request.dtProduct_mfgdate;
+            product.suppiler = request.sProduct_supplier;
+            product.author = request.sProduct_supplier;
+            product.nop = request.sProduct_nop;
+            product.yop = request.iProduct_yop;
 
-            return new ResponseService<ProductViewModel>
+            //Save image
+            if (request.sImage_pathThumbnail != null)
             {
-                CodeStatus = 200,
-                Status = true,
-                Message = "Success",
-                Data = data,
+                var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.is_default == true && i.product_id == request.iProduct_id);
+                if (thumbnailImage != null)
+                {
+                    thumbnailImage.sizeimage = request.sImage_pathThumbnail.Length;
+                    thumbnailImage.imagepath = await this.SaveFile(request.sImage_pathThumbnail);
+                    _context.ProductImages.Update(thumbnailImage);
+                }
+            }
+
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
+            product.dateupdated = DateTime.Now;
+            product.updatedby = updater_username;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a product with id: {request.iProduct_id}",
             };
         }
 
-        public async Task<ResponseService> UpdataQuanity(int id, int addedQuantity)
+        public async Task<ResponseService> Product_UpdateQuantity(int id, int addedQuantity, Guid? updater_id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
@@ -273,6 +291,28 @@ namespace _1015bookstore.application.Catalog.Products
                 };
             }
 
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
+            product.dateupdated = DateTime.Now;
+            product.updatedby = updater_username;
+
             if (await _context.SaveChangesAsync() > 0)
             {
                 return new ResponseService()
@@ -290,61 +330,7 @@ namespace _1015bookstore.application.Catalog.Products
             };
         }
 
-        public async Task<ResponseService> Update(ProductUpdateRequest request)
-        {
-            var product = await _context.Products.FindAsync(request.id);
-
-            if (product == null)
-                return new ResponseService()
-                {
-                    CodeStatus = 400,
-                    Status = false,
-                    Message = $"Cannot find a product with id: {request.id}",
-                };
-
-            product.name = request.name;
-            product.price = request.price;
-            product.waranty = request.waranty;
-            product.quanity = request.quanity;
-            product.description = request.description;
-            product.brand = request.brand;
-            product.madein = request.madein;
-            product.mfgdate = request.mfgdate;
-            product.suppiler = request.suppiler;
-            product.author = request.author;
-            product.nop = request.nop;
-            product.yop = request.yop;
-
-            //Save image
-            if (request.ThumbnailImage != null)
-            {
-                var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.is_default == true && i.product_id == request.id);
-                if (thumbnailImage != null)
-                {
-                    thumbnailImage.sizeimage = request.ThumbnailImage.Length;
-                    thumbnailImage.imagepath = await this.SaveFile(request.ThumbnailImage);
-                    _context.ProductImages.Update(thumbnailImage);
-                }
-            }
-
-            if(await _context.SaveChangesAsync() > 0)
-            {
-                return new ResponseService()
-                {
-                    CodeStatus = 200,
-                    Status = true,
-                    Message = $"Success",
-                };
-            }
-            return new ResponseService()
-            {
-                CodeStatus = 500,
-                Status = false,
-                Message = $"Cannot update a product with id: {request.id}",
-            };
-        }
-
-        public async Task<ResponseService> UpdatePrice(int id, decimal newPrice)
+        public async Task<ResponseService> Product_UpdatePrice(int id, decimal newPrice, Guid? updater_id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
@@ -355,6 +341,59 @@ namespace _1015bookstore.application.Catalog.Products
                     Message = $"Cannot find a product with id: {id}",
                 };
             product.price = newPrice;
+
+            string updater_username;
+            if (updater_id == null)
+            {
+                updater_username = "Hệ thống";
+            }
+            else
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updater_id);
+                if (user == null)
+                    return new ResponseService
+                    {
+                        CodeStatus = 400,
+                        Status = false,
+                        Message = $"Can not find user with id: {updater_id}"
+                    };
+                else
+                    updater_username = user.UserName;
+            }
+
+            product.dateupdated = DateTime.Now;
+            product.updatedby = updater_username;
+
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = $"Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Cannot update a product with id: {id}",
+            };
+        }
+        
+        public async Task<ResponseService> Product_AddViewcount(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a product with id: {id}",
+                };
+
+            product.view_count += 1;
+
             if (await _context.SaveChangesAsync() > 0)
             {
                 return new ResponseService()
@@ -372,6 +411,58 @@ namespace _1015bookstore.application.Catalog.Products
             };
         }
 
+        public async Task<ResponseService<ProductViewModel>> Product_GetById(int id)
+        {
+            var query = from p in _context.Products
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        select new { p, pimg };
+
+            var product = await query.FirstOrDefaultAsync(x => x.p.id == id);
+
+            if (product == null)
+                return new ResponseService<ProductViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a product with id: {id}",
+                };
+
+            var data = new ProductViewModel
+            {
+                iProduct_id = product.p.id,
+                sProduct_name = product.p.name,
+                vProduct_price = product.p.price,
+                dProduct_start_count = product.p.start_count,
+                iProduct_review_count = product.p.review_count,
+                iProduct_buy_count = product.p.buy_count,
+                bProduct_flashsale = product.p.flashsale,
+                iProduct_like_count = product.p.like_count,
+                iProduct_waranty = product.p.waranty,
+                iProduct_quantity = product.p.quanity,
+                iProduct_view_count = product.p.view_count,
+                sProduct_description = product.p.description,
+                sProduct_brand = product.p.brand,
+                sProduct_madein = product.p.madein,
+                dtProduct_mfgdate = product.p.mfgdate,
+                sProduct_supplier = product.p.suppiler,
+                sProduct_author = product.p.author,
+                sProduct_nop = product.p.nop,
+                iProduct_yop = product.p.yop,
+                stProduct_status = product.p.status,
+                sImage_pathThumbnail = product.pimg.imagepath,
+            };
+
+            return new ResponseService<ProductViewModel>
+            {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = data,
+            };
+        }
+
+
         private async Task<string> SaveFile(IFormFile file)
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
@@ -380,7 +471,8 @@ namespace _1015bookstore.application.Catalog.Products
             return fileName;
         }
 
-        public async Task<List<ProductViewModel>> GetAll()
+
+        public async Task<PagedResult<ProductViewModel>> Product_GetProductByKeyWordPagingPublic(GetProductByKeyWordPagingRequest request)
         {
             var query = from p in _context.Products
                         join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
@@ -388,34 +480,45 @@ namespace _1015bookstore.application.Catalog.Products
                         where p.status != ProductStatus.Delete
                         select new { p, pimg };
 
-            var data = await query.Select(e => new ProductViewModel
+            if (!string.IsNullOrEmpty(request.sKeyword))
+                query = query.Where(x => x.p.alias.Contains(_removeUnicode.Removeunicode(request.sKeyword)));
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.pageindex - 1) * request.pagesize).Take(request.pagesize)
+            .Select(x => new ProductViewModel()
             {
-                id = e.p.id,
-                name = e.p.name,
-                price = e.p.price,
-                start_count = e.p.start_count,
-                review_count = e.p.review_count,
-                buy_count = e.p.buy_count,
-                flashsale = e.p.flashsale,
-                like_count = e.p.like_count,
-                waranty = e.p.waranty,
-                quanity = e.p.quanity,
-                view_count = e.p.view_count,
-                description = e.p.description,
-                brand = e.p.brand,
-                madein = e.p.madein,
-                mfgdate = e.p.mfgdate,
-                supplier = e.p.suppiler,
-                author = e.p.author,
-                nop = e.p.nop,
-                yop = e.p.yop,
-                status = e.p.status,
-                pathThumbnailImage = e.pimg.imagepath
+                iProduct_id = x.p.id,
+                sProduct_name = x.p.name,
+                vProduct_price = x.p.price,
+                dProduct_start_count = x.p.start_count,
+                iProduct_review_count = x.p.review_count,
+                iProduct_buy_count = x.p.buy_count,
+                bProduct_flashsale = x.p.flashsale,
+                iProduct_like_count = x.p.like_count,
+                iProduct_waranty = x.p.waranty,
+                iProduct_quantity = x.p.quanity,
+                iProduct_view_count = x.p.view_count,
+                sProduct_description = x.p.description,
+                sProduct_brand = x.p.brand,
+                sProduct_madein = x.p.madein,
+                dtProduct_mfgdate = x.p.mfgdate,
+                sProduct_supplier = x.p.suppiler,
+                sProduct_author = x.p.author,
+                sProduct_nop = x.p.nop,
+                iProduct_yop = x.p.yop,
+                stProduct_status = x.p.status,
+                sImage_pathThumbnail = x.pimg.imagepath,
             }).ToListAsync();
-            return data;
+            var pagedResult = new PagedResult<ProductViewModel>()
+            {
+                totalrecord = totalRow,
+                items = data
+            };
+            return pagedResult;
         }
 
-        public async Task<PagedResult<ProductViewModel>> GetProductByCategoryId(GetProductByCategoryPagingRequest request)
+        public async Task<PagedResult<ProductViewModel>> Product_GetProductByCategoryPagingPublic(GetProductByCategoryPagingRequest request)
         {
             var query = from p in _context.Products
                         join pic in _context.ProductInCategory on p.id equals pic.product_id
@@ -424,9 +527,9 @@ namespace _1015bookstore.application.Catalog.Products
                         where p.status != ProductStatus.Delete
                         select new { p, pic, pimg };
 
-            if (request.category_ids.Count > 0)
+            if (request.lCate_ids.Count > 0)
             {
-                query = query.Where(p => request.category_ids.Contains(p.pic.category_id));
+                query = query.Where(p => request.lCate_ids.Contains(p.pic.category_id));
             }
 
             int totalRow = await query.CountAsync();
@@ -434,27 +537,120 @@ namespace _1015bookstore.application.Catalog.Products
             var data = await query.Skip((request.pageindex - 1) * request.pagesize).Take(request.pagesize)
             .Select(x => new ProductViewModel()
             {
-                id = x.p.id,
-                name = x.p.name,
-                price = x.p.price,
-                start_count = x.p.start_count,
-                review_count = x.p.review_count,
-                buy_count = x.p.buy_count,
-                flashsale = x.p.flashsale,
-                like_count = x.p.like_count,
-                waranty = x.p.waranty,
-                quanity = x.p.quanity,
-                view_count = x.p.view_count,
-                description = x.p.description,
-                brand = x.p.brand,
-                madein = x.p.madein,
-                mfgdate = x.p.mfgdate,
-                supplier = x.p.suppiler,
-                author = x.p.author,
-                nop = x.p.nop,
-                yop = x.p.yop,
-                status = x.p.status,
-                pathThumbnailImage = x.pimg.imagepath,
+                iProduct_id = x.p.id,
+                sProduct_name = x.p.name,
+                vProduct_price = x.p.price,
+                dProduct_start_count = x.p.start_count,
+                iProduct_review_count = x.p.review_count,
+                iProduct_buy_count = x.p.buy_count,
+                bProduct_flashsale = x.p.flashsale,
+                iProduct_like_count = x.p.like_count,
+                iProduct_waranty = x.p.waranty,
+                iProduct_quantity = x.p.quanity,
+                iProduct_view_count = x.p.view_count,
+                sProduct_description = x.p.description,
+                sProduct_brand = x.p.brand,
+                sProduct_madein = x.p.madein,
+                dtProduct_mfgdate = x.p.mfgdate,
+                sProduct_supplier = x.p.suppiler,
+                sProduct_author = x.p.author,
+                sProduct_nop = x.p.nop,
+                iProduct_yop = x.p.yop,
+                stProduct_status = x.p.status,
+                sImage_pathThumbnail = x.pimg.imagepath,
+            }).ToListAsync();
+            var pagedResult = new PagedResult<ProductViewModel>()
+            {
+                totalrecord = totalRow,
+                items = data
+            };
+            return pagedResult;
+        }
+
+        public async Task<PagedResult<ProductViewModel>> Product_GetProductByKeyWordPagingAdmin(GetProductByKeyWordPagingRequest request)
+        {
+            var query = from p in _context.Products
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        select new { p, pimg };
+
+            if (!string.IsNullOrEmpty(request.sKeyword))
+                query = query.Where(x => x.p.alias.Contains(_removeUnicode.Removeunicode(request.sKeyword)));
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.pageindex - 1) * request.pagesize).Take(request.pagesize)
+            .Select(x => new ProductViewModel()
+            {
+                iProduct_id = x.p.id,
+                sProduct_name = x.p.name,
+                vProduct_price = x.p.price,
+                dProduct_start_count = x.p.start_count,
+                iProduct_review_count = x.p.review_count,
+                iProduct_buy_count = x.p.buy_count,
+                bProduct_flashsale = x.p.flashsale,
+                iProduct_like_count = x.p.like_count,
+                iProduct_waranty = x.p.waranty,
+                iProduct_quantity = x.p.quanity,
+                iProduct_view_count = x.p.view_count,
+                sProduct_description = x.p.description,
+                sProduct_brand = x.p.brand,
+                sProduct_madein = x.p.madein,
+                dtProduct_mfgdate = x.p.mfgdate,
+                sProduct_supplier = x.p.suppiler,
+                sProduct_author = x.p.author,
+                sProduct_nop = x.p.nop,
+                iProduct_yop = x.p.yop,
+                stProduct_status = x.p.status,
+                sImage_pathThumbnail = x.pimg.imagepath,
+            }).ToListAsync();
+            var pagedResult = new PagedResult<ProductViewModel>()
+            {
+                totalrecord = totalRow,
+                items = data
+            };
+            return pagedResult;
+        }
+
+        public async Task<PagedResult<ProductViewModel>> Product_GetProductByCategoryPagingAdmin(GetProductByCategoryPagingRequest request)
+        {
+            var query = from p in _context.Products
+                        join pic in _context.ProductInCategory on p.id equals pic.product_id
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        select new { p, pic, pimg };
+
+            if (request.lCate_ids.Count > 0)
+            {
+                query = query.Where(p => request.lCate_ids.Contains(p.pic.category_id));
+            }
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.pageindex - 1) * request.pagesize).Take(request.pagesize)
+            .Select(x => new ProductViewModel()
+            {
+                iProduct_id = x.p.id,
+                sProduct_name = x.p.name,
+                vProduct_price = x.p.price,
+                dProduct_start_count = x.p.start_count,
+                iProduct_review_count = x.p.review_count,
+                iProduct_buy_count = x.p.buy_count,
+                bProduct_flashsale = x.p.flashsale,
+                iProduct_like_count = x.p.like_count,
+                iProduct_waranty = x.p.waranty,
+                iProduct_quantity = x.p.quanity,
+                iProduct_view_count = x.p.view_count,
+                sProduct_description = x.p.description,
+                sProduct_brand = x.p.brand,
+                sProduct_madein = x.p.madein,
+                dtProduct_mfgdate = x.p.mfgdate,
+                sProduct_supplier = x.p.suppiler,
+                sProduct_author = x.p.author,
+                sProduct_nop = x.p.nop,
+                iProduct_yop = x.p.yop,
+                stProduct_status = x.p.status,
+                sImage_pathThumbnail = x.pimg.imagepath,
             }).ToListAsync();
             var pagedResult = new PagedResult<ProductViewModel>()
             {

@@ -10,8 +10,8 @@ namespace _1015bookstore.viewmodel.Catalog.Orders
     public class OrderCreateRequest
     {
         [Required]
-        public List<int> cart_ids {  get; set; }
+        public List<int> lCart_ids {  get; set; }
         [Required]
-        public Guid user_id { get; set; }
+        public Guid gUser_id { get; set; }
     }
 }
