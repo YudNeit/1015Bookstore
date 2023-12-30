@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# user-content
+/src/assets/user-content
+
 # testing
 /coverage
 

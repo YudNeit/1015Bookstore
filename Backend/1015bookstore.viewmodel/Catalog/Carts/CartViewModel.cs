@@ -9,12 +9,12 @@ namespace _1015bookstore.viewmodel.Catalog.Carts
 {
     public class CartViewModel
     {
-        public int cart_id { get; set; }
-        public string product_name { get; set; }
-        public string pathimage { get; set; }
-        public int amount { get; set; }
-        public Decimal price { get; set; }
-        public CartStatus status { get; set; }
+        public int iCart_id { get; set; }
+        public string sProduct_name { get; set; }
+        public string? sImage_path { get; set; }
+        public int iProduct_amount { get; set; }
+        public decimal vProduct_price { get; set; }
+        public CartStatus stCart_status { get; set; }
 
     }
 }

@@ -20,7 +20,7 @@ namespace _1015bookstore.webapi.Controllers
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromForm] LoginRequest request)
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace _1015bookstore.webapi.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace _1015bookstore.webapi.Controllers
 
         [HttpPost("forgotpassword")]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromForm][Required(ErrorMessage = "Please enter your Email!")][EmailAddress(ErrorMessage = "The E-mail is wrong format!")]string email)
+        public async Task<IActionResult> ForgotPassword([FromBody][Required(ErrorMessage = "Please enter your Email!")][EmailAddress(ErrorMessage = "The E-mail is wrong format!")]string email)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace _1015bookstore.webapi.Controllers
         
         [HttpPost("ChangePassword")]
         [Authorize]
-        public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordRequest request)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
             try
             {
@@ -152,13 +152,13 @@ namespace _1015bookstore.webapi.Controllers
 
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("{GUser_id}")]
         [Authorize]
-        public async Task<IActionResult> GetUserById(Guid id)
+        public async Task<IActionResult> GetUserById(Guid gUser_id)
         {
             try
             {
-                var result = await _userService.GetUserById(id);
+                var result = await _userService.GetUserById(gUser_id);
                 if (!result.Status)
                 {
                     return StatusCode(result.CodeStatus, result.Message);
@@ -174,7 +174,7 @@ namespace _1015bookstore.webapi.Controllers
 
         [HttpPost("updateuser")]
         [Authorize]
-        public async Task<IActionResult> UpdateUser([FromForm]UserUpdateRequest request)
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateRequest request)
         {
             try
             {

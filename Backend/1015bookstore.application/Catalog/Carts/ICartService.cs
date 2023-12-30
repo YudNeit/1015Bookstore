@@ -10,9 +10,9 @@ namespace _1015bookstore.application.Catalog.Carts
 {
     public interface ICartService
     {
-        Task<ResponseService> SetProductInCart(ProductAdd productadd, Guid user_id);
-        Task<ResponseService> DeleteProductInCart(int cart_id);
-        Task<ResponseService<List<CartViewModel>>> GetCardOfUser(Guid user_id);
-        Task<ResponseService> UpdateAmountCart(int cart_id, int amoutadd);
+        Task<ResponseService> Cart_SetProduct(CartAddProduct product, Guid user_id);
+        Task<ResponseService> Cart_DeleteProduct(int cart_id);
+        Task<ResponseService<List<CartViewModel>>> Cart_GetCart(Guid user_id);
+        Task<ResponseService> Cart_UpdateAmount(int cart_id, int product_amount);
     }
 }

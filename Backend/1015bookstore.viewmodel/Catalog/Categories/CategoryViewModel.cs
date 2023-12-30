@@ -9,9 +9,11 @@ namespace _1015bookstore.viewmodel.Catalog.Categories
 {
     public class CategoryViewModel
     {
-        public int id {  get; set; }
-        public string name { get; set; }
-        public int? parent_id { get; set; }
-        public CategoryStatus status { get; set; }
+        public int iCate_id {  get; set; }
+        public string sCate_name { get; set; }
+        public int? iCate_parent_id { get; set; }
+        public CategoryStatus stCate_status { get; set; }
+        public CategoryShow stCate_show { get; set; }
+
     }
 }

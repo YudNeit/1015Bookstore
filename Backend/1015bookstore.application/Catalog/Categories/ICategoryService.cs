@@ -1,4 +1,5 @@
 ﻿using _1015bookstore.viewmodel.Catalog.Categories;
+using _1015bookstore.viewmodel.Comon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,24 @@ namespace _1015bookstore.application.Catalog.Categories
 {
     public interface ICategoryService
     {
-        Task<int> Create(CategoryCreateRequest request);
+        Task<ResponseService<CategoryViewModel>> Cate_Create(CategoryCreateRequest request, Guid? creator_id);
 
-        Task<int> Update(CategoryUpdateRequest request);
+        Task<ResponseService> Cate_Update(CategoryUpdateRequest request, Guid? updater_id);
 
-        Task<int> Delete(int id);
+        Task<ResponseService> Cate_Delete(int id, Guid? updater_id);
 
-        Task<List<CategoryViewModel>> GetAll();
+        //Task<List<CategoryViewModel>> Cate_GetAll();
 
-        Task<CategoryViewModel> GetById(int id);
+        //Task<CategoryViewModel> Cate_GetById(int id);
 
-        Task<List<CategoryParentAndChildViewModel>> GetParentAndChildAll();
+        Task<ResponseService<List<CategoryParentAndChildViewModel>>> Cate_GetAll();
 
-        Task<CategoryParentAndChildViewModel> GetParentAndChildById(int id);
+        Task<ResponseService> Cate_ChangeParent(int id, int parent_id, Guid? updater_id);
+
+        Task<ResponseService<List<CategoryViewModel>>> Cate_GetParent();
+
+        Task<ResponseService<List<CategoryParentAndChildViewModel>>> Cate_GetTaskbar();
+
+        //Task<CategoryParentAndChildViewModel> Cate_GetParentAndChildById(int id);
     }
 }

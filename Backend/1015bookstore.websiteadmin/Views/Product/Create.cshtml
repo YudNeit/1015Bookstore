@@ -1,0 +1,91 @@
+﻿@model _1015bookstore.viewmodel.Catalog.Products.ProductCreateRequest
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Tạo mới sản phẩm</h3>
+            <div>
+                <a asp-action="Index" asp-controller="Product">Xem danh sách</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="sProduct_name" class="control-label"></label>
+                            <input asp-for="sProduct_name" class="form-control" />
+                            <span asp-validation-for="sProduct_name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="vProduct_price" class="control-label"></label>
+                            <input asp-for="vProduct_price" class="form-control" />
+                            <span asp-validation-for="vProduct_price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="iProduct_waranty" class="control-label"></label>
+                            <input asp-for="iProduct_waranty" class="form-control" />
+                            <span asp-validation-for="iProduct_waranty" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="iProduct_quantity" class="control-label"></label>
+                            <input asp-for="iProduct_quantity" class="form-control" />
+                            <span asp-validation-for="iProduct_quantity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="sProduct_description" class="control-label"></label>
+                            <input asp-for="sProduct_description" class="form-control" />
+                            <span asp-validation-for="sProduct_description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="sProduct_brand" class="control-label"></label>
+                            <input asp-for="sProduct_brand" class="form-control" />
+                            <span asp-validation-for="sProduct_brand" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="sProduct_madein" class="control-label"></label>
+                            <input asp-for="sProduct_madein" class="form-control" />
+                            <span asp-validation-for="sProduct_madein" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="dtProduct_mfgdate" class="control-label"></label>
+                            <input type="date" asp-for="dtProduct_mfgdate" class="form-control" />
+                            <span asp-validation-for="dtProduct_mfgdate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="sProduct_suppiler" class="control-label"></label>
+                            <input asp-for="sProduct_suppiler" class="form-control" />
+                            <span asp-validation-for="sProduct_suppiler" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="sProduct_author" class="control-label"></label>
+                            <input asp-for="sProduct_author" class="form-control" />
+                            <span asp-validation-for="sProduct_author" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="sProduct_nop" class="control-label"></label>
+                            <input asp-for="sProduct_nop" class="form-control" />
+                            <span asp-validation-for="sProduct_nop" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="iProduct_yop" class="control-label"></label>
+                            <input asp-for="iProduct_yop" class="form-control" />
+                            <span asp-validation-for="iProduct_yop" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

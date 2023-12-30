@@ -4,26 +4,26 @@ namespace _1015bookstore.viewmodel.Catalog.Products
 {
     public class ProductViewModel
     {
-        public int id { get; set; }
-        public string? name { get; set; }
-        public decimal price { get; set; }
-        public double start_count { get; set; }
-        public int review_count { get; set; }
-        public int buy_count { get; set; }
-        public bool flashsale { get; set; }
-        public int like_count { get; set; }
-        public int waranty { get; set; }
-        public int quanity { get; set; }
-        public int view_count { get; set; }
-        public string? description { get; set; }
-        public string? brand { get; set; }
-        public string? madein { get; set; }
-        public DateTime? mfgdate { get; set; }
-        public string? supplier { get; set; }
-        public string? author { get; set; }
-        public string? nop { get; set; }
-        public int? yop { get; set; }
-        public ProductStatus status { get; set; }
-        public string? pathThumbnailImage { get; set; }
+        public int iProduct_id { get; set; }
+        public string? sProduct_name { get; set; }
+        public decimal vProduct_price { get; set; }
+        public double dProduct_start_count { get; set; }
+        public int iProduct_review_count { get; set; }
+        public int iProduct_buy_count { get; set; }
+        public bool bProduct_flashsale { get; set; }
+        public int iProduct_like_count { get; set; }
+        public int iProduct_waranty { get; set; }
+        public int iProduct_quantity { get; set; }
+        public int iProduct_view_count { get; set; }
+        public string? sProduct_description { get; set; }
+        public string? sProduct_brand { get; set; }
+        public string? sProduct_madein { get; set; }
+        public DateTime? dtProduct_mfgdate { get; set; }
+        public string? sProduct_supplier { get; set; }
+        public string? sProduct_author { get; set; }
+        public string? sProduct_nop { get; set; }
+        public int? iProduct_yop { get; set; }
+        public ProductStatus stProduct_status { get; set; }
+        public string? sImage_pathThumbnail { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,16 @@ namespace _1015bookstore.viewmodel.Catalog.Orders
 {
     public class OrderBuyRequest
     {
-        public int order_id {  get; set; }
-        public string name_reciver { get; set; }
-        public string phone_reciver { set; get; }
-        public string address_reciver { set; get; }
-        public string? promotionalcode { set; get; }
+        [Required]
+        public int iOrder_id {  get; set; }
+        [Required]
+        public string sOrder_name_receiver { get; set; }
+        [Required]
+        [RegularExpression(@"^0\d{9}$", ErrorMessage = "PhoneNumber is wrong format")]
+        public string sOrder_phone_receiver { set; get; }
+        [Required]
+        public string sOrder_address_receiver { set; get; }
+        
+        public string? sPromotionalCode_code { set; get; }
     }
 }

@@ -10,9 +10,8 @@ namespace _1015bookstore.application.Catalog.Orders
 {
     public interface IOrderService
     {
-        Task<ResponseService<OrderViewModel>> CreateOrder(OrderCreateRequest request);
-        Task<ResponseService<OrderViewModel>> GetById(int id);
-        Task<ResponseService> Buy(OrderBuyRequest request);
-            
+        Task<ResponseService<OrderViewModel>> Order_Create(OrderCreateRequest request);
+        Task<ResponseService> Order_Buy(OrderBuyRequest request);
+        Task<ResponseService<List<OrderViewModel>>> Order_HistoryOfUser(Guid user_id);
     }
 }

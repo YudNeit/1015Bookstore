@@ -34,7 +34,7 @@ namespace _1015bookstore.application.System.Users
         }
         public async Task<ResponseService<LoginRespone>> Authencate(LoginRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.username);
+            var user = await _userManager.FindByNameAsync(request.sUser_username);
             if (user == null) 
                 return new ResponseService<LoginRespone>()
                 {
@@ -43,7 +43,7 @@ namespace _1015bookstore.application.System.Users
                     Message = "Wrong Username or Password!",
                 };
 
-            var result = await _signInManager.PasswordSignInAsync(user, request.password, true, true);
+            var result = await _signInManager.PasswordSignInAsync(user, request.sUser_password, true, true);
             if (!result.Succeeded) 
                 return new ResponseService<LoginRespone>()
                 {
@@ -59,15 +59,17 @@ namespace _1015bookstore.application.System.Users
                 new Claim(ClaimTypes.GivenName,user.firstname),
                 new Claim(ClaimTypes.Role, string.Join(";",roles))
             };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddHours(3),signingCredentials: creds);
 
            var loginRespone = new LoginRespone
            {
-               token = new JwtSecurityTokenHandler().WriteToken(token),
-               user_id = user.Id,
+               sUser_tokenL = new JwtSecurityTokenHandler().WriteToken(token),
+               gUser_id = user.Id,
            };
 
             return new ResponseService<LoginRespone>()
@@ -137,7 +139,7 @@ namespace _1015bookstore.application.System.Users
 
         public async Task<ResponseService> Register(RegisterRequest request)
         {
-            var user_old = await _userManager.FindByNameAsync(request.username);
+            var user_old = await _userManager.FindByNameAsync(request.sUser_username);
             if (user_old != null)
                 return new ResponseService()
                 {
@@ -147,7 +149,7 @@ namespace _1015bookstore.application.System.Users
                 };
 
 
-            var check_email = await _userManager.FindByEmailAsync(request.email);
+            var check_email = await _userManager.FindByEmailAsync(request.sUser_email);
             if (check_email != null)
                 return new ResponseService()
                 {
@@ -158,12 +160,12 @@ namespace _1015bookstore.application.System.Users
 
             var user = new User()
             {
-                Email = request.email,
-                firstname = request.firstname,
-                lastname = request.lastname,
-                UserName = request.username,
+                Email = request.sUser_email,
+                firstname = request.sUser_firstname,
+                lastname = request.sUser_lastname,
+                UserName = request.sUser_username,
             };
-            var result = await _userManager.CreateAsync(user, request.password);
+            var result = await _userManager.CreateAsync(user, request.sUser_password);
             if (result.Succeeded)
             {
                 return new ResponseService()
@@ -183,7 +185,7 @@ namespace _1015bookstore.application.System.Users
 
         public async Task<ResponseService> CofirmCodeForgotPassword(ConfirmCodeFPRequest request)
         {
-            var code_db = await _context.CodesForgotPassword.Where(x => x.token == request.token).OrderByDescending(x => x.createdate).FirstOrDefaultAsync();
+            var code_db = await _context.CodesForgotPassword.Where(x => x.token == request.sUser_tokenFP).OrderByDescending(x => x.createdate).FirstOrDefaultAsync();
 
             if (code_db == null)
             {
@@ -195,7 +197,7 @@ namespace _1015bookstore.application.System.Users
                 };
             }    
 
-            if (code_db.code != request.code)
+            if (code_db.code != request.sUser_codeFP)
             {
                 return new ResponseService()
                 {
@@ -218,7 +220,7 @@ namespace _1015bookstore.application.System.Users
 
         public async Task<ResponseService> ChangePasswordForgotPassword(ChangePasswordFPRequest request)
         {
-            var code_db = await _context.CodesForgotPassword.Where(x => x.token == request.token).OrderByDescending(x => x.createdate).FirstOrDefaultAsync();
+            var code_db = await _context.CodesForgotPassword.Where(x => x.token == request.sUser_tokenFP).OrderByDescending(x => x.createdate).FirstOrDefaultAsync();
             if (code_db == null)
             {
                 return new ResponseService()
@@ -238,7 +240,7 @@ namespace _1015bookstore.application.System.Users
                 };
             }
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == code_db.user_id);
-            var resetPassResult = await _userManager.ResetPasswordAsync(user, request.token, request.password);
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, request.sUser_tokenFP, request.sUser_password);
             if (resetPassResult.Succeeded)
             {
                 return new ResponseService()
@@ -258,17 +260,17 @@ namespace _1015bookstore.application.System.Users
     
         public async Task<ResponseService> ChangePassword(ChangePasswordRequest request)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == request.user_id);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == request.gUser_id);
             if (user == null)
             {
                 return new ResponseService()
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = $"Can not find a user with id: {request.user_id}",
+                    Message = $"Can not find a user with id: {request.gUser_id}",
                 };
             }
-            var resetPassResult = await _userManager.ChangePasswordAsync(user, request.oldPassword, request.newPassword);
+            var resetPassResult = await _userManager.ChangePasswordAsync(user, request.sUser_oldPassword, request.sUser_newPassword);
             if (resetPassResult.Succeeded)
             {
                 return new ResponseService()
@@ -306,35 +308,35 @@ namespace _1015bookstore.application.System.Users
                 Message = "Success",
                 Data = new UserViewModel
                 {
-                    id = id,
-                    firstname = user.firstname,
-                    lastname = user.lastname,
-                    dob = user.dob,
-                    sex = user.sex,
-                    phonenumber = user.PhoneNumber,
-                    email = user.Email,
+                    gUser_id = id,
+                    sUser_firstname = user.firstname,
+                    sUser_lastname = user.lastname,
+                    dtUser_dob = user.dob,
+                    bUser_sex = user.sex,
+                    sUser_phonenumber = user.PhoneNumber,
+                    sUser_email = user.Email,
                 }
             };
         }
 
         public async Task<ResponseService> UpdateInforUser(UserUpdateRequest request)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == request.id);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == request.gUser_id);
             if (user == null)
             {
                 return new ResponseService()
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = $"Can not find a user with id: {request.id}",
+                    Message = $"Can not find a user with id: {request.gUser_id}",
                 };
             }
 
-            user.firstname = request.firstname;
-            user.lastname = request.lastname;
-            user.dob = request.dob;
-            user.sex = request.sex;
-            user.PhoneNumber = request.phonenumber;
+            user.firstname = request.sUser_firstname;
+            user.lastname = request.sUser_lastname;
+            user.dob = request.dtUser_dob;
+            user.sex = request.bUser_sex;
+            user.PhoneNumber = request.sUser_phonenumber;
 
             if (await _context.SaveChangesAsync() > 0)
             {

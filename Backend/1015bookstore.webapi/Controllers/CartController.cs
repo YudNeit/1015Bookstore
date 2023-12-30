@@ -3,6 +3,7 @@ using _1015bookstore.viewmodel.Catalog.Carts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace _1015bookstore.webapi.Controllers
 {
@@ -11,22 +12,22 @@ namespace _1015bookstore.webapi.Controllers
     [Authorize]
     public class CartController : ControllerBase
     {
-        private readonly ICartService _cartservice;
+        private readonly ICartService _cartService;
 
-        public CartController(ICartService cartservice) 
+        public CartController(ICartService cartService) 
         {
-            _cartservice = cartservice;
+            _cartService = cartService;
         }
-        //http:localhost:port/api/cart/setcart
-        [HttpPut("setcart")]
-        public async Task<IActionResult> SetCart([FromQuery]ProductAdd productadd, Guid user_id) 
+        //http:localhost:port/api/cart/set
+        [HttpPost("set")]
+        public async Task<IActionResult> Cart_SetProduct([FromForm]CartAddProduct product, [FromQuery][Required]Guid gUser_id) 
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var response = await _cartservice.SetProductInCart(productadd, user_id);
+                var response = await _cartService.Cart_SetProduct(product, gUser_id);
                 return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
@@ -34,16 +35,16 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        //http:localhost:port/api/cart/removecart
-        [HttpDelete("removecart/{id}")]
-        public async Task<IActionResult> RemoveCart(int id)
+        //http:localhost:port/api/cart/delete
+        [HttpDelete("delete/{iCart_id}")]
+        public async Task<IActionResult> Cart_DeleteProduct([Required]int iCart_id)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var response = await _cartservice.DeleteProductInCart(id);
+                var response = await _cartService.Cart_DeleteProduct(iCart_id);
                 return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)
@@ -51,16 +52,17 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        //http:localhost:port/api/cart/getcart/{user_id}
-        [HttpGet("getcart/{user_id}")]
-        public async Task<IActionResult> GetCart(Guid user_id)
+        //http:localhost:port/api/cart/get/{GUser_id}
+        [HttpGet("get/{gUser_id}")]
+        public async Task<IActionResult> Cart_GetCart([Required]Guid gUser_id)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var response = await _cartservice.GetCardOfUser(user_id);
+                var response = await _cartService.Cart_GetCart(gUser_id);
+
                 if (!response.Status)
                     return StatusCode(response.CodeStatus, response.Message);
 
@@ -71,16 +73,16 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        //http:localhost:port/api/cart/updateamountcart/{id}/{amountadd}
-        [HttpPut("updateamountcart/{id}/{amountadd}")]
-        public async Task<IActionResult> UpdateAmountCart(int id, int amountadd)
+        //http:localhost:port/api/cart/updateamount/{ICart_id}
+        [HttpPatch("updateamount/{iCart_id}")]
+        public async Task<IActionResult> Cart_UpdateAmount([Required]int iCart_id,[FromQuery][Required] int amountadd)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var response = await _cartservice.UpdateAmountCart(id, amountadd);
+                var response = await _cartService.Cart_UpdateAmount(iCart_id, amountadd);
                 return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)

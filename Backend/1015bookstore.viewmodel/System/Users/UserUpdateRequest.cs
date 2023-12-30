@@ -11,25 +11,25 @@ namespace _1015bookstore.viewmodel.System.Users
     public class UserUpdateRequest
     {
         [Required]
-        public Guid id { get; set; }
+        public Guid gUser_id { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [RegularExpression(@"^[^0-9]{1,20}$", ErrorMessage = "Name is not include number")]
-        public string firstname { get; set; }
+        public string sUser_firstname { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [RegularExpression(@"^[^0-9]{1,20}$", ErrorMessage = "Name is not include number")]
-        public string lastname { get; set; }
+        public string sUser_lastname { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [DateOfBirth(ErrorMessage = "The BirthDay is wrong format")]
-        public DateTime dob { get; set; }
+        public DateTime dtUser_dob { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
-        public bool sex { get; set; }
+        public bool bUser_sex { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
-        [RegularExpression(@"^0\d{9}$", ErrorMessage = "NumberPhone is wrong format")]
-        public string phonenumber { get; set; }
+        [RegularExpression(@"^0\d{9}$", ErrorMessage = "PhoneNumber is wrong format")]
+        public string sUser_phonenumber { get; set; }
     }
 }

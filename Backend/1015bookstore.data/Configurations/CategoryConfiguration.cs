@@ -19,6 +19,7 @@ namespace _1015bookstore.data.Configurations
             builder.Property(x => x.id).UseIdentityColumn();
             builder.Property(x => x.name).IsUnicode().HasMaxLength(100);
             builder.Property(x => x.status).HasDefaultValue(CategoryStatus.Normal);
+            builder.Property(x => x.show).HasDefaultValue(CategoryShow.None);
         }
     }
 }

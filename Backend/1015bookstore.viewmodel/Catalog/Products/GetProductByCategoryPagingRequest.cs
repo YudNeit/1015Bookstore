@@ -9,6 +9,6 @@ namespace _1015bookstore.viewmodel.Catalog.Products
 {
     public class GetProductByCategoryPagingRequest : PagingRequestBase
     {
-        public List<int> category_ids { get; set; }
+        public List<int> lCate_ids { get; set; }
     }
 }

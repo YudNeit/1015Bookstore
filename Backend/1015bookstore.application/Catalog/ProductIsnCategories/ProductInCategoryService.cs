@@ -1,6 +1,7 @@
 ﻿using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
 using _1015bookstore.utility.Exceptions;
+using _1015bookstore.viewmodel.Comon;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,35 +19,88 @@ namespace _1015bookstore.application.Catalog.ProductIsnCategories
         {
             _context = context;
         }
-        public async Task<int> Create(int product_id, int category_id)
+        public async Task<ResponseService> Create(int iProduct_id, int iCate_id)
         {
-            var relation = await _context.ProductInCategory.FirstOrDefaultAsync(x => x.product_id == product_id && x.category_id == category_id);
-            if (relation != null) throw new _1015Exception($"Had a relation with product_id: {product_id} and category_id: {category_id}");
+            var relation = await _context.ProductInCategory.FirstOrDefaultAsync(x => x.product_id == iProduct_id && x.category_id == iCate_id);
+            if (relation != null)
+                return new ResponseService { 
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Had a relation with product_id: {iProduct_id} and category_id: {iCate_id}"
+                };
             
-            var product = await _context.Products.FindAsync(product_id);
+            var product = await _context.Products.FindAsync(iProduct_id);
 
-            if (product == null) throw new _1015Exception($"Cannot find a product with id: {product_id}");
+            if (product == null)
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a product with id: {iProduct_id}"
+                };
+          
 
-            var cate = await _context.Categories.FindAsync(category_id);
+            var cate = await _context.Categories.FindAsync(iCate_id);
 
-            if (cate == null) throw new _1015Exception($"Cannot find a category with id: {category_id}");
+            if (cate == null)
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a category with id: {iCate_id}"
+                };
+           
 
             var data = new ProductInCategory
             {
-                product_id = product_id,
-                category_id = category_id,
+                product_id = iProduct_id,
+                category_id = iCate_id,
             };
 
             _context.ProductInCategory.Add(data);
-            return await _context.SaveChangesAsync();
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = "Success"
+                };
+            }
+            return new ResponseService
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Can not create relation with product_id: {iProduct_id} and category_id: {iCate_id}"
+            };
         }
 
-        public async Task<int> Delete(int product_id, int category_id)
+        public async Task<ResponseService> Delete(int iProduct_id, int iCate_id)
         {
-            var relation = await _context.ProductInCategory.FirstOrDefaultAsync(x => x.product_id == product_id && x.category_id == category_id);
-            if (relation == null) throw new _1015Exception($"Cannot find a relation with product_id: {product_id} and category_id: {category_id}");
+            var relation = await _context.ProductInCategory.FirstOrDefaultAsync(x => x.product_id == iProduct_id && x.category_id == iCate_id);
+            if (relation == null)
+                return new ResponseService
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a relation with product_id: {iProduct_id} and category_id: {iCate_id}"
+                };
             _context.ProductInCategory.Remove(relation);
-            return await _context.SaveChangesAsync();
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return new ResponseService
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = "Success"
+                };
+            }
+            return new ResponseService
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = $"Can not create relation with product_id: {iProduct_id} and category_id: {iCate_id}"
+            };
         }
     }
 }

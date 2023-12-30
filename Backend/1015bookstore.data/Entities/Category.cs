@@ -19,6 +19,7 @@ namespace _1015bookstore.data.Entities
         public string updatedby { get; set; }
         public DateTime dateupdated { get; set; }
         public CategoryStatus status { get; set; }
+        public CategoryShow show { get; set; }
 
         public List<ProductInCategory> productincategory { get; set; }
     }

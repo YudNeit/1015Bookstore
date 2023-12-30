@@ -8,6 +8,6 @@ namespace _1015bookstore.viewmodel.Catalog.Categories
 {
     public class CategoryParentAndChildViewModel : CategoryViewModel
     {
-        public List<CategoryViewModel> childCategories { get; set; }
+        public List<CategoryViewModel> lCate_childs { get; set; }
     }
 }

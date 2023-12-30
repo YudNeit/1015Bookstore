@@ -9,6 +9,6 @@ namespace _1015bookstore.viewmodel.Catalog.Products
 {
     public class GetProductByKeyWordPagingRequest : PagingRequestBase
     {
-        public string keyword { get; set; }
+        public string? sKeyword { get; set; }
     }
 }

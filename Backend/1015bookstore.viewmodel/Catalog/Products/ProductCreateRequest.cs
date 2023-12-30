@@ -12,33 +12,45 @@ namespace _1015bookstore.viewmodel.Catalog.Products
     {
         [Required(ErrorMessage = "The * field is required")]
         [MaxLength(100, ErrorMessage = "Name is limited max length 100 characters")]
-        public string name { get; set; }
+        [Display(Name = "Tên sản phẩm")]
+        public string sProduct_name { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [Range(0, int.MaxValue, ErrorMessage = "The price is bigger than 0")]
-        public decimal price { get; set; }
+        [Display(Name = "Giá sản phẩm")]
+        public decimal vProduct_price { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [Range(1, int.MaxValue, ErrorMessage = "The waranty is bigger than 0")]
-        public int waranty { get; set; }
+        [Display(Name = "Thời hạn bảo hành")]
+        public int iProduct_waranty { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
         [Range(1, int.MaxValue, ErrorMessage = "The quantity is bigger than 0")]
-        public int quanity { get; set; }
+        [Display(Name = "Số lượng sản phầm")]
+        public int iProduct_quantity { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
-        public string description { get; set; }
+        [Display(Name = "Mô tả sản phẩm")]
+        public string sProduct_description { get; set; }
 
         #region Detail
-        public string? brand { get; set; }
-        public string? madein { get; set; }
-        public DateTime? mfgdate { get; set; }
-        public string? suppiler { get; set; }
-        public string? author { get; set; }
-        public string? nop { get; set; }
-        public int? yop { get; set; }
+        [Display(Name = "Thương hiệu sản phẩm")]
+        public string? sProduct_brand { get; set; }
+        [Display(Name = "Xuất xứ sản phẩm")]
+        public string? sProduct_madein { get; set; }
+        [Display(Name = "Ngày xuất xứ")]
+        public DateTime? dtProduct_mfgdate { get; set; }
+        [Display(Name ="Nhà cung cấp")]
+        public string? sProduct_suppiler { get; set; }
+        [Display(Name = "Tác giả")]
+        public string? sProduct_author { get; set; }
+        [Display(Name = "Nhà phát hành")]
+        public string? sProduct_nop { get; set; }
+        [Display(Name = "Năm phát hành")]
+        public int? iProduct_yop { get; set; }
         #endregion
-
-        public IFormFile? ThumbnailImage { get; set; }
+        [Display(Name = "Thumbnail sản phẩm")]
+        public IFormFile? sImage_pathThumbnail { get; set; }
     }
 }
