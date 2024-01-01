@@ -11,7 +11,7 @@ namespace _1015bookstore.application.Common
         public FileStorageService(IWebHostEnvironment webHostEnvironment)
         {
             _userContentFolderWeb = Path.Combine("../../Frontend/src/assets/", USER_CONTENT_FOLDER_NAME);
-            _userContentFolderWebAdmin = Path.Combine("../1015bookstore.webadmin/wwwroot/img/", USER_CONTENT_FOLDER_NAME);
+            _userContentFolderWebAdmin = Path.Combine("../1015bookstore.websiteadmin/wwwroot/img/", USER_CONTENT_FOLDER_NAME);
         }
 
         public string GetFileUrl(string fileName)
