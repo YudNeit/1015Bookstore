@@ -20,7 +20,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/category
         [HttpPost]
-        public async Task<IActionResult> Cate_Create([FromForm] CategoryCreateRequest request, Guid? gCreator_id)
+        public async Task<IActionResult> Cate_Create([FromBody] CategoryCreateRequest request, Guid? gCreator_id)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/category
         [HttpPut]
-        public async Task<IActionResult> Cate_Update([FromForm] CategoryUpdateRequest request, Guid? gUpdater_id)
+        public async Task<IActionResult> Cate_Update([FromBody] CategoryUpdateRequest request, Guid? gUpdater_id)
         {
             try
             {

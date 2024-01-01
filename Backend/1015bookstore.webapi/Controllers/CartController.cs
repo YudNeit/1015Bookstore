@@ -20,7 +20,7 @@ namespace _1015bookstore.webapi.Controllers
         }
         //http:localhost:port/api/cart/set
         [HttpPost("set")]
-        public async Task<IActionResult> Cart_SetProduct([FromForm]CartAddProduct product, [FromQuery][Required]Guid gUser_id) 
+        public async Task<IActionResult> Cart_SetProduct([FromBody]CartAddProduct product, [FromQuery][Required]Guid gUser_id) 
         {
             try
             {
