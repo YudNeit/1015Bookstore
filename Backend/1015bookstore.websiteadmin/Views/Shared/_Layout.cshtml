@@ -20,6 +20,9 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -58,16 +61,31 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct"
+                    aria-expanded="true" aria-controls="collapseProduct">
+                    <i class="fas fa-fw fa-box"></i>
                     <span>Sản phẩm</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseProduct" class="collapse" aria-labelledby="headingProduct" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Quản lý sản phẩm</h6>
                         <a class="collapse-item" asp-action="Index" asp-controller="Product">Danh sách sản phẩm</a>
                         <a class="collapse-item" asp-action="Create" asp-controller="Product">Tạo mới sản phẩm</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
+                   aria-expanded="true" aria-controls="collapseUser">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Người dùng</span>
+                </a>
+                <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Quản lý người dùng</h6>
+                        <a class="collapse-item" asp-action="Index" asp-controller="User">Danh sách người dùng</a>
+                        <a class="collapse-item" asp-action="Create" asp-controller="User">Tạo mới tài khoản admin</a>
                     </div>
                 </div>
             </li>
@@ -140,13 +158,6 @@
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="/img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
             </div>
 
         </ul>
@@ -425,9 +436,16 @@
     <!-- Page level plugins -->
     <script src="/vendor/chart.js/Chart.min.js"></script>
 
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
     <!-- Page level custom scripts -->
     <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 

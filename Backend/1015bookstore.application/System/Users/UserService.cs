@@ -2,6 +2,7 @@
 using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
 using _1015bookstore.utility.Exceptions;
+using _1015bookstore.viewmodel.Catalog.Products;
 using _1015bookstore.viewmodel.Comon;
 using _1015bookstore.viewmodel.System.Users;
 using FluentValidation;
@@ -288,7 +289,7 @@ namespace _1015bookstore.application.System.Users
             };
         }
 
-        public async Task<ResponseService<UserViewModel>> GetUserById(Guid id)
+        public async Task<ResponseService<UserViewModel>> User_GetById(Guid id)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
             if (user == null)
@@ -315,11 +316,12 @@ namespace _1015bookstore.application.System.Users
                     bUser_sex = user.sex,
                     sUser_phonenumber = user.PhoneNumber,
                     sUser_email = user.Email,
+                    sUser_username = user.UserName
                 }
             };
         }
 
-        public async Task<ResponseService> UpdateInforUser(UserUpdateRequest request)
+        public async Task<ResponseService> User_UpdateInfor(UserUpdateRequest request)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == request.gUser_id);
             if (user == null)
@@ -352,6 +354,118 @@ namespace _1015bookstore.application.System.Users
                 CodeStatus = 500,
                 Status = false,
                 Message = "Can not change information",
+            };
+        }
+
+        public async Task<PagedResult<UserViewModel>> User_GetUserByKeyWordPagingAdmin(GetUserByKeyWordPagingRequest request)
+        {
+            var query = _userManager.Users;
+            if (!string.IsNullOrEmpty(request.sKeyword))
+            {
+                query = query.Where(x => x.UserName.Contains(request.sKeyword) || x.PhoneNumber.Contains(request.sKeyword));
+            }
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.pageindex - 1) * request.pagesize).Take(request.pagesize)
+            .Select(x => new UserViewModel()
+            {
+                gUser_id = x.Id,
+                sUser_firstname = x.firstname,
+                sUser_lastname = x.lastname,
+                dtUser_dob = x.dob,
+                bUser_sex = x.sex,
+                sUser_phonenumber = x.PhoneNumber,
+                sUser_email = x.Email,
+                sUser_username = x.UserName
+            }).ToListAsync();
+
+            var pagedResult = new PagedResult<UserViewModel>()
+            {
+                totalRecords = totalRow,
+                pageIndex = request.pageindex,
+                pageSize = request.pagesize,
+                items = data
+            };
+            return pagedResult;
+        }
+
+        public async Task<ResponseService> User_CreateAdmin(RegisterAdminRequest request)
+        {
+            var user_old = await _userManager.FindByNameAsync(request.sUser_username);
+            if (user_old != null)
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = "The Username is used for someone",
+                };
+
+
+            var check_email = await _userManager.FindByEmailAsync(request.sUser_email);
+            if (check_email != null)
+                return new ResponseService()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = "The Email is used for someone",
+                };
+
+            var user = new User()
+            {
+                Email = request.sUser_email,
+                firstname = request.sUser_firstname,
+                lastname = request.sUser_lastname,
+                UserName = request.sUser_username,
+                dob = request.dtUser_dob,
+                sex = request.bUser_sex,
+                PhoneNumber = request.sUser_phonenumber,
+            };
+            var result = await _userManager.CreateAsync(user, request.sUser_password);
+            
+            await _context.UserRoles.AddAsync(new IdentityUserRole<Guid>
+            {
+                RoleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC"),
+                UserId = _userManager.FindByNameAsync(request.sUser_username).Result.Id
+            });
+
+            await _context.SaveChangesAsync();
+
+            if (result.Succeeded)
+            {
+                return new ResponseService()
+                {
+                    CodeStatus = 200,
+                    Status = true,
+                    Message = "Success",
+                };
+            }
+            return new ResponseService()
+            {
+                CodeStatus = 500,
+                Status = false,
+                Message = "Can not create account",
+            };
+        }
+
+        public async Task<ResponseService<List<UserViewModel>>> User_GetAllAdmin()
+        {
+            var data = await _context.Users.Select(x => new UserViewModel
+            {
+                gUser_id = x.Id,
+                sUser_firstname = x.firstname,
+                sUser_lastname = x.lastname,
+                dtUser_dob = x.dob,
+                bUser_sex = x.sex,
+                sUser_phonenumber = x.PhoneNumber,
+                sUser_email = x.Email,
+                sUser_username = x.UserName
+            }).ToListAsync();
+            return new ResponseService<List<UserViewModel>>
+            {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = data
             };
         }
     }

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
+    [Authorize]
     public class BaseController : Controller
     {
         public override void OnActionExecuting(ActionExecutingContext context)

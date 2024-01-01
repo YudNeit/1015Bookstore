@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace _1015bookstore.viewmodel.Comon
 {
-    public class PagedResult<T>
+    public class PagedResult<T> : PagedResultBase
     {
         public List<T> items { get; set; }
-        public int totalrecord {  get; set; }
     }
 }

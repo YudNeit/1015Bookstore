@@ -3,12 +3,7 @@ using _1015bookstore.websiteadmin.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
-using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authorization;
 
 namespace _1015bookstore.websiteadmin.Controllers
@@ -24,8 +19,32 @@ namespace _1015bookstore.websiteadmin.Controllers
             _userAPIClient = userAPIClient;
             _config = config;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var session = HttpContext.Session.GetString("token");
+            var response = await _userAPIClient.GetUser(session);
+            return View(response.Data);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create (RegisterAdminRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var session = HttpContext.Session.GetString("token");
+            var response = await _userAPIClient.CraeteUserAdmin(request, session);
+            
+            if (response.Status)
+                return RedirectToAction("Index");
+            ViewBag.error = response.Data;
             return View();
         }
 

@@ -26,5 +26,9 @@ namespace _1015bookstore.application.Catalog.Products
         Task<PagedResult<ProductViewModel>> Product_GetProductByKeyWordPagingAdmin(GetProductByKeyWordPagingRequest request);
         Task<PagedResult<ProductViewModel>> Product_GetProductByCategoryPagingAdmin(GetProductByCategoryPagingRequest request);
 
+        Task<ResponseService<List<ProductViewModel>>> Product_GetAllAdmin();
+        Task<ResponseService<List<ProductViewModel>>> Product_GetAllPublic();
+        Task<ResponseService<List<ProductViewModel>>> Product_GetProductByKeywordAllPublic(string? sKeyword);
+
     }
 }

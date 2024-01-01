@@ -48,7 +48,7 @@ namespace _1015bookstore.websiteadmin.Controllers
             var authProperties = new AuthenticationProperties
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddHours(3),
-                IsPersistent = false
+                IsPersistent = true
             };
 
             HttpContext.Session.SetString("token", token);
