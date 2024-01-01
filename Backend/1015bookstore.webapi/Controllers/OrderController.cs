@@ -21,7 +21,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/Order/buy
         [HttpPut("buy")]
-        public async Task<IActionResult> Order_Buy([FromForm]OrderBuyRequest request)
+        public async Task<IActionResult> Order_Buy([FromBody] OrderBuyRequest request)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/Order
         [HttpPut]
-        public async Task<IActionResult> Order_Create([FromForm]OrderCreateRequest request)
+        public async Task<IActionResult> Order_Create([FromBody] OrderCreateRequest request)
         {
             try
             {

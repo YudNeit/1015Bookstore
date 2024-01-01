@@ -20,7 +20,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/promotionalcode
         [HttpPost]
-        public async Task<IActionResult> PromotionalCode_Create([FromForm]PromotionalCodeCreateRequest request, Guid? gCreator_id)
+        public async Task<IActionResult> PromotionalCode_Create([FromBody] PromotionalCodeCreateRequest request, Guid? gCreator_id)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/updatetodate
         [HttpPut]
-        public async Task<IActionResult> PromotionalCode_Update([FromForm] PromotionalCodeUpdateRequest request, Guid? gUpdater_id)
+        public async Task<IActionResult> PromotionalCode_Update([FromBody] PromotionalCodeUpdateRequest request, Guid? gUpdater_id)
         {
             try
             {

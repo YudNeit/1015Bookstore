@@ -20,7 +20,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/category
         [HttpPost]
-        public async Task<IActionResult> Cate_Create([FromForm] CategoryCreateRequest request, Guid? gCreator_id)
+        public async Task<IActionResult> Cate_Create([FromBody] CategoryCreateRequest request, Guid? gCreator_id)
         {
             try
             {
