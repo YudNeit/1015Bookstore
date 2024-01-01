@@ -1,4 +1,5 @@
 ﻿using _1015bookstore.application.System.Users;
+using _1015bookstore.viewmodel.Catalog.Products;
 using _1015bookstore.viewmodel.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -50,11 +51,6 @@ namespace _1015bookstore.webapi.Controllers
                     return BadRequest(ModelState);
 
                 var result = await _userService.Register(request);
-
-                if (!result.Status)
-                {
-                    return StatusCode(result.CodeStatus, result.Message);
-                }
                 return StatusCode(result.CodeStatus, result.Message);
             }
             catch(Exception ex)
@@ -158,7 +154,7 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var result = await _userService.GetUserById(gUser_id);
+                var result = await _userService.User_GetById(gUser_id);
                 if (!result.Status)
                 {
                     return StatusCode(result.CodeStatus, result.Message);
@@ -172,20 +168,70 @@ namespace _1015bookstore.webapi.Controllers
         }
 
 
-        [HttpPost("updateuser")]
+        [HttpPost("updateinfor")]
         [Authorize]
-        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateRequest request)
+        public async Task<IActionResult> User_UpdateInfor([FromBody] UserUpdateRequest request)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = await _userService.UpdateInforUser(request);
+                var result = await _userService.User_UpdateInfor(request);
                 if (!result.Status)
                     return StatusCode(result.CodeStatus, result.Message);
                 else
                     return StatusCode(result.CodeStatus, result.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        //http://localhost:port/api/user/public-paging
+        [HttpGet("admin-paging-keyword")]
+        [Authorize]
+        public async Task<IActionResult> User_GetUserByKeyWordPagingAdmin([FromQuery] GetUserByKeyWordPagingRequest request)
+        {
+            try
+            {
+                var pageResult = await _userService.User_GetUserByKeyWordPagingAdmin(request);
+                return Ok(pageResult);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        //http://localhost:port/api/user/createadmin
+        [HttpPost("createadmin")]
+        [Authorize]
+        public async Task<IActionResult> User_CreateAdmin([FromBody] RegisterAdminRequest request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var result = await _userService.User_CreateAdmin(request);
+                return StatusCode(result.CodeStatus, result.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("admin-getall")]
+        [Authorize]
+        public async Task<IActionResult> User_GetAllAdmin()
+        {
+            try
+            {
+                var result = await _userService.User_GetAllAdmin();
+                return StatusCode(result.CodeStatus, result.Data);
             }
             catch (Exception ex)
             {

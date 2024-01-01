@@ -1,0 +1,204 @@
+﻿@using _1015bookstore.viewmodel.Comon
+@model List<_1015bookstore.viewmodel.System.Users.UserViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Danh sách người dùng</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tài khoản
+                            </th>
+                            <th>
+                                Họ
+                            </th>
+                            <th>
+                                Tên
+                            </th>
+                            <th>
+                                Ngày tháng năm sinh
+                            </th>
+                            <th>
+                                Giới tính
+                            </th>
+                            <th>
+                                Số điện thoại
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_username)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_firstname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_lastname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dtUser_dob)
+                                </td>
+                                <td>
+                                    @{
+                                        string genderText = "";
+                                        switch (item.bUser_sex)
+                                        {
+                                            case true:
+                                                genderText = "Nam";
+                                                break;
+                                            case false:
+                                                genderText = "Nữ";
+                                                break;
+                                            default:
+                                                genderText = "Không";
+                                                break;
+                                        }
+
+                                    }
+                                    @genderText
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_phonenumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_email)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@* <!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Danh sách user</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Tài khoản
+                            </th>
+                            <th>
+                                Họ
+                            </th>
+                            <th>
+                                Tên
+                            </th>
+                            <th>
+                                Ngày tháng năm sinh
+                            </th>
+                            <th>
+                                Giới tính
+                            </th>
+                            <th>
+                                Số điện thoại
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.gUser_id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_username)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_firstname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_lastname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dtUser_dob)
+                                </td>
+                                <td>
+                                    @{
+                                        string genderText = "";
+                                        switch (item.bUser_sex)
+                                        {
+                                            case true:
+                                                genderText = "Nam";
+                                                break;
+                                            case false:
+                                                genderText = "Nữ";
+                                                break;
+                                            default:
+                                                genderText = "Không";
+                                                break;
+                                        }
+                                        
+                                    }
+                                    @genderText
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_phonenumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_email)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @await Component.InvokeAsync("Pager", Model)
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+ *@

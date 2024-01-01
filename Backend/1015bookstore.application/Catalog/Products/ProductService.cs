@@ -512,7 +512,9 @@ namespace _1015bookstore.application.Catalog.Products
             }).ToListAsync();
             var pagedResult = new PagedResult<ProductViewModel>()
             {
-                totalrecord = totalRow,
+                totalRecords = totalRow,
+                pageIndex = request.pageindex,
+                pageSize = request.pagesize,
                 items = data
             };
             return pagedResult;
@@ -561,7 +563,9 @@ namespace _1015bookstore.application.Catalog.Products
             }).ToListAsync();
             var pagedResult = new PagedResult<ProductViewModel>()
             {
-                totalrecord = totalRow,
+                totalRecords = totalRow,
+                pageIndex = request.pageindex,
+                pageSize = request.pagesize,
                 items = data
             };
             return pagedResult;
@@ -606,7 +610,9 @@ namespace _1015bookstore.application.Catalog.Products
             }).ToListAsync();
             var pagedResult = new PagedResult<ProductViewModel>()
             {
-                totalrecord = totalRow,
+                totalRecords = totalRow,
+                pageIndex = request.pageindex,
+                pageSize = request.pagesize,
                 items = data
             };
             return pagedResult;
@@ -654,10 +660,134 @@ namespace _1015bookstore.application.Catalog.Products
             }).ToListAsync();
             var pagedResult = new PagedResult<ProductViewModel>()
             {
-                totalrecord = totalRow,
+                totalRecords = totalRow,
+                pageIndex = request.pageindex,
+                pageSize = request.pagesize,
                 items = data
             };
             return pagedResult;
         }
+
+        public async Task<ResponseService<List<ProductViewModel>>> Product_GetAllPublic()
+        {
+            var query = from p in _context.Products
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        where p.status == ProductStatus.Normal
+                        select new { p, pimg };
+            var data = await query.Select(x => new ProductViewModel()
+            {
+                iProduct_id = x.p.id,
+                sProduct_name = x.p.name,
+                vProduct_price = x.p.price,
+                dProduct_start_count = x.p.start_count,
+                iProduct_review_count = x.p.review_count,
+                iProduct_buy_count = x.p.buy_count,
+                bProduct_flashsale = x.p.flashsale,
+                iProduct_like_count = x.p.like_count,
+                iProduct_waranty = x.p.waranty,
+                iProduct_quantity = x.p.quanity,
+                iProduct_view_count = x.p.view_count,
+                sProduct_description = x.p.description,
+                sProduct_brand = x.p.brand,
+                sProduct_madein = x.p.madein,
+                dtProduct_mfgdate = x.p.mfgdate,
+                sProduct_supplier = x.p.suppiler,
+                sProduct_author = x.p.author,
+                sProduct_nop = x.p.nop,
+                iProduct_yop = x.p.yop,
+                stProduct_status = x.p.status,
+                sImage_pathThumbnail = x.pimg.imagepath,
+            }).ToListAsync();
+            return new ResponseService<List<ProductViewModel>>
+            {
+                CodeStatus = 200,
+                Message = "Success",
+                Status = true,
+                Data = data
+            };
+
+        }
+        public async Task<ResponseService<List<ProductViewModel>>> Product_GetAllAdmin()
+        {
+            var query = from p in _context.Products
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        select new { p, pimg };
+
+            var data = await query.Select(x => new ProductViewModel()
+            {
+                iProduct_id = x.p.id,
+                sProduct_name = x.p.name,
+                vProduct_price = x.p.price,
+                dProduct_start_count = x.p.start_count,
+                iProduct_review_count = x.p.review_count,
+                iProduct_buy_count = x.p.buy_count,
+                bProduct_flashsale = x.p.flashsale,
+                iProduct_like_count = x.p.like_count,
+                iProduct_waranty = x.p.waranty,
+                iProduct_quantity = x.p.quanity,
+                iProduct_view_count = x.p.view_count,
+                sProduct_description = x.p.description,
+                sProduct_brand = x.p.brand,
+                sProduct_madein = x.p.madein,
+                dtProduct_mfgdate = x.p.mfgdate,
+                sProduct_supplier = x.p.suppiler,
+                sProduct_author = x.p.author,
+                sProduct_nop = x.p.nop,
+                iProduct_yop = x.p.yop,
+                stProduct_status = x.p.status,
+                sImage_pathThumbnail = x.pimg.imagepath,
+            }).ToListAsync();
+            return new ResponseService<List<ProductViewModel>>
+            {
+                CodeStatus = 200,
+                Message = "Success",
+                Status = true,
+                Data = data
+            };
+        }
+        public async Task<ResponseService<List<ProductViewModel>>> Product_GetProductByKeywordAllPublic(string? sKeyword)
+        {
+            var query = from p in _context.Products
+                        join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
+                        from pimg in ppimg.DefaultIfEmpty()
+                        select new { p, pimg };
+
+            if (!string.IsNullOrEmpty(sKeyword))
+                query = query.Where(x => x.p.alias.Contains(_removeUnicode.Removeunicode(sKeyword)));
+            
+            var data = await query.Select(x => new ProductViewModel()
+            {
+                iProduct_id = x.p.id,
+                sProduct_name = x.p.name,
+                vProduct_price = x.p.price,
+                dProduct_start_count = x.p.start_count,
+                iProduct_review_count = x.p.review_count,
+                iProduct_buy_count = x.p.buy_count,
+                bProduct_flashsale = x.p.flashsale,
+                iProduct_like_count = x.p.like_count,
+                iProduct_waranty = x.p.waranty,
+                iProduct_quantity = x.p.quanity,
+                iProduct_view_count = x.p.view_count,
+                sProduct_description = x.p.description,
+                sProduct_brand = x.p.brand,
+                sProduct_madein = x.p.madein,
+                dtProduct_mfgdate = x.p.mfgdate,
+                sProduct_supplier = x.p.suppiler,
+                sProduct_author = x.p.author,
+                sProduct_nop = x.p.nop,
+                iProduct_yop = x.p.yop,
+                stProduct_status = x.p.status,
+                sImage_pathThumbnail = x.pimg.imagepath,
+            }).ToListAsync();
+            return new ResponseService<List<ProductViewModel>>
+            {
+                CodeStatus = 200,
+                Message = "Success",
+                Status = true,
+                Data = data
+            };
+        }    
     }
 }

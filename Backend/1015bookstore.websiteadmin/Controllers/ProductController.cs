@@ -15,17 +15,11 @@ namespace _1015bookstore.websiteadmin.Controllers
             _productAPIClient = productAPIClient;
         }
         
-        public async Task<IActionResult> Index(string keyword,int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index()
         {
             var session = HttpContext.Session.GetString("token");
-            var request = new GetProductByKeyWordPagingRequest
-            {
-                sKeyword = keyword,
-                pageindex = pageIndex,
-                pagesize = pageSize
-            };
-            var response = await _productAPIClient.GetProductPaging(request, session);
-            return View(response);
+            var response = await _productAPIClient.GetProduct(session);
+            return View(response.Data);
         }
         [HttpGet]
         public IActionResult Create()

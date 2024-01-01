@@ -80,6 +80,51 @@ namespace _1015bookstore.webapi.Controllers
             }
         }
 
+        //http://localhost:port/api/product/public-paging
+        [HttpGet("admin-getall")]
+        public async Task<IActionResult> Product_GetAllAdmin()
+        {
+            try
+            {
+                var response = await _productService.Product_GetAllAdmin();
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        //http://localhost:port/api/product/public-paging
+        [HttpGet("public-getall")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Product_GetAllPublic()
+        {
+            try
+            {
+                var response = await _productService.Product_GetAllPublic();
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        //http://localhost:port/api/product/public-paging
+        [HttpGet("public-getbykeyword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Product_GetProductByKeywordAllPublic(string? sKeyword)
+        {
+            try
+            {
+                var response = await _productService.Product_GetProductByKeywordAllPublic(sKeyword);
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         //http://localhost:port/api/product/1
         [HttpGet("{iProduct_id}")]
         [AllowAnonymous]

@@ -1,19 +1,18 @@
 ﻿@using _1015bookstore.viewmodel.Comon
-@model PagedResult<_1015bookstore.viewmodel.Catalog.Products.ProductViewModel>
+@model List<_1015bookstore.viewmodel.Catalog.Products.ProductViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
             <h3 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h3>
-             <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Tạo sản phẩm mới</a>
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Tạo sản phẩm mới</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -39,7 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.items)
+                        @foreach (var item in Model)
                         {
                             <tr>
                                 <td>
@@ -67,11 +66,12 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
+
     </div>
 
 </div>
-<!-- /.container-fluid -->
 
 
 
