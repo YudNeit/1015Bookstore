@@ -19,15 +19,19 @@ namespace _1015bookstore.application.Common
             return $"/{USER_CONTENT_FOLDER_NAME}/{fileName}";
         }
 
-        public async Task SaveFileAsync(Stream mediaBinaryStream, string fileName)
+        public async Task SaveFileAsyncFE_user(Stream mediaBinaryStream, string fileName)
         {
             var filePath = Path.Combine(_userContentFolderWeb, fileName);
-            using var output1 = new FileStream(filePath, FileMode.Create);
-            await mediaBinaryStream.CopyToAsync(output1);
+            using var output = new FileStream(filePath, FileMode.Create);
+            await mediaBinaryStream.CopyToAsync(output);
 
-            filePath = Path.Combine(_userContentFolderWebAdmin, fileName);
-            using var output2 = new FileStream(filePath, FileMode.Create);
-            await mediaBinaryStream.CopyToAsync(output2);
+        }
+        public async Task SaveFileAsyncFE_admin(Stream mediaBinaryStream, string fileName)
+        {
+
+            var filePath = Path.Combine(_userContentFolderWebAdmin, fileName);
+            using var output = new FileStream(filePath, FileMode.Create);
+            await mediaBinaryStream.CopyToAsync(output);
         }
 
         public async Task DeleteFileAsync(string fileName)

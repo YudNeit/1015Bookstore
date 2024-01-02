@@ -16,7 +16,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <form asp-action="Create">
+                    <form asp-action="Create" enctype="multipart/form-data" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="sProduct_name" class="control-label"></label>
@@ -77,6 +77,11 @@
                             <label asp-for="iProduct_yop" class="control-label"></label>
                             <input asp-for="iProduct_yop" class="form-control" />
                             <span asp-validation-for="iProduct_yop" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="sImage_pathThumbnail" class="control-label"></label>
+                            <input asp-for="sImage_pathThumbnail" type="file" class="form-control" />
+                            <span asp-validation-for="sImage_pathThumbnail" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Create" class="btn btn-primary" />
