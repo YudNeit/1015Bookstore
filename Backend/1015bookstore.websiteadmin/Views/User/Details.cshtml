@@ -1,0 +1,89 @@
+﻿@model _1015bookstore.viewmodel.System.Users.UserViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Detail</h1>
+
+<div>
+    <h4>UserViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.gUser_id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.gUser_id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sUser_firstname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sUser_firstname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sUser_lastname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sUser_lastname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dtUser_dob)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.dtUser_dob)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.bUser_sex)
+        </dt>
+        <dd class = "col-sm-10">
+            @{
+                string genderText = "";
+                switch (Model.bUser_sex)
+                {
+                    case true:
+                        genderText = "Nam";
+                        break;
+                    case false:
+                        genderText = "Nữ";
+                        break;
+                    default:
+                        genderText = "Không";
+                        break;
+                }
+
+            }
+            @genderText
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sUser_phonenumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sUser_phonenumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sUser_email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sUser_email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sUser_username)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sUser_username)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sUser_rolename)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sUser_rolename)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

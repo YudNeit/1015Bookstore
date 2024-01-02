@@ -9,5 +9,6 @@ namespace _1015bookstore.websiteadmin.Service
         Task<ResponseAPI<JObject>> Authenticate(LoginRequest request);
         Task<ResponseAPI<List<UserViewModel>>> GetUser( string session);
         Task<ResponseAPI<string>> CraeteUserAdmin(RegisterAdminRequest request, string session);
+        Task<ResponseAPI<UserViewModel>> GetUserById(string session, Guid user_id);
     }
 }
