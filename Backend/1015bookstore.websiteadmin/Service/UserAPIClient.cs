@@ -78,5 +78,22 @@ namespace _1015bookstore.websiteadmin.Service
                 Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
             };
         }
+
+        public async Task<ResponseAPI<UserViewModel>> GetUserById(string session, Guid user_id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:7139");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
+
+            var response = await client.GetAsync($"/api/user/{user_id}");
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonSerializer.Deserialize<UserViewModel>(body);
+            
+            return new ResponseAPI<UserViewModel>
+            {
+                Data = users,
+                Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
+            };
+        }
     }
 }

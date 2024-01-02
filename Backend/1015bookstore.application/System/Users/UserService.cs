@@ -332,7 +332,7 @@ namespace _1015bookstore.application.System.Users
                     sUser_phonenumber = user.PhoneNumber,
                     sUser_email = user.Email,
                     sUser_username = user.UserName,
-                    sUser_rolename = data.pa == null ? null : data.pa.Name,
+                    sUser_rolename = data == null ? null : data.pa.Name,
                 }
             };
         }

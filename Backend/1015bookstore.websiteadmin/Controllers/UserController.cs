@@ -27,6 +27,14 @@ namespace _1015bookstore.websiteadmin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Details(Guid user_id)
+        {
+            var session = HttpContext.Session.GetString("token");
+            var response = await _userAPIClient.GetUserById(session, user_id);
+            return View(response.Data);
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
