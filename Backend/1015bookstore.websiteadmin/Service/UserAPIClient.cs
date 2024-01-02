@@ -29,11 +29,22 @@ namespace _1015bookstore.websiteadmin.Service
             client.BaseAddress = new Uri("https://localhost:7139");
             var response = await client.PostAsync("/api/user/authenticate", httpContent);
 
+            if (response.IsSuccessStatusCode)
+            {
+                return new ResponseAPI<JObject>
+                {
+                    Data = JObject.Parse(await response.Content.ReadAsStringAsync()),
+                    Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
+                };
+            }
             return new ResponseAPI<JObject>
             {
-                Data = JObject.Parse(await response.Content.ReadAsStringAsync()),
+                Data = new JObject(),
                 Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
+                Message = await response.Content.ReadAsStringAsync()
             };
+
+
         }
         public async Task<ResponseAPI<List<UserViewModel>>> GetUser( string session)
         {

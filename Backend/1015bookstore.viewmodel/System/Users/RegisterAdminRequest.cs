@@ -50,7 +50,7 @@ namespace _1015bookstore.viewmodel.System.Users
 
 
         [Required(ErrorMessage = "The * field is required")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$", ErrorMessage = "The Password is wrong format!")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$", ErrorMessage = "The Password is wrong format!")]
         [Compare("sUser_confirmpassword", ErrorMessage = "Confirm password is different password")]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu")]
@@ -58,7 +58,7 @@ namespace _1015bookstore.viewmodel.System.Users
 
 
         [Required(ErrorMessage = "The * field is required")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$", ErrorMessage = "The Confirm password is wrong format!")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$", ErrorMessage = "The Confirm password is wrong format!")]
         [DataType(DataType.Password)]
         [Display(Name = "Xác nhận mật khẩu")]
         public string sUser_confirmpassword { get; set; }
