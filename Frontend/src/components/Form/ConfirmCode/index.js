@@ -1,5 +1,4 @@
 import { Typography, message } from "antd";
-import "../style.css";
 import { Button, Form, Input, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,12 +13,11 @@ function ConfirmCodeForm() {
   useEffect(() => {}, []);
 
   const onFinish = (values) => {
-     handleConfirmClick();
+    handleConfirmClick();
     setSuccess(true);
     console.log("Success:", values);
   };
 
-  
   const getCookie = (cookieName) => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -30,8 +28,6 @@ function ConfirmCodeForm() {
     }
     return null;
   };
-
-
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
@@ -46,10 +42,11 @@ function ConfirmCodeForm() {
       setConfirmcode(value);
     }
   };
-  
+
   const handleConfirmClick = async () => {
     try {
-      const apiUrl = "https://localhost:7139/api/User/confirmCodeforgotpassword";
+      const apiUrl =
+        "https://localhost:7139/api/User/confirmCodeforgotpassword";
       const jwtToken = getCookie("forgotToken");
 
       const data = {
@@ -109,7 +106,7 @@ function ConfirmCodeForm() {
           >
             Mã xác nhận
           </Typography>
-                  </div>
+        </div>
         <Form.Item
           className="no_margin"
           label={<p className="label">Confirmcode</p>}
@@ -144,7 +141,6 @@ function ConfirmCodeForm() {
               size="large"
               type="default"
               htmlType="submit"
-            
             >
               Xác nhận
             </Button>

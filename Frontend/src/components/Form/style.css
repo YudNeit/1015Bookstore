@@ -54,7 +54,7 @@
   justify-content: space-around;
 }
 .logup_form {
-  width: 25vw;
+  width: 27vw;
   height: 60vh;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
@@ -78,6 +78,17 @@
 .changepassword_form {
   width: 22vw;
   height: 35vh;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 0px 20px;
+  border-color: rgba(53, 118, 192, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.confirmcode_form {
+  width: 22vw;
+  height: 25vh;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 0px 20px;

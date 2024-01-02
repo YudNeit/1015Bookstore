@@ -67,7 +67,9 @@ const Login = () => {
         }}
         autoComplete="off"
       >
-        <Typography style={{ fontWeight: "bolder", fontSize: 36 }}>
+        <Typography
+          style={{ fontWeight: "bolder", fontSize: "min(36px, 3vh)" }}
+        >
           Đăng nhập
         </Typography>
 
@@ -75,7 +77,9 @@ const Login = () => {
           className="no_margin"
           label={<p className="label">Tên đăng nhập</p>}
           name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[
+            { required: true, message: "Xin vui lòng nhập Tên đăng nhập!" },
+          ]}
         >
           <Input size="large" placeholder="Tên đăng nhập" />
         </Form.Item>
@@ -84,7 +88,7 @@ const Login = () => {
           className="no_margin"
           label={<p className="label">Mật khẩu</p>}
           name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[{ required: true, message: "Xin vui lòng nhập Mật khẩu!" }]}
         >
           <Input.Password size="large" placeholder="Mật khẩu" />
         </Form.Item>
