@@ -314,6 +314,7 @@ namespace _1015bookstore.application.System.Users
                         join pa in _context.Roles on p.RoleId equals pa.Id
                         select new { p, pa};
 
+            var data = await query.FirstOrDefaultAsync(x => x.p.UserId == user.Id);
 
 
             return new ResponseService<UserViewModel>
@@ -331,7 +332,7 @@ namespace _1015bookstore.application.System.Users
                     sUser_phonenumber = user.PhoneNumber,
                     sUser_email = user.Email,
                     sUser_username = user.UserName,
-                    sUser_rolename = query.FirstOrDefault(x => x.p.UserId == user.Id).pa.Name,
+                    sUser_rolename = data.pa == null ? null : data.pa.Name,
                 }
             };
         }
