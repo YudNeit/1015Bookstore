@@ -50,6 +50,7 @@ namespace _1015bookstore.websiteadmin.Service
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri("https://localhost:7139");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
+
             var response = await client.GetAsync($"/api/user/admin-getall");
             var body = await response.Content.ReadAsStringAsync();
             var users = JsonSerializer.Deserialize<List<UserViewModel>>(body);
@@ -64,12 +65,11 @@ namespace _1015bookstore.websiteadmin.Service
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri("https://localhost:7139");
-            var json = JsonSerializer.Serialize(request);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
+
+            var json = JsonSerializer.Serialize(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
             var response = await client.PostAsync($"/api/user/createadmin", httpContent);
-
             var body = await response.Content.ReadAsStringAsync();
             
             return new ResponseAPI<string>
