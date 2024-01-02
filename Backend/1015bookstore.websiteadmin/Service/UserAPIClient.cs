@@ -39,7 +39,6 @@ namespace _1015bookstore.websiteadmin.Service
             }
             return new ResponseAPI<JObject>
             {
-                Data = new JObject(),
                 Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
                 Message = await response.Content.ReadAsStringAsync()
             };
