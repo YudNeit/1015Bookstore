@@ -52,7 +52,7 @@ namespace _1015bookstore.websiteadmin.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "User");
+            return RedirectToAction("Index", "Login");
         }
 
     }

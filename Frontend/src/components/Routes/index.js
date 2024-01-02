@@ -61,13 +61,13 @@ const publicRoutes = [
   },
   { path: "/404_page", component: Page404, layout: Layout404 },
   { path: "/confirm_code", component: ConfirmCode, layout: LogLayout },
-
-];
-//PrivateRoutes
-const privateRoutes = [
   { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
   { path: "/checkout", component: CheckoutPage, layout: DefineLayout() },
   { path: "/cart", component: CartPage },
+];
+//PrivateRoutes
+const privateRoutes = [
+
 
 
 ];

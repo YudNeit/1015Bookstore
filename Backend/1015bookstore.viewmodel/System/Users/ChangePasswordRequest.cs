@@ -18,7 +18,7 @@ namespace _1015bookstore.viewmodel.System.Users
 
         [Required(ErrorMessage = "The * field is required")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$", ErrorMessage = "The Password is wrong format!")]
-        [Compare("confirmnewPassword", ErrorMessage = "Confirm password is different password")]
+        [Compare("sUser_confirmnewPassword", ErrorMessage = "Confirm password is different password")]
         public string sUser_newPassword { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]

@@ -34,13 +34,16 @@ namespace _1015bookstore.websiteadmin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(ModelState);
+                return View();
             }
             var response = await _userAPIClient.Authenticate(request);
 
             if (!response.Status)
-                return View(response.Data);
-            //return RedirectToAction("Login", "User", response.data);
+            {
+                ViewBag.error = response.Message;
+                return View();
+            }
+             //return RedirectToAction("Login", "User", response.data);
 
             var token = (string)response.Data["sUser_tokenL"];
 

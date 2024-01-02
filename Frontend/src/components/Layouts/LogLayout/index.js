@@ -13,7 +13,6 @@ function LogLayout({ children }) {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "65vh",
           width: "100vw",
         }}
       >
