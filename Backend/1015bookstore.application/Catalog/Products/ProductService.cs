@@ -450,7 +450,7 @@ namespace _1015bookstore.application.Catalog.Products
                 sProduct_nop = product.p.nop,
                 iProduct_yop = product.p.yop,
                 stProduct_status = product.p.status,
-                sImage_pathThumbnail = product.pimg.imagepath,
+                sImage_pathThumbnail = product.pimg == null ? null : product.pimg.imagepath,
             };
 
             return new ResponseService<ProductViewModel>

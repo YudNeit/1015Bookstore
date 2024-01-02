@@ -148,7 +148,7 @@ namespace _1015bookstore.webapi.Controllers
 
         }
         
-        [HttpGet("{GUser_id}")]
+        [HttpGet("{gUser_id}")]
         [Authorize]
         public async Task<IActionResult> GetUserById(Guid gUser_id)
         {

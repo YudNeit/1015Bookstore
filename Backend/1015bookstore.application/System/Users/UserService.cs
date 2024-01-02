@@ -25,7 +25,8 @@ namespace _1015bookstore.application.System.Users
         private readonly IEmailSender _emailSender;
         private readonly _1015DbContext _context;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config, IEmailSender emailSender, _1015DbContext context)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config, IEmailSender emailSender, _1015DbContext context
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -53,13 +54,12 @@ namespace _1015bookstore.application.System.Users
                     Message = "Wrong Username or Password!",
                 };
 
-            var roles = await _userManager.GetRolesAsync(user);
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.GivenName,user.firstname),
-                new Claim(ClaimTypes.Role, string.Join(";",roles)),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName),
+                
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
@@ -168,6 +168,13 @@ namespace _1015bookstore.application.System.Users
                 UserName = request.sUser_username,
             };
             var result = await _userManager.CreateAsync(user, request.sUser_password);
+
+            await _context.UserRoles.AddAsync(new IdentityUserRole<Guid>
+            {
+                RoleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DA"),
+                UserId = _userManager.FindByNameAsync(request.sUser_username).Result.Id
+            });
+
             if (result.Succeeded)
             {
                 return new ResponseService()
@@ -303,6 +310,12 @@ namespace _1015bookstore.application.System.Users
                 };
             }
 
+            var query = from p in _context.UserRoles
+                        join pa in _context.Roles on p.RoleId equals pa.Id
+                        select new { p, pa};
+
+
+
             return new ResponseService<UserViewModel>
             {
                 CodeStatus = 200,
@@ -317,7 +330,8 @@ namespace _1015bookstore.application.System.Users
                     bUser_sex = user.sex,
                     sUser_phonenumber = user.PhoneNumber,
                     sUser_email = user.Email,
-                    sUser_username = user.UserName
+                    sUser_username = user.UserName,
+                    sUser_rolename = query.FirstOrDefault(x => x.p.UserId == user.Id).pa.Name,
                 }
             };
         }
@@ -450,6 +464,10 @@ namespace _1015bookstore.application.System.Users
 
         public async Task<ResponseService<List<UserViewModel>>> User_GetAllAdmin()
         {
+            var query = from p in _context.UserRoles
+                        join pa in _context.Roles on p.RoleId equals pa.Id
+                        select new { p, pa };
+
             var data = await _context.Users.Select(x => new UserViewModel
             {
                 gUser_id = x.Id,
@@ -459,8 +477,11 @@ namespace _1015bookstore.application.System.Users
                 bUser_sex = x.sex,
                 sUser_phonenumber = x.PhoneNumber,
                 sUser_email = x.Email,
-                sUser_username = x.UserName
+                sUser_username = x.UserName,
+                sUser_rolename =  query.FirstOrDefault(a => a.p.UserId == x.Id).pa.Name
             }).ToListAsync();
+
+
             return new ResponseService<List<UserViewModel>>
             {
                 CodeStatus = 200,

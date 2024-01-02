@@ -134,15 +134,27 @@ namespace _1015bookstore.data.Extensions
                 new ProductInCategory() { product_id = 2, category_id = 4 }
             );
 
-            var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
+            var admin_roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
+            var user_roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DA");
             var adminId = new Guid("69BD714F-9576-45BA-B5B7-F00649BE00DE");
+            
             modelBuilder.Entity<Role>().HasData(
                 new Role
                 {
-                    Id = roleId,
+                    Id = admin_roleId,
                     Name = "admin",
                     NormalizedName = "admin",
                     description = "Administrator role"
+                }
+            );
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role
+                {
+                    Id = user_roleId,
+                    Name = "user",
+                    NormalizedName = "user",
+                    description = "User role"
                 }
             );
 
@@ -167,7 +179,7 @@ namespace _1015bookstore.data.Extensions
 
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
             {
-                RoleId = roleId,
+                RoleId = admin_roleId,
                 UserId = adminId
             });
         }

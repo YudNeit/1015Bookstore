@@ -34,7 +34,7 @@ namespace _1015bookstore.application.Catalog.Orders
             order.phone_reciver = request.sOrder_phone_receiver;
             order.address_reciver = request.sOrder_address_receiver;
 
-            if (request.sPromotionalCode_code != null)
+            if (request.sPromotionalCode_code != "" || request.sPromotionalCode_code != null)
             {
                 var promotionalcode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.sPromotionalCode_code);
                 if (promotionalcode != null)
