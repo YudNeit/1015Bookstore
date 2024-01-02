@@ -14,6 +14,7 @@ function CheckoutPage() {
   const [voucherDiscount, setVoucherDiscount] = useState(0);
   const [shippingFee, setShippingFee] = useState(30000);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showConfirmationPay, setShowConfirmationPay] = useState(false);
   const [isApply, setisApply] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const getCookie = (cookieName) => {
@@ -50,7 +51,7 @@ function CheckoutPage() {
 
         const data = await response.json();
         console.log(data);
-        setItems(data.orderdetails);
+        setItems(data.lOrder_items);
         setOrder(data);
         return data;
       } catch (error) {
@@ -62,44 +63,7 @@ function CheckoutPage() {
 
   const handleCheckVoucher = async () => {
     try {
-      const response = await fetch(
-        `https://localhost:7139/api/PromotionalCode/checkcode?stringcode=${promotionalCode}&user=${userId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        if (response.status === 400) {
-          message.error("Vui lòng nhập voucher!");
-        } else {
-          try {
-            const error = await response.text();
-            if (error) {
-              message.error(`${error}`);
-            }
-          } catch (error) {
-            // Handle non-JSON response or other errors
-            message.error("Voucher cannot be applied! An error occurred.");
-          }
-        }
-      } else {
-        message.success("Voucher applied successfully.");
-        setisApply(true);
-      }
-    } catch (error) {
-      message.error(`Cannot apply promotional code  `);
-      console.error("Error applying promotional code:", error);
-    }
-  };
-
-  const handleApplyVoucher = async () => {
-    try {
-      const apiUrl = `https://localhost:7139/api/PromotionalCode/getbycode/${promotionalCode}`;
+      const apiUrl = `https://localhost:7139/api/PromotionalCode/checkcode?sPromotionalCode_code=${promotionalCode}&gUser_id=${userId}`;
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -107,10 +71,34 @@ function CheckoutPage() {
           Authorization: `Bearer ${jwtToken}`,
         },
       });
-      const data = await response.json();
-      setVoucherDiscount(data.discount_rate);
 
-      console.log(voucherDiscount); // In dữ liệu từ API ra console
+      if (!response.ok) {
+        try {
+          const responseBody = await response.clone().text();
+          const errorResponse = JSON.parse(responseBody);
+          if (
+            response.status === 400 &&
+            errorResponse.errors &&
+            errorResponse.errors.sPromotionalCode_code
+          ) {
+            // Check if status is 400 and sPromotionalCode_code field is required
+            message.error("Need to enter Voucher");
+          } else {
+            const error = await response.text();
+            message.error(`Check code failed: ${error}`);
+          }
+        } catch (parseError) {
+          const error = await response.text();
+          message.error(`${error}`);
+        }
+        setVoucherDiscount(0);
+      } else {
+        const data = await response.json();
+        console.log(data);
+        setVoucherDiscount(data.iPromotionalCode_discount_rate);
+        message.success("Voucher is apply successful!");
+        console.log(voucherDiscount);
+      }
     } catch (error) {
       message.error("Voucher không tồn tại!");
       console.error("Cannot check voucher:", error);
@@ -118,17 +106,16 @@ function CheckoutPage() {
   };
 
   const calculateTotalPrice = () => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+    return items.reduce(
+      (total, item) => total + item.vProduct_price * item.iProduct_amount,
+      0
+    );
   };
 
   let totalPrice = calculateTotalPrice();
 
   const calculateTotalPayment = () => {
-    if (voucherDiscount) {
-      totalPrice *= 1 - voucherDiscount / 100;
-    } else {
-      totalPrice = calculateTotalPrice();
-    }
+    totalPrice *= 1 - voucherDiscount / 100;
 
     totalPrice += shippingFee;
 
@@ -137,19 +124,21 @@ function CheckoutPage() {
 
   const handleConfirmPayment = async () => {
     try {
-      const formData = new FormData();
-      formData.append("order_id", orderId);
-      formData.append("name_reciver", order.name_reciver);
-      formData.append("phone_reciver", order.phone_reciver);
-      formData.append("address_reciver", order.address_reciver);
-      formData.append("promotionalcode", promotionalCode);
-      console.log(order.name_reciver);
+      const data = {
+        iOrder_id: orderId,
+        sOrder_name_receiver: order.sOrder_name_receiver,
+        sOrder_phone_receiver: order.sOrder_phone_receiver,
+        sOrder_address_receiver: order.sOrder_address_receiver,
+        sPromotionalCode_code: promotionalCode,
+      };
+      console.log(data);
       const response = await fetch("https://localhost:7139/api/Order/buy", {
         method: "PUT",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${jwtToken}`,
         },
-        body: formData,
+        body: JSON.stringify(data),
       });
 
       console.log("Response:", response);
@@ -158,16 +147,29 @@ function CheckoutPage() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       message.success(`Order completed.`);
-      setShowConfirmation(false);
+      setShowConfirmationPay(false);
       navigate("/");
     } catch (error) {
       console.error("Error placing the order:", error);
     }
   };
 
-  const handleCancelPayment = () => {
-    // Handle cancellation of payment
+  const handleApplyVoucher = () => {
+    // Show the confirmation modal when Apply button is clicked
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmApplyVoucher = () => {
+    setisApply(true);
     setShowConfirmation(false);
+  };
+
+  const handleCancelApplyVoucher = () => {
+    setShowConfirmation(false);
+  };
+
+  const handleCancelPayment = () => {
+    setShowConfirmationPay(false);
   };
 
   const handleInputChange = (e) => {
@@ -188,8 +190,8 @@ function CheckoutPage() {
           <div>
             Tên người dùng:
             <Input
-              name="name_reciver"
-              value={order.name_reciver}
+              name="sOrder_name_receiver"
+              value={order.sOrder_name_receiver}
               onChange={handleInputChange}
             />
           </div>
@@ -198,8 +200,8 @@ function CheckoutPage() {
           <div>
             Phone:{" "}
             <Input
-              name="phone_reciver"
-              value={order.phone_reciver}
+              name="sOrder_phone_receiver"
+              value={order.sOrder_phone_receiver}
               onChange={handleInputChange}
             />
           </div>
@@ -208,8 +210,8 @@ function CheckoutPage() {
           <div>
             Địa chỉ:{" "}
             <Input
-              name="address_reciver"
-              value={order.address_reciver}
+              name="sOrder_address_receiver"
+              value={order.sOrder_address_receiver}
               onChange={handleInputChange}
             />
           </div>
@@ -234,7 +236,7 @@ function CheckoutPage() {
         </List>
         <div>
           {items.map((item) => (
-            <Card key={item.cart_id}>
+            <Card>
               <Row align="middle">
                 <Col md={11} offset={0}>
                   <div className="cartlist_item">
@@ -244,18 +246,18 @@ function CheckoutPage() {
                         width: 100,
                       }}
                       src={
-                        item.pathimage == null
+                        item.sImage_path == null
                           ? require(`../../assets/user-content/img_1.webp`)
-                          : require(`../../assets/user-content/${item.pathimage}`)
+                          : require(`../../assets/user-content/${item.sImage_path}`)
                       }
-                      alt={item.product_name}
+                      alt={item.sProduct_name}
                     />
-                    <span>{item.product_name}</span>
+                    <span>{item.sProduct_name}</span>
                   </div>
                 </Col>
-                <Col md={3}>{item.price}đ</Col>
-                <Col md={3}>{item.quantity}</Col>
-                <Col md={3}>{item.price * item.quantity}đ</Col>
+                <Col md={3}>{item.vProduct_price}đ</Col>
+                <Col md={3}>{item.iProduct_amount}</Col>
+                <Col md={3}>{item.vProduct_price * item.iProduct_amount}đ</Col>
               </Row>
             </Card>
           ))}
@@ -270,8 +272,12 @@ function CheckoutPage() {
             disabled={isApply}
           />
         </List.Item>
-        <Button onClick={handleCheckVoucher}>Áp dụng</Button>
-        <Button onClick={handleApplyVoucher}>Check Code</Button>
+        <Button onClick={handleApplyVoucher} disabled={isApply}>
+          Áp dụng
+        </Button>
+        <Button onClick={handleCheckVoucher} disabled={isApply}>
+          Check Code
+        </Button>
       </div>
       <div>
         <List>
@@ -283,13 +289,26 @@ function CheckoutPage() {
           <List.Item>Tổng thanh toán: {calculateTotalPayment()}đ</List.Item>
           <List.Item>
             <Button
-              onClick={() =>
-                order.name_reciver &&
-                order.phone_reciver &&
-                order.address_reciver
-                  ? setShowConfirmation(true)
-                  : message.error(`Vui lòng nhập đầy đủ thông tin người nhận!`)
-              }
+              onClick={() => {
+                if (
+                  order.sOrder_name_receiver &&
+                  order.sOrder_phone_receiver &&
+                  order.sOrder_address_receiver
+                ) {
+                  if (
+                    order.sOrder_phone_receiver.length !== 10 &&
+                    order.sOrder_phone_receiver[0] !== "0"
+                  ) {
+                    message.error(
+                      "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0"
+                    );
+                  } else {
+                    setShowConfirmationPay(true);
+                  }
+                } else {
+                  message.error("Vui lòng nhập đầy đủ thông tin người nhận!");
+                }
+              }}
             >
               Thanh toán
             </Button>
@@ -298,11 +317,18 @@ function CheckoutPage() {
       </div>
       {contextHolder}
       <Modal
-        visible={showConfirmation}
+        visible={showConfirmationPay}
         onOk={handleConfirmPayment}
         onCancel={handleCancelPayment}
       >
         <p>Bạn có chắc muốn thanh toán?</p>
+      </Modal>
+      <Modal
+        visible={showConfirmation}
+        onOk={handleConfirmApplyVoucher}
+        onCancel={handleCancelApplyVoucher}
+      >
+        <p>Bạn có chắc muốn áp dụng voucher?</p>
       </Modal>
     </div>
   );

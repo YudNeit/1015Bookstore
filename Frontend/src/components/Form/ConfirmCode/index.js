@@ -14,12 +14,11 @@ function ConfirmCodeForm() {
   useEffect(() => {}, []);
 
   const onFinish = (values) => {
-     handleConfirmClick();
+    handleConfirmClick();
     setSuccess(true);
     console.log("Success:", values);
   };
 
-  
   const getCookie = (cookieName) => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -30,8 +29,6 @@ function ConfirmCodeForm() {
     }
     return null;
   };
-
-
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
@@ -46,15 +43,16 @@ function ConfirmCodeForm() {
       setConfirmcode(value);
     }
   };
-  
+
   const handleConfirmClick = async () => {
     try {
-      const apiUrl = "https://localhost:7139/api/User/confirmCodeforgotpassword";
+      const apiUrl =
+        "https://localhost:7139/api/User/confirmCodeforgotpassword";
       const jwtToken = getCookie("forgotToken");
 
       const data = {
-        token: jwtToken,
-        code: confirmcode,
+        sUser_tokenFP: jwtToken,
+        sUser_codeFP: confirmcode,
       };
       console.log(data);
       const response = await fetch(apiUrl, {
@@ -64,24 +62,26 @@ function ConfirmCodeForm() {
         },
         body: JSON.stringify(data),
       });
-
+      console.log(response);
       if (!response.ok) {
-        if (response.status === 400) {
-          message.error("Vui lòng nhập mã xác nhận!");
-        } else {
-          try {
-            const error = await response.text();
-            if (error) {
-              message.error(`${error}`);
-            }
-          } catch (error) {
-            message.error("Confirm Code is not valid.");
+        try {
+          const responseBody = await response.clone().text(); 
+          const errorResponse = JSON.parse(responseBody);
+
+          if (errorResponse.errors && errorResponse.errors.sUser_codeFP) {
+            const codeErrors = errorResponse.errors.sUser_codeFP;
+            const errorString = codeErrors.join(". ");
+            message.error(`Confirm Code failed: ${errorString}`);
           }
+        } catch (parseError) {
+          const error = await response.text();
+        message.error(`Confirm Code failed: ${error}`);
         }
       } else {
         message.success("Confirm Code is successful.");
         navigate(`/change_password`);
       }
+    
     } catch (error) {
       console.error("Error Confirmation Code:", error);
       message.error("Confirmation Code failed. Please try again later.");
@@ -109,7 +109,7 @@ function ConfirmCodeForm() {
           >
             Mã xác nhận
           </Typography>
-                  </div>
+        </div>
         <Form.Item
           className="no_margin"
           label={<p className="label">Confirmcode</p>}
@@ -144,7 +144,6 @@ function ConfirmCodeForm() {
               size="large"
               type="default"
               htmlType="submit"
-            
             >
               Xác nhận
             </Button>
