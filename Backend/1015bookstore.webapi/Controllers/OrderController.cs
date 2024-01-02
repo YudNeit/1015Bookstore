@@ -59,6 +59,27 @@ namespace _1015bookstore.webapi.Controllers
             }
         }
 
+        //http:localhost:port/api/order/
+        [HttpGet("{iOrder_id}")]
+        public async Task<IActionResult> Order_GetById([Required] int iOrder_id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _orderService.Order_GetById(iOrder_id);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         //http:localhost:port/api/order/history
         [HttpGet("history")]
         public async Task<IActionResult> Order_HistoryOfUser([Required]Guid gUser_id)
