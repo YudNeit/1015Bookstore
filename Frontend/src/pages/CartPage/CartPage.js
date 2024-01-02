@@ -32,7 +32,7 @@ function CartPage() {
   const userId = getCookie("userid");
   const jwtToken = getCookie("accessToken");
 
-  const fetchCartData = async (userId) => {
+  const fetchCartData = async () => {
     try {
       if (!userId) {
         console.error("User ID not found in sessionStorage");
@@ -40,7 +40,7 @@ function CartPage() {
       }
 
       const response = await fetch(
-        `https://localhost:7139/api/Cart/getcart/${userId}`,
+        `https://localhost:7139/api/Cart/get/${userId}`,
         {
           method: "GET",
           headers: {
@@ -65,7 +65,7 @@ function CartPage() {
   const removeCartItem = async (cartItemId) => {
     try {
       const response = await fetch(
-        `https://localhost:7139/api/Cart/removecart/${cartItemId}`,
+        `https://localhost:7139/api/Cart/delete/${cartItemId}`,
         {
           method: "DELETE",
           headers: {
@@ -92,32 +92,33 @@ function CartPage() {
   const handleCheckout = async () => {
     try {
       const selectedIds = items
-        .filter((item) => selectedItems.includes(item.cart_id))
-        .map((item) => item.cart_id);
-
-      const formData = new FormData();
-      selectedIds.forEach((id) => {
-        formData.append("cart_ids", id);
-      });
-      formData.append("user_id", userId);
-      console.log("Response:", formData);
-
+        .filter((item) => selectedItems.includes(item.iCart_id))
+        .map((item) => item.iCart_id);
+      console.log("selectedids:",selectedIds);
+      const requestData = {
+        lCart_ids: selectedIds,
+        gUser_id: userId,
+      };
+  
+      console.log("Request Data:", requestData);
+  
       const response = await fetch("https://localhost:7139/api/Order", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${jwtToken}`,
+          "Content-Type": "application/json", 
         },
-        body: formData,
+        body: JSON.stringify(requestData),
       });
-
+  
       console.log("Response:", response);
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+  
       const orderResponse = await response.json();
-      const orderId = orderResponse.id;
+      const orderId = orderResponse.iOrder_id;
       localStorage.setItem("orderId", orderId);
       navigate(`/checkout`);
       console.log("Order placed successfully!");
@@ -126,6 +127,7 @@ function CartPage() {
       console.error("Error placing the order:", error);
     }
   };
+  
 
   const handleCheckboxChange = (e, itemId) => {
     const { checked } = e.target;
@@ -142,21 +144,21 @@ function CartPage() {
     setSelectedItems((prevSelectedItems) => {
       return prevSelectedItems.length === items.length
         ? []
-        : items.map((item) => item.cart_id);
+        : items.map((item) => item.iCart_id);
     });
   };
 
   const handleCardClick = (item) => {
     console.log("Card clicked:", item);
-    navigate(`/product-detail/${item.cart_id}`, { state: { item } });
+    navigate(`/product-detail/${item.iCart_id}`, { state: { item } });
   };
 
   const handleQuantityChange = async (itemId, value) => {
     try {
       const response = await fetch(
-        `https://localhost:7139/api/Cart/updateamountcart/${itemId}/${value}`,
+        `https://localhost:7139/api/Cart/updateamount/${itemId}?amountadd=${value}`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${jwtToken}`,
@@ -182,15 +184,15 @@ function CartPage() {
 
   const totalAmount = items.reduce(
     (total, item) =>
-      selectedItems.includes(item.cart_id)
-        ? total + item.price * item.amount
+      selectedItems.includes(item.iCart_id)
+        ? total + item.vProduct_price * item.iProduct_amount
         : total,
     0
   );
 
   const totalQuantity = items.reduce(
     (total, item) =>
-      selectedItems.includes(item.cart_id) ? total + item.amount : total,
+      selectedItems.includes(item.iCart_id) ? total + item.iProduct_amount : total,
     0
   );
 
@@ -227,12 +229,12 @@ function CartPage() {
       </div>
       <div>
         {items.map((item) => (
-          <Card key={item.cart_id}>
+          <Card key={item.iCart_id}>
             <Row align="middle">
               <Col md={2} offset={0}>
                 <Checkbox
-                  checked={selectedItems.includes(item.cart_id)}
-                  onChange={(e) => handleCheckboxChange(e, item.cart_id)}
+                  checked={selectedItems.includes(item.iCart_id)}
+                  onChange={(e) => handleCheckboxChange(e, item.iCart_id)}
                 />
               </Col>
               <Col md={11} offset={0}>
@@ -243,43 +245,43 @@ function CartPage() {
                       width: 100,
                     }}
                     src={
-                      item.pathimage == null
+                      item.sImage_path == null
                         ? require(`../../assets/user-content/img_1.webp`)
-                        : require(`../../assets/user-content/${item.pathimage}`)
+                        : require(`../../assets/user-content/${item.sImage_path}`)
                     }
-                    alt={item.product_name}
+                    alt={item.sProduct_name}
                   />
-                  <span>{item.product_name}</span>
+                  <span>{item.sProduct_name}</span>
                 </div>
               </Col>
               <Col md={3}>
-                <span> {item.price}đ</span>
+                <span> {item.vProduct_price}đ</span>
               </Col>
               <Col md={3}>
                 <div className="cartlist_item">
                   <Button
                     className="fit_content"
-                    onClick={() => handleQuantityChange(item.cart_id, +1)}
+                    onClick={() => handleQuantityChange(item.iCart_id, +1)}
                   >
                     +
                   </Button>
 
                   <span style={{ fontSize: "20px", margin: "0px 10px" }}>
-                    {item.amount}
+                    {item.iProduct_amount}
                   </span>
 
                   <Button
-                    onClick={() => handleQuantityChange(item.cart_id, -1)}
+                    onClick={() => handleQuantityChange(item.iCart_id, -1)}
                   >
                     -
                   </Button>
                 </div>
               </Col>
               <Col md={3}>
-                <span>{item.price * item.amount}đ</span>
+                <span>{item.vProduct_price * item.iProduct_amount}đ</span>
               </Col>
               <Col md={1}>
-                <Button onClick={() => handleRemoveItem(item.cart_id)}>
+                <Button onClick={() => handleRemoveItem(item.iCart_id)}>  
                   Xóa
                 </Button>
               </Col>

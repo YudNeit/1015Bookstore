@@ -62,9 +62,9 @@ function ProfilePage() {
         const data = await response.json();
         setUserData(data);
         setEditedData({
-          phonenumber: data.phonenumber,
-          dob: data.dob,
-          sex: data.sex,
+          sUser_phonenumber: data.sUser_phonenumber,
+          dtUser_dob: data.dtUser_dob,
+          bUser_sex: data.bUser_sex,
         });
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -80,22 +80,24 @@ function ProfilePage() {
 
   const handleSaveClick = async () => {
     try {
-      const formData = new FormData();
-      formData.append("id", userId);
-      formData.append("firstname", userData.firstname);
-      formData.append("lastname", userData.lastname);
-      formData.append("dob", editedData.dob);
-      formData.append("sex", editedData.sex);
-      formData.append("phonenumber", editedData.phonenumber);
-      console.log(formData);
+      const data = {
+        gUser_id: userId,
+        sUser_firstname: userData.sUser_firstname,
+        sUser_lastname: userData.sUser_lastname,
+        dtUser_dob: editedData.dtUser_dob,
+        bUser_sex: editedData.bUser_sex,
+        sUser_phonenumber: editedData.sUser_phonenumber,
+      };
+      console.log(data);
       const response = await fetch(
-        `https://localhost:7139/api/User/updateuser`,
+        `https://localhost:7139/api/User/updateinfor`,
         {
           method: "POST",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${jwtToken}`,
           },
-          body: formData,
+          body: JSON.stringify(data),
         }
       );
 
@@ -105,9 +107,9 @@ function ProfilePage() {
 
       setUserData({
         ...userData,
-        phonenumber: editedData.phonenumber,
-        dob: editedData.dob,
-        sex: editedData.sex,
+        sUser_phonenumber: editedData.sUser_phonenumber,
+        dtUser_dob: editedData.dtUser_dob,
+        bUser_sex: editedData.bUser_sex,
       });
       setIsEditing(false);
       window.location.reload();
@@ -118,9 +120,9 @@ function ProfilePage() {
 
   const handleCancelClick = () => {
     setEditedData({
-      phonenumber: userData?.phonenumber,
-      dob: userData?.dob,
-      sex: userData?.sex,
+      sUser_phonenumber: userData?.sUser_phonenumber,
+      dtUser_dob: userData?.dtUser_dob,
+      bUser_sex: userData?.bUser_sex,
     });
     setIsEditing(false);
   };
@@ -133,7 +135,7 @@ function ProfilePage() {
   };
 
   const handleRadioChange = (e) => {
-    handleInputChange("sex", e.target.value);
+    handleInputChange("bUser_sex", e.target.value);
   };
 
   const handleChangePasswordClick = () => {
@@ -230,31 +232,31 @@ function ProfilePage() {
           {userData && (
             <Descriptions className="description" column={1}>
               <Descriptions.Item label="First Name">
-                {userData.firstname}
+                {userData.sUser_firstname}
               </Descriptions.Item>
               <Descriptions.Item label="Last Name">
-                {userData.lastname}
+                {userData.sUser_lastname}
               </Descriptions.Item>
               <Descriptions.Item label="Date of Birth">
                 {isEditing ? (
                   <Input
-                    value={editedData.dob}
-                    onChange={(e) => handleInputChange("dob", e.target.value)}
+                    value={editedData.dtUser_dob}
+                    onChange={(e) => handleInputChange("dtUser_dob", e.target.value)}
                   />
                 ) : (
-                  userData.dob || "N/A"
+                  userData.dtUser_dob || "N/A"
                 )}
               </Descriptions.Item>
               <Descriptions.Item label="Sex">
                 {isEditing ? (
                   <Radio.Group
                     onChange={handleRadioChange}
-                    value={editedData.sex}
+                    value={editedData.bUser_sex}
                   >
                     <Radio value="true">Nam</Radio>
                     <Radio value="false">Nữ</Radio>
                   </Radio.Group>
-                ) : userData.sex ? (
+                ) : userData.bUser_sex ? (
                   "Nam"
                 ) : (
                   "Nữ"
@@ -263,17 +265,17 @@ function ProfilePage() {
               <Descriptions.Item label="Phone Number">
                 {isEditing ? (
                   <Input
-                    value={editedData.phonenumber}
+                    value={editedData.sUser_phonenumber}
                     onChange={(e) =>
-                      handleInputChange("phonenumber", e.target.value)
+                      handleInputChange("sUser_phonenumber", e.target.value)
                     }
                   />
                 ) : (
-                  userData.phonenumber || "N/A"
+                  userData.sUser_phonenumber || "N/A"
                 )}
               </Descriptions.Item>
               <Descriptions.Item label="Email">
-                {userData.email}
+                {userData.sUser_email}
               </Descriptions.Item>
             </Descriptions>
           )}
@@ -356,9 +358,9 @@ function ProfilePage() {
                 },
                 {
                   validator: (_, value) => {
-                    if (value.length <= 6) {
+                    if (value.length <= 8) {
                       return Promise.reject(
-                        "Password should be at least 6 characters"
+                        "Password should be at least 8 characters"
                       );
                     }
                     if (!/[A-Z]/.test(value)) {
@@ -430,6 +432,7 @@ function ProfilePage() {
         <Row>
           <h2 className="detail_h2">LỊCH SỬ GIAO DỊCH</h2>
         </Row>
+        
       </div>
     </div>
   );

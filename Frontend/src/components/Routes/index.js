@@ -17,22 +17,20 @@ import ProfilePage from "../../pages/ProflePage";
 import Page404 from "../../pages/404Page";
 import CheckoutPage from "../../pages/CheckoutPage";
 import FilteredPage from "../../pages/Category";
-
-
-
+import SearchPage from "../../pages/SearchPage";
 
 function DefineLayout() {
   const isUserAuthenticated = () => {
     // Replace this with your actual authentication logic
-    const accessToken = getCookie('accessToken');
-    const userid = getCookie('userid');
+    const accessToken = getCookie("accessToken");
+    const userid = getCookie("userid");
     return accessToken && userid;
   };
 
   const getCookie = (cookieName) => {
-    const cookies = document.cookie.split('; ');
+    const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
-      const [name, value] = cookie.split('=');
+      const [name, value] = cookie.split("=");
       if (name === cookieName) {
         return value;
       }
@@ -48,7 +46,11 @@ const publicRoutes = [
   { path: "/:selectedMenu", component: FilteredPage, layout: DefineLayout() },
   { path: "/sign_in", component: SignIn, layout: LogLayout },
   { path: "/sign_up", component: SignUp, layout: LogLayout },
-  { path: "/product-detail/:id", component: ProductPage, layout: DefineLayout() },
+  {
+    path: "/product-detail/:id",
+    component: ProductPage,
+    layout: DefineLayout(),
+  },
   {
     path: "/forgot_password",
     component: ForgotPasswordPage,
@@ -64,12 +66,9 @@ const publicRoutes = [
   { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
   { path: "/checkout", component: CheckoutPage, layout: DefineLayout() },
   { path: "/cart", component: CartPage },
+  { path: "/search/:searchValue", component: SearchPage, layout: DefineLayout() },
 ];
 //PrivateRoutes
-const privateRoutes = [
-
-
-
-];
+const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };

@@ -1,39 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Button, Card, Col, Row } from "antd";
-import MenuSlide from "../../components/MenuSlide";
+// SearchPage.js
+
+import React, { useEffect, useState } from "react";
+import SearchBar from "../../components/SearchBar";
+import { Card } from "antd"; // Assuming you are using Ant Design Card component
 import { useNavigate } from "react-router-dom";
-import { fetchProductData } from "../../components/Data/api";
-import "./MainPage.css";
-import { floatButtonPrefixCls } from "antd/es/float-button/FloatButton";
 
-const { Meta } = Card;
-
-function MainPage() {
-  const navigate = useNavigate();
-  const [selectedMenu, setSelectedMenu] = useState(null);
+const SearchPage = () => {
   const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const getCookie = (cookieName) => {
-    const cookies = document.cookie.split("; ");
-    for (const cookie of cookies) {
-      const [name, value] = cookie.split("=");
-      if (name === cookieName) {
-        return value;
-      }
-    }
-    return null;
-  };
-
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const searchValue = localStorage.getItem("datasearch");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const jwtToken = getCookie("accessToken");
-        const data = await fetchProductData(jwtToken);
+        setLoading(true);
+
+        const response = await fetch(
+          `https://localhost:7139/api/Product/public-getbykeyword?sKeyword=${searchValue}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("API Response:", data);
+
         setItems(data);
       } catch (error) {
-        setError(error.message);
+        console.error("API Error:", error);
       } finally {
         setLoading(false);
       }
@@ -42,11 +37,6 @@ function MainPage() {
     fetchData();
   }, []);
 
-  const handleMenuSelect = (selectedValue) => {
-    setSelectedMenu(selectedValue);
-    navigate(`/${selectedValue}`);
-  };
-
   const handleCardClick = (item) => {
     console.log("Card clicked:", item);
     navigate(`/product-detail/${item.iProduct_id}`, { state: { item } });
@@ -54,17 +44,6 @@ function MainPage() {
 
   return (
     <div>
-      <Row className="title_bar">
-        <Col>
-          <MenuSlide
-            style={{ backgroundColor: "#30cf82" }}
-            onMenuSelect={handleMenuSelect}
-          />
-        </Col>
-        <Col offset={1} style={{ borderRadius: "30px" }}>
-          <h2 className="page_title">DANH MỤC SẢN PHẨM</h2>
-        </Col>
-      </Row>
       <div className="cart_container">
         {items.map((item) => (
           <Card
@@ -92,13 +71,12 @@ function MainPage() {
             <div className="flex_column">
               <span className="title">{item.sProduct_name}</span>
               <span className="price">{item.vProduct_price}đ</span>
-              {/* <Button size="large">Add to cart</Button> */}
             </div>
           </Card>
         ))}
       </div>
     </div>
   );
-}
+};
 
-export default MainPage;
+export default SearchPage;

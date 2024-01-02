@@ -52,9 +52,9 @@ function ChangePassword() {
       const jwtToken = getCookie("forgotToken");
 
       const data = {
-        token: jwtToken,
-        password: password,
-        confirmpassword: confirmpassword,
+        sUser_tokenFP: jwtToken,
+        sUser_password: password,
+        sUser_confirmpassword: confirmpassword,
       };
       console.log(data);
       const response = await fetch(apiUrl, {
@@ -77,9 +77,8 @@ function ChangePassword() {
       } else {
         message.success("Change Password is successful.");
         document.cookie = `forgotToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
-
-        window.location.reload();
         navigate(`/sign_in`);
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error Change Password:", error);
@@ -113,10 +112,11 @@ function ChangePassword() {
           name="password"
           rules={[
             {
+              required: true,
+              message: "Please input your password!",
+            },
+            {
               validator: (_, value) => {
-                if (!value) {
-                  return Promise.reject("Please input your password!");
-                }
                 if (value.length <= 6) {
                   return Promise.reject(
                     "Password should bigger than 6 characters"
@@ -179,7 +179,6 @@ function ChangePassword() {
               size="large"
               type="default"
               htmlType="submit"
-             
             >
               Xác nhận
             </Button>
