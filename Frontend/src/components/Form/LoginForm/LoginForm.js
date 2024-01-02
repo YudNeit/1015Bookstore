@@ -16,34 +16,35 @@ const Login = () => {
       const values = await form.validateFields();
       const { username, password } = values;
 
-      const formDataObject = new FormData();
-      formDataObject.append("username", username);
-      formDataObject.append("password", password);
-      formDataObject.append("rememberme", true);
+      const requestBody = {
+        sUser_username: username,
+        sUser_password: password,
+        rememberme: true,
+      };
 
       const response = await fetch(
         "https://localhost:7139/api/User/authenticate",
         {
           method: "POST",
           mode: "cors",
-          body: formDataObject,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
         }
       );
 
       if (!response.ok) {
-        if (response.status === 401) {
-          message.error("Đăng nhập thất bại!");
-          setError("Invalid username or password");
-        } else {
-          message.error("Đăng nhập thất bại!");
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        const error = await response.text();
+        if (error) {
+          message.error(`${error}`);
         }
       } else {
         const responseData = await response.json();
         console.log(responseData);
 
-        document.cookie = `accessToken=${responseData.token}; path=/`;
-        document.cookie = `userid=${responseData.user_id}; path=/`;
+        document.cookie = `accessToken=${responseData.sUser_tokenL}; path=/`;
+        document.cookie = `userid=${responseData.gUser_id}; path=/`;
         message.success("Đăng nhập thành công!");
         navigate(`/`);
         window.location.reload();

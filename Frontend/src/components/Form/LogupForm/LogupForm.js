@@ -15,8 +15,8 @@ function Logup() {
   const [email, setEmail] = useState("");
   const [isSuccess, setSuccess] = useState(false);
 
-  useEffect(() => {}, []);
-
+  useEffect(() => { }, []);
+  
   const onFinish = (values) => {
     handleLogUp();
     setSuccess(true);
@@ -28,7 +28,7 @@ function Logup() {
     message.error(`Vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
-
+  
   console.log("isSuccess:", isSuccess);
 
   const handleInputChange = (e) => {
@@ -50,24 +50,35 @@ function Logup() {
 
   const handleLogUp = async () => {
     try {
-      const formData = new FormData();
-      formData.append("firstname", firstname);
-      formData.append("lastname", lastname);
-      formData.append("username", username);
-      formData.append("password", password);
-      formData.append("confirmpassword", confirmpassword);
-      formData.append("email", email);
+      const requestBody = {
+        sUser_firstname: firstname,
+        sUser_lastname: lastname,
+        sUser_email: email,
+        sUser_username: username,
+        sUser_password: password,
+        sUser_confirmpassword: confirmpassword,
+      };
 
       const response = await fetch("https://localhost:7139/api/User/register", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
       });
 
       console.log("Response:", response);
-      console.log("formData:", formData);
+      console.log("requestBody:", requestBody);
 
       if (!response.ok) {
-        message.error(`Sign Up failed!`);
+        const errorResponse = await response.json();
+
+        if (errorResponse.errors) {
+          const usernameError = errorResponse.errors.sUser_username[0];
+          message.error(`Sign Up failed: ${usernameError}`);
+        } else {
+          message.error("Sign Up failed. Please try again.");
+        }
       } else {
         message.success(`Sign Up Successfully.`);
         navigate(`/sign_in`);
@@ -104,6 +115,10 @@ function Logup() {
             name="lastname"
             rules={[
               {
+                required: true,
+                message: "Please input your lastname!",
+              },
+              {
                 validator: (_, value) => {
                   if (!value) {
                     return Promise.reject("Xin vui lòng điền Họ!");
@@ -130,6 +145,10 @@ function Logup() {
             label={<p className="label">Tên</p>}
             name="firstname"
             rules={[
+              {
+                required: true,
+                message: "Please input your firstname!",
+              },
               {
                 validator: (_, value) => {
                   if (!value) {
@@ -158,6 +177,10 @@ function Logup() {
           label={<p className="label">Tên đăng nhập</p>}
           name="username"
           rules={[
+            {
+              required: true,
+              message: "Please input your username!",
+            },
             {
               validator: (_, value) => {
                 if (!value) {
@@ -189,6 +212,10 @@ function Logup() {
           label={<p className="label">Mật khẩu</p>}
           name="password"
           rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
             {
               validator: (_, value) => {
                 if (!value) {

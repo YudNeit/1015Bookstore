@@ -2,7 +2,7 @@
 
 export const fetchProductData = async (jwtToken) => {
   try {
-    const response = await fetch('https://localhost:7139/api/Product', {
+    const response = await fetch('https://localhost:7139/api/Product/public-getall', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${jwtToken}`,

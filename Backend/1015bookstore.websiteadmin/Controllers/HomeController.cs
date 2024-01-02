@@ -6,6 +6,7 @@ using System.Diagnostics;
 namespace _1015bookstore.websiteadmin.Controllers
 {
     [Authorize]
+    
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;

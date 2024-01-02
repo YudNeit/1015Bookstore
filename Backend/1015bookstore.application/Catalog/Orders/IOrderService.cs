@@ -13,5 +13,7 @@ namespace _1015bookstore.application.Catalog.Orders
         Task<ResponseService<OrderViewModel>> Order_Create(OrderCreateRequest request);
         Task<ResponseService> Order_Buy(OrderBuyRequest request);
         Task<ResponseService<List<OrderViewModel>>> Order_HistoryOfUser(Guid user_id);
+
+        Task<ResponseService<OrderViewModel>> Order_GetById(int iOrder_id);
     }
 }

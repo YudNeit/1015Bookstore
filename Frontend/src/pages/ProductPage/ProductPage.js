@@ -66,14 +66,20 @@ function ProductPage() {
   const handleAddToCart = async () => {
     setAmount(1); // Đặt lại số lượng sau khi thêm vào giỏ hàng
     try {
+      const data = {
+        iProduct_id: item.iProduct_id,
+        iProduct_amount: amount,
+      };
+      console.log(data);
       const response = await fetch(
-        `https://localhost:7139/api/Cart/setcart?product_id=${item.id}&amount=${amount}&user_id=${userId}`,
+        `https://localhost:7139/api/Cart/set?gUser_id=${userId}`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${jwtToken}`,
           },
+        body: JSON.stringify(data),
         }
       );
       console.log(response);
@@ -81,7 +87,10 @@ function ProductPage() {
         navigate(`/cart`);
         console.log("Item added to the cart in the database");
       } else {
-        message.error("Sản phẩm đã hết! Mong bạn thông cảm!");
+        const error = await response.text();
+        if (error) {
+          message.error(`${error}`);
+        }
         console.error("Failed to add item to the cart in the database");
       }
     } catch (error) {
@@ -98,23 +107,23 @@ function ProductPage() {
             <Col md={5} offset={1} className="image_column">
               <Image
                 src={
-                  item.pathThumbnailImage == null
+                  item.sImage_pathThumbnail == null
                     ? require(`../../assets/user-content/img_1.webp`)
-                    : require(`../../assets/user-content/${item.pathThumbnailImage}`)
+                    : require(`../../assets/user-content/${item.sImage_pathThumbnail}`)
                 }
-                alt={item.title}
+                alt={item.sProduct_name}
               />
             </Col>
             <Col md={4} offset={1} className="shortdetail_column">
               <List className="detail_list">
                 <List.Item style={{ padding: "0px 0px 20px" }}>
-                  <h1>{item.name}</h1>
+                  <h1>{item.sProduct_name}</h1>
                 </List.Item>
                 <List.Item className="star">
-                  <Rate disabled defaultValue={item.rate} />
+                  <Rate disabled defaultValue={item.dProduct_start_count} />
                 </List.Item>
                 <List.Item>
-                  <span className="price">{item.price}đ</span>
+                  <span className="price">{item.vProduct_price}đ</span>
                 </List.Item>
                 <Row>
                   <List.Item className="amount">
@@ -145,19 +154,19 @@ function ProductPage() {
                     Danh Mục: {item.category}
                   </List.Item>
                   <List.Item style={{ fontSize: "20px", color: "#8c8c8c" }}>
-                    Nhà xuất bản: {item.brand}
+                    Nhà xuất bản: {item.sProduct_brand}
                   </List.Item>
                   <List.Item style={{ fontSize: "20px", color: "#8c8c8c" }}>
-                    Nhà cung cấp: {item.supplier}
+                    Nhà cung cấp: {item.sProduct_supplier}
                   </List.Item>
                   <List.Item style={{ fontSize: "20px", color: "#8c8c8c" }}>
-                    Tác giả: {item.author}
+                    Tác giả: {item.sProduct_author}
                   </List.Item>
                   <List.Item>
                     <h2 className="detail_h2">Mô tả sản phẩm</h2>
                   </List.Item>
                   <List.Item style={{ fontSize: "16px", color: "#8c8c8c" }}>
-                    {item.description}
+                    {item.sProduct_description}
                   </List.Item>
                 </List>
               </Col>

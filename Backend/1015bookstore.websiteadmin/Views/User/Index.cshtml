@@ -21,7 +21,7 @@
                             <th>
                                 Tài khoản
                             </th>
-                            <th>
+@*                             <th>
                                 Họ
                             </th>
                             <th>
@@ -32,12 +32,15 @@
                             </th>
                             <th>
                                 Giới tính
-                            </th>
+                            </th> *@
                             <th>
                                 Số điện thoại
                             </th>
                             <th>
                                 Email
+                            </th>
+                            <th>
+                                Quyền hạn
                             </th>
                             <th></th>
                         </tr>
@@ -49,7 +52,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.sUser_username)
                                 </td>
-                                <td>
+@*                                 <td>
                                     @Html.DisplayFor(modelItem => item.sUser_firstname)
                                 </td>
                                 <td>
@@ -76,7 +79,7 @@
 
                                     }
                                     @genderText
-                                </td>
+                                </td> *@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.sUser_phonenumber)
                                 </td>
@@ -84,8 +87,11 @@
                                     @Html.DisplayFor(modelItem => item.sUser_email)
                                 </td>
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.sUser_rolename)
+                                </td>
+                                <td>
                                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Details", "Details", new { user_id = item.gUser_id}) |
                                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                                 </td>
                             </tr>

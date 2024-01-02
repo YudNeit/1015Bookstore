@@ -34,7 +34,7 @@ namespace _1015bookstore.application.Catalog.Orders
             order.phone_reciver = request.sOrder_phone_receiver;
             order.address_reciver = request.sOrder_address_receiver;
 
-            if (request.sPromotionalCode_code != null)
+            if (!string.IsNullOrEmpty(request.sPromotionalCode_code))
             {
                 var promotionalcode = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.code == request.sPromotionalCode_code);
                 if (promotionalcode != null)
@@ -93,7 +93,7 @@ namespace _1015bookstore.application.Catalog.Orders
             {
                 return new ResponseService()
                 {
-                    CodeStatus = 20,
+                    CodeStatus = 200,
                     Status = true,
                     Message = $"Success",
                 };
@@ -174,6 +174,41 @@ namespace _1015bookstore.application.Catalog.Orders
             return new ResponseService<OrderViewModel>
             {
                 CodeStatus = 201,
+                Status = true,
+                Message = "Success",
+                Data = data
+            };
+        }
+
+        public async Task<ResponseService<OrderViewModel>> Order_GetById(int iOrder_id)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(x => x.id == iOrder_id);
+            if (order == null)
+                return new ResponseService<OrderViewModel>()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find order with id: {iOrder_id}"
+                };
+            var data = new OrderViewModel
+            {
+                iOrder_id = order.id,
+                sOrder_name_receiver = order.name_reciver,
+                sOrder_address_receiver = order.address_reciver,
+                sOrder_phone_receiver = order.phone_reciver,
+                sPromoionalCode_code = order.promotionalcode,
+                vOrder_total = order.total,
+                lOrder_items = _context.OrderDetails.Where(x => x.order_id == order.id).Select(x => new OrderDetailViewModel
+                {
+                    sProduct_name = x.product_name,
+                    vProduct_price = x.price,
+                    iProduct_amount = x.quantity,
+                    sImage_path = x.imgpath
+                }).ToList(),
+            };
+            return new ResponseService<OrderViewModel>
+            {
+                CodeStatus = 200,
                 Status = true,
                 Message = "Success",
                 Data = data

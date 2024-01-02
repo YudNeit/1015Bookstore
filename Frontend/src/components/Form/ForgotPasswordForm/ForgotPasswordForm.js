@@ -33,24 +33,27 @@ function ForgotPassword() {
   };
   const handleSendCodeClick = async () => {
     try {
-      const apiUrl = `https://localhost:7139/api/User/forgotpassword?email=${encodeURIComponent(
-        email
-      )}`;
-
+      const apiUrl = `https://localhost:7139/api/User/forgotpassword`;
+      const requestBody = email;
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const error = await response.text();
+        if (error) {
+          message.error(`${error}`);
+        }
+      } else {
+        const responseData = await response.text();
+        document.cookie = `forgotToken=${responseData}; path=/`;
+        navigate(`/confirm_code`);
+        message.success("Mã xác nhận đã được gửi thành công.");
       }
-      const responseData = await response.text();
-      document.cookie = `forgotToken=${responseData}; path=/`;
-      navigate(`/confirm_code`);
-      message.success("Mã xác nhận đã được gửi thành công.");
     } catch (error) {
       console.error("Error sending confirmation code:", error);
       message.error("Đã có lỗi xảy ra. Vui lòng thử lại sau.");

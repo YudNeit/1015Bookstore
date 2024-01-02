@@ -39,7 +39,6 @@ namespace _1015bookstore.websiteadmin.Service
             }
             return new ResponseAPI<JObject>
             {
-                Data = new JObject(),
                 Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
                 Message = await response.Content.ReadAsStringAsync()
             };
@@ -51,6 +50,7 @@ namespace _1015bookstore.websiteadmin.Service
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri("https://localhost:7139");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
+
             var response = await client.GetAsync($"/api/user/admin-getall");
             var body = await response.Content.ReadAsStringAsync();
             var users = JsonSerializer.Deserialize<List<UserViewModel>>(body);
@@ -65,17 +65,33 @@ namespace _1015bookstore.websiteadmin.Service
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri("https://localhost:7139");
-            var json = JsonSerializer.Serialize(request);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
+
+            var json = JsonSerializer.Serialize(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
             var response = await client.PostAsync($"/api/user/createadmin", httpContent);
-
             var body = await response.Content.ReadAsStringAsync();
             
             return new ResponseAPI<string>
             {
                 Data = body,
+                Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
+            };
+        }
+
+        public async Task<ResponseAPI<UserViewModel>> GetUserById(string session, Guid user_id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:7139");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
+
+            var response = await client.GetAsync($"/api/user/{user_id}");
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonSerializer.Deserialize<UserViewModel>(body);
+            
+            return new ResponseAPI<UserViewModel>
+            {
+                Data = users,
                 Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
             };
         }

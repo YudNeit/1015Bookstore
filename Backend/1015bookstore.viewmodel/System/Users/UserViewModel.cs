@@ -9,6 +9,7 @@ namespace _1015bookstore.viewmodel.System.Users
 {
     public class UserViewModel
     {
+        [Display(Name ="Id người dùng")]
         public Guid gUser_id { get; set; }
         public string sUser_firstname { get; set; }
         public string sUser_lastname { get; set; }
@@ -18,5 +19,6 @@ namespace _1015bookstore.viewmodel.System.Users
         public string? sUser_phonenumber { get; set; }
         public string sUser_email { get; set; }
         public string sUser_username { get; set; }
+        public string? sUser_rolename { get; set; }
     }
 }
