@@ -1,0 +1,149 @@
+﻿@model _1015bookstore.viewmodel.Catalog.Products.ProductViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Thông tin sản phẩm</h3>
+            <div>
+                <a asp-action="Index">Trở lại danh sách</a>
+            </div>
+        </div>
+    <div class="card-body">
+    <dl class="row">
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.sImage_pathThumbnail)
+
+        </dt>
+        <dd class = "col-sm-5">
+            <img src="/img/user-content/@Model.sImage_pathThumbnail" class="img-thumbnail w-50" alt="null">
+        </dd>
+
+
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.iProduct_id)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.iProduct_id)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.sProduct_name)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.sProduct_name)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.vProduct_price)
+        </dt>
+        <dd class = "col-sm-5">
+                    @String.Format("{0:0.##}", Model.vProduct_price)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.dProduct_start_count)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.dProduct_start_count)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.iProduct_review_count)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.iProduct_review_count)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.iProduct_buy_count)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.iProduct_buy_count)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.iProduct_like_count)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.iProduct_like_count)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.iProduct_waranty)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.iProduct_waranty)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.iProduct_quantity)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.iProduct_quantity)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.iProduct_view_count)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.iProduct_view_count)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.sProduct_description)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.sProduct_description)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.sProduct_brand)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.sProduct_brand)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.sProduct_madein)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.sProduct_madein)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.dtProduct_mfgdate)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.dtProduct_mfgdate)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.sProduct_supplier)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.sProduct_supplier)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.sProduct_author)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.sProduct_author)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.sProduct_nop)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.sProduct_nop)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.iProduct_yop)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.iProduct_yop)
+        </dd>
+        <dt class = "col-sm-5">
+            @Html.DisplayNameFor(model => model.stProduct_status)
+        </dt>
+        <dd class = "col-sm-5">
+            @Html.DisplayFor(model => model.stProduct_status)
+        </dd>
+        
+    </dl>
+            @Html.ActionLink("Edit", "Edit", new {  })
+        </div>
+    </div>
+
+</div>
