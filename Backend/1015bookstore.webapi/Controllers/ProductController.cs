@@ -26,7 +26,7 @@ namespace _1015bookstore.webapi.Controllers
             try
             {
                 var pageResult = await _productService.Product_GetProductByCategoryPagingPublic(request);
-                return Ok(pageResult);
+                return Ok(pageResult.items);
             }
             catch (Exception ex)
             {
@@ -41,7 +41,7 @@ namespace _1015bookstore.webapi.Controllers
             try
             {
                 var pageResult = await _productService.Product_GetProductByCategoryPagingPublic(request);
-                return Ok(pageResult);
+                return Ok(pageResult.items);
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace _1015bookstore.webapi.Controllers
             try
             {
                 var pageResult = await _productService.Product_GetProductByKeyWordPagingPublic(request);
-                return Ok(pageResult);
+                return Ok(pageResult.items);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace _1015bookstore.webapi.Controllers
             try
             {
                 var pageResult = await _productService.Product_GetProductByKeyWordPagingAdmin(request);
-                return Ok(pageResult);
+                return Ok(pageResult.items);
             }
             catch (Exception ex)
             {
@@ -144,8 +144,26 @@ namespace _1015bookstore.webapi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        
-        
+
+
+        [HttpGet("notincate/{iCate_id}")]
+        public async Task<IActionResult> Product_GetNotInCate(int iCate_id)
+        {
+            try
+            {
+                var result = await _productService.Product_GetProductNotInCate(iCate_id);
+                if (!result.Status)
+                {
+                    return StatusCode(result.CodeStatus, result.Message);
+                }
+                return StatusCode(result.CodeStatus, result.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         //http:localhost:port/api/product
         [HttpPost]
         public async Task<IActionResult> Product_Create([FromForm] ProductCreateRequest request, Guid? gCreator_id)

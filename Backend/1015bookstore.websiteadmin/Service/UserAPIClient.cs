@@ -70,11 +70,10 @@ namespace _1015bookstore.websiteadmin.Service
             var json = JsonSerializer.Serialize(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync($"/api/user/createadmin", httpContent);
-            var body = await response.Content.ReadAsStringAsync();
-            
+
             return new ResponseAPI<string>
             {
-                Data = body,
+                Message = await response.Content.ReadAsStringAsync(),
                 Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
             };
         }

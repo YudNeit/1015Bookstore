@@ -59,7 +59,7 @@ namespace _1015bookstore.application.System.Users
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.GivenName,user.firstname),
                 new Claim(ClaimTypes.Name, user.UserName),
-                
+                new Claim("id",user.Id.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));

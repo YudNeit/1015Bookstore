@@ -30,5 +30,7 @@ namespace _1015bookstore.application.Catalog.Products
         Task<ResponseService<List<ProductViewModel>>> Product_GetAllPublic();
         Task<ResponseService<List<ProductViewModel>>> Product_GetProductByKeywordAllPublic(string? sKeyword);
 
+        Task<ResponseService<List<ProductViewModel>>> Product_GetProductNotInCate(int cate_id);
+
     }
 }

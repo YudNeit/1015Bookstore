@@ -19,6 +19,8 @@ namespace _1015bookstore.websiteadmin.Controllers
         {
             var session = HttpContext.Session.GetString("token");
             var response = await _productAPIClient.GetProduct(session);
+            if (TempData["result"] != null)
+                ViewBag.success = TempData["result"];
             return View(response.Data);
         }
         [HttpGet]
@@ -43,10 +45,16 @@ namespace _1015bookstore.websiteadmin.Controllers
             {
                 return View();
             }
+
+            var userIdClaim = User.FindFirst("id").Value;
+
             var session = HttpContext.Session.GetString("token");
-            var response = await _productAPIClient.CraeteProduct(request, session);
+            var response = await _productAPIClient.CraeteProduct(request, session, new Guid(userIdClaim));
             if (response.Status)
+            {
+                TempData["result"] = $"Tạo thành công sản phẩm {DateTime.Now}";
                 return RedirectToAction("Index");
+            }
             ViewBag.error = response.Message;
             return View();
         }

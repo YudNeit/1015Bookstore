@@ -7,6 +7,6 @@ namespace _1015bookstore.websiteadmin.Service
     {
         Task<ResponseAPI<List<ProductViewModel>>> GetProduct(string session);
         Task<ResponseAPI<ProductViewModel>> GetProductById(string session, int product_id);
-        Task<ResponseAPI<string>> CraeteProduct(ProductCreateRequest request, string session);
+        Task<ResponseAPI<string>> CraeteProduct(ProductCreateRequest request, string session, Guid user_id);
     }
 }

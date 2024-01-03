@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "ChangeParent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">@{@ViewBag.Name}</h3>
+            <div>
+                <a asp-action="Index" asp-controller="Category">Xem danh sách</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="ChangeParent" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input type="hidden" name="id" value=@ViewBag.id />
+                            <select name="parent_id" asp-items="@ViewBag.ParentCate">
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Thêm" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
