@@ -23,6 +23,7 @@ namespace _1015bookstore.viewmodel.System.Users
 
         [Required(ErrorMessage = "The * field is required")]
         [DateOfBirth(ErrorMessage = "The BirthDay is wrong format")]
+        [DataType(DataType.Date)]
         public DateTime dtUser_dob { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]

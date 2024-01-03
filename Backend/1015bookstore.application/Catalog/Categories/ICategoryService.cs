@@ -29,5 +29,7 @@ namespace _1015bookstore.application.Catalog.Categories
         Task<ResponseService<List<CategoryParentAndChildViewModel>>> Cate_GetTaskbar();
 
         //Task<CategoryParentAndChildViewModel> Cate_GetParentAndChildById(int id);
+        Task<ResponseService<List<CategoryViewModel>>> Cate_GetAddCate(int id);
+        Task<ResponseService<CategoryViewModel>> Cate_GetById(int id);
     }
 }

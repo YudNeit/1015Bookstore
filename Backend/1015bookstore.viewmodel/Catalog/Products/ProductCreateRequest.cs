@@ -16,7 +16,7 @@ namespace _1015bookstore.viewmodel.Catalog.Products
         public string sProduct_name { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
-        [Range(0, int.MaxValue, ErrorMessage = "The price is bigger than 0")]
+        [Range(1, int.MaxValue, ErrorMessage = "The price is bigger than 0")]
         [Display(Name = "Giá sản phẩm")]
         public decimal vProduct_price { get; set; }
 

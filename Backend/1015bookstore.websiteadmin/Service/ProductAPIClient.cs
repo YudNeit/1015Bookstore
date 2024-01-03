@@ -48,7 +48,7 @@ namespace _1015bookstore.websiteadmin.Service
             };
         }
 
-        public async Task<ResponseAPI<string>> CraeteProduct(ProductCreateRequest request, string session)
+        public async Task<ResponseAPI<string>> CraeteProduct(ProductCreateRequest request, string session, Guid user_id)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri("https://localhost:7139");
@@ -79,7 +79,8 @@ namespace _1015bookstore.websiteadmin.Service
             requestContent.Add(new StringContent(request.sProduct_nop == null ? "" : request.sProduct_nop.ToString()), "sProduct_nop");
             requestContent.Add(new StringContent(request.sProduct_nop == null ? "" : request.sProduct_nop.ToString()), "c");
 
-            var response = await client.PostAsync($"/api/product", requestContent);
+            var response = await client.PostAsync($"/api/product?gCreator_id={user_id}", requestContent);
+            
             return new ResponseAPI<string>
             {
                 Message = await response.Content.ReadAsStringAsync(),
