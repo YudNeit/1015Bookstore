@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Button, Card, Col, Row, Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
-import {
-  fetchPaginatedProductData,
-  fetchCategoryData,
-} from "../../components/Data/api";
 import MenuSlide from "../../components/MenuSlide";
 
 const { Meta } = Card;
@@ -16,65 +12,52 @@ const FilteredPage = () => {
   const pathName = location.pathname;
   const initialSelectedMenu = pathName.substring(1);
   const [items, setItems] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 200,
+    pageSize: 100,
     total: 0,
   });
   const [selectedMenu, setSelectedMenu] = useState(initialSelectedMenu);
-  const handleMenuSelect = (selectedValue) => {
-    setSelectedMenu(selectedValue);
-  };
-  const getCookie = (cookieName) => {
-    const cookies = document.cookie.split("; ");
-    for (const cookie of cookies) {
-      const [name, value] = cookie.split("=");
-      if (name === cookieName) {
-        return value;
-      }
-    }
-    return null;
-  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const jwtToken = getCookie("accessToken");
+        setLoading(true);
 
-        // Fetch categories and set in state
-        const categoriesData = await fetchCategoryData(jwtToken);
-        setCategories(categoriesData);
-        console.log("ádsayudsayudasgyud:" + categoriesData);
-
-        const productData = await fetchPaginatedProductData(
-          selectedMenu,
-          pagination.current,
-          pagination.pageSize,
-          jwtToken
+        const response = await fetch(
+          `https://localhost:7139/api/Product/public-paging-cate?lCate_ids=${selectedMenu}&pageindex=${pagination.current}&pagesize=${pagination.pageSize}`
         );
-        console.log("ádsayudsayudas3123gyud:" + productData);
 
-        setItems(productData.items);
-        setPagination((prev) => ({ ...prev, total: productData.totalCount }));
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setItems(data.items);
+        setPagination((prev) => ({ ...prev, total: data.total }));
       } catch (error) {
-        setError(error.message);
+        setError(error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [selectedMenu, pagination.current, pagination.pageSize]);
-  // console.log(selectedMenu);
+
+  const handleMenuSelect = (selectedValue) => {
+    setSelectedMenu(selectedValue);
+  };
+
   const handleProductClick = (item) => {
-    navigate(`/product-detail/${item.id}`, { state: { item } });
+    navigate(`/product-detail/${item.iProduct_id}`, { state: { item } });
   };
 
   const handlePageChange = (page, pageSize) => {
     setPagination((prev) => ({ ...prev, current: page, pageSize }));
   };
-  console.log(items);
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -82,10 +65,12 @@ const FilteredPage = () => {
         <MenuSlide onMenuSelect={handleMenuSelect} />
       </Col>
       <Col>
-        {Array.isArray(items) ? (
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
+        {!loading && !error && Array.isArray(items) && items.length > 0 ? (
           items.map((item) => (
             <Card
-              key={item.title}
+              key={item.iProduct_id}
               style={{
                 border: "1px solid black",
                 display: "inline-block",
@@ -95,19 +80,18 @@ const FilteredPage = () => {
               cover={
                 <img
                   style={{ height: 300, width: 260 }}
-                  alt={item.name}
+                  alt={item.sProduct_name}
                   src={
-                    item.pathThumbnailImage == null
+                    item.sImage_pathThumbnail == null
                       ? require(`../../assets/user-content/img_1.webp`)
-                      : require(`../../assets/user-content/${item.pathThumbnailImage}`)
+                      : require(`../../assets/user-content/${item.sImage_pathThumbnail}`)
                   }
                 />
               }
               onClick={() => handleProductClick(item)}
             >
-              <Meta title={item.name} />
-              <div>Price: {item.price}</div>
-              <Button>Add to cart</Button>
+              <Meta title={item.sProduct_name} />
+              <div>Price: {item.vProduct_price}</div>
             </Card>
           ))
         ) : (
