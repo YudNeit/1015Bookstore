@@ -10,7 +10,14 @@ const SearchBar = ({ onSearchResult, ...props }) => {
   const navigate = useNavigate();
   const onSearch = () => {
     localStorage.setItem("datasearch", searchValue);
-    navigate(`/search/${searchValue}`);
+
+    if (searchValue) {
+      navigate(`/search/${searchValue}`);
+      window.location.reload();
+    } else {
+      navigate(`/`);
+      window.location.reload();
+    }
   };
 
   return (

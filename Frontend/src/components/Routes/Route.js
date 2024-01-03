@@ -25,6 +25,27 @@ function AppRoutes() {
     return null;
   };
 
+  const isUserAuthenticated = () => {
+    const accessToken = getCookie('accessToken');
+    const userid = getCookie('userid');
+  
+    if (accessToken && userid) {
+      try {
+        const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
+  
+        if (decodedToken && decodedToken.exp) {
+          const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+          return decodedToken.exp > currentTimeInSeconds;
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
+  
+    return false;
+  };
+  console.log('Is user authenticated:', isUserAuthenticated());
+
   return (
     <BrowserRouter>
       <Routes>
