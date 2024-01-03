@@ -10,9 +10,10 @@ import {
   Form,
   message,
   Col,
+  Card,
 } from "antd";
-import UploadAvatar from "../../components/UploadAvatar";
 import "./ProfilePage.css";
+import { useNavigate } from "react-router-dom";
 const getCookie = (cookieName) => {
   const cookies = document.cookie.split("; ");
   for (const cookie of cookies) {
@@ -25,7 +26,9 @@ const getCookie = (cookieName) => {
 };
 
 function ProfilePage() {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [items, setItems] = useState([]);
   const jwtToken = getCookie("accessToken");
   const userId = getCookie("userid");
   const [userData, setUserData] = useState(null);
@@ -41,7 +44,6 @@ function ProfilePage() {
   });
   const [isChangePasswordModalVisible, setChangePasswordModalVisible] =
     useState(false);
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -85,7 +87,7 @@ function ProfilePage() {
         sUser_firstname: userData.sUser_firstname,
         sUser_lastname: userData.sUser_lastname,
         dtUser_dob: editedData.dtUser_dob,
-        bUser_sex: editedData.bUser_sex,
+        bUser_sex: Boolean(editedData.bUser_sex),
         sUser_phonenumber: editedData.sUser_phonenumber,
       };
       console.log(data);
@@ -176,23 +178,22 @@ function ProfilePage() {
   const handleChangePasswordSave = async () => {
     try {
       const apiUrl = "https://localhost:7139/api/User/ChangePassword";
-      const jwtToken = getCookie("accessToken");
 
-      const formData = new FormData();
-      formData.append("user_id", userId);
-      formData.append("oldPassword", changePasswordData.oldPassword);
-      formData.append("newPassword", changePasswordData.newPassword);
-      formData.append(
-        "confirmnewPassword",
-        changePasswordData.confirmNewPassword
-      );
+      const data = {
+        gUser_id: userId,
+        sUser_oldPassword: changePasswordData.oldPassword,
+        sUser_newPassword: changePasswordData.newPassword,
+        sUser_confirmnewPassword: changePasswordData.confirmNewPassword,
+      };
+      console.log(data);
 
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${jwtToken}`,
         },
-        body: formData,
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
@@ -222,6 +223,40 @@ function ProfilePage() {
     }
   };
 
+  useEffect(() => {
+    const fetchHistoryOrder = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:7139/api/Order/history?gUser_id=${userId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setItems(data);
+        return data;
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+    fetchHistoryOrder();
+  }, []);
+
+  const handleCardClick = (item) => {
+    console.log("Card clicked:", item);
+    localStorage.setItem("orderhistoryId", item.iOrder_id);
+    navigate(`/history`);
+  };
+
   return (
     <div>
       <Row>
@@ -241,7 +276,9 @@ function ProfilePage() {
                 {isEditing ? (
                   <Input
                     value={editedData.dtUser_dob}
-                    onChange={(e) => handleInputChange("dtUser_dob", e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("dtUser_dob", e.target.value)
+                    }
                   />
                 ) : (
                   userData.dtUser_dob || "N/A"
@@ -358,7 +395,7 @@ function ProfilePage() {
                 },
                 {
                   validator: (_, value) => {
-                    if (value.length <= 8) {
+                    if (value.length < 8) {
                       return Promise.reject(
                         "Password should be at least 8 characters"
                       );
@@ -395,6 +432,7 @@ function ProfilePage() {
                 onChange={handleNewPasswordChange}
               />
             </Form.Item>
+
             <Form.Item
               className="no_margin"
               label={<p className="label">Xác nhận mật khẩu mới</p>}
@@ -432,7 +470,19 @@ function ProfilePage() {
         <Row>
           <h2 className="detail_h2">LỊCH SỬ GIAO DỊCH</h2>
         </Row>
-        
+        <div>
+          {items.map((item) => (
+            <Card hoverable onClick={() => handleCardClick(item)}>
+              Tên người nhận: {item.sOrder_name_receiver}
+              <br />
+              Phone: {item.sOrder_phone_receiver}
+              <br />
+              Địa chỉ: {item.sOrder_address_receiver}
+              <br />
+              Tổng tiền: {item.vOrder_total}
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

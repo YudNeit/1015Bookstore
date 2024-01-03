@@ -296,7 +296,7 @@ function CheckoutPage() {
                   order.sOrder_address_receiver
                 ) {
                   if (
-                    order.sOrder_phone_receiver.length !== 10 &&
+                    order.sOrder_phone_receiver.length !== 10 ||
                     order.sOrder_phone_receiver[0] !== "0"
                   ) {
                     message.error(
