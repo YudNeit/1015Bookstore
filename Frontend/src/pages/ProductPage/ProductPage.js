@@ -44,7 +44,6 @@ function ProductPage() {
   const [amount, setAmount] = useState(1);
 
   useEffect(() => {
-    // Scroll đến đầu trang khi component đã mount
     window.scrollTo(0, 0);
   }, []);
 
