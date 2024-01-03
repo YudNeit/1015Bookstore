@@ -18,6 +18,7 @@ import Page404 from "../../pages/404Page";
 import CheckoutPage from "../../pages/CheckoutPage";
 import FilteredPage from "../../pages/Category";
 import SearchPage from "../../pages/SearchPage";
+import HistoryOrderPage from "../../pages/HistoryOrderPage";
 
 function DefineLayout() {
   const isUserAuthenticated = () => {
@@ -66,6 +67,7 @@ const publicRoutes = [
   { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
   { path: "/checkout", component: CheckoutPage, layout: DefineLayout() },
   { path: "/cart", component: CartPage },
+  { path: "/history", component: HistoryOrderPage, layout: DefineLayout() },
   { path: "/search/:searchValue", component: SearchPage, layout: DefineLayout() },
 ];
 //PrivateRoutes
