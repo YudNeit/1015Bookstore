@@ -2,7 +2,6 @@
 import UnlogLayout from "../Layouts/UnlogLayout";
 import LogLayout from "../Layouts/LogLayout";
 import DefaultLayout from "../Layouts/DefaultLayout";
-import Layout404 from "../Layouts/Layout404";
 
 //Pages
 import CartPage from "../../pages/CartPage/CartPage";
@@ -14,7 +13,6 @@ import SignIn from "../../pages/SignIn/SignIn";
 import SignUp from "../../pages/SignUp/SignUp";
 import ChangePasswordPage from "../../pages/ChangePasswordPage";
 import ProfilePage from "../../pages/ProflePage";
-import Page404 from "../../pages/404Page";
 import CheckoutPage from "../../pages/CheckoutPage";
 import FilteredPage from "../../pages/Category";
 import SearchPage from "../../pages/SearchPage";
@@ -62,13 +60,16 @@ const publicRoutes = [
     component: ChangePasswordPage,
     layout: LogLayout,
   },
-  { path: "/404_page", component: Page404, layout: Layout404 },
   { path: "/confirm_code", component: ConfirmCode, layout: LogLayout },
   { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
   { path: "/checkout", component: CheckoutPage, layout: DefineLayout() },
   { path: "/cart", component: CartPage },
   { path: "/history", component: HistoryOrderPage, layout: DefineLayout() },
-  { path: "/search/:searchValue", component: SearchPage, layout: DefineLayout() },
+  {
+    path: "/search/:searchValue",
+    component: SearchPage,
+    layout: DefineLayout(),
+  },
 ];
 //PrivateRoutes
 const privateRoutes = [];
