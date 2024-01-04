@@ -19,7 +19,6 @@
     <dl class="row">
         <dt class = "col-sm-5">
             @Html.DisplayNameFor(model => model.sImage_pathThumbnail)
-
         </dt>
         <dd class = "col-sm-5">
             <img src="/img/user-content/@Model.sImage_pathThumbnail" class="img-thumbnail w-50" alt="null">
@@ -42,7 +41,7 @@
             @Html.DisplayNameFor(model => model.vProduct_price)
         </dt>
         <dd class = "col-sm-5">
-                    @String.Format("{0:0.##}", Model.vProduct_price)
+            @String.Format("{0:0.##}", Model.vProduct_price)
         </dd>
         <dt class = "col-sm-5">
             @Html.DisplayNameFor(model => model.dProduct_start_count)
@@ -92,53 +91,96 @@
         <dd class = "col-sm-5">
             @Html.DisplayFor(model => model.sProduct_description)
         </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.sProduct_brand)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.sProduct_brand)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.sProduct_madein)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.sProduct_madein)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.dtProduct_mfgdate)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.dtProduct_mfgdate)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.sProduct_supplier)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.sProduct_supplier)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.sProduct_author)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.sProduct_author)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.sProduct_nop)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.sProduct_nop)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.iProduct_yop)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.iProduct_yop)
-        </dd>
-        <dt class = "col-sm-5">
+        @if(Model.sProduct_brand != null)
+                {
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.sProduct_brand)
+                    </dt>
+                    <dd class="col-sm-5">
+                        @Html.DisplayFor(model => model.sProduct_brand)
+                    </dd>
+                }
+         @if(Model.sProduct_madein != null)
+                {
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.sProduct_madein)
+                    </dt>
+                    <dd class="col-sm-5">
+                        @Html.DisplayFor(model => model.sProduct_madein)
+                    </dd>
+                }
+        @if(Model.dtProduct_mfgdate != null)
+                {
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.dtProduct_mfgdate)
+                    </dt>
+                    <dd class="col-sm-5">
+                        @Html.DisplayFor(model => model.dtProduct_mfgdate)
+                    </dd>
+                }
+         @if(Model.sProduct_supplier!=null)
+                {
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.sProduct_supplier)
+                    </dt>
+                    <dd class="col-sm-5">
+                        @Html.DisplayFor(model => model.sProduct_supplier)
+                    </dd>
+                }
+         @if(Model.sProduct_supplier != null)
+                {
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.sProduct_author)
+                    </dt>
+                    <dd class="col-sm-5">
+                        @Html.DisplayFor(model => model.sProduct_author)
+                    </dd>
+                }
+         @if (Model.sProduct_nop != null)
+                {
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.sProduct_nop)
+                    </dt>
+                    <dd class="col-sm-5">
+                        @Html.DisplayFor(model => model.sProduct_nop)
+                    </dd>
+                }
+         @if (Model.iProduct_yop != null)
+                {
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.iProduct_yop)
+                    </dt>
+                    <dd class="col-sm-5">
+                        @Html.DisplayFor(model => model.iProduct_yop)
+                    </dd>
+                }
+                <dt class = "col-sm-5">
             @Html.DisplayNameFor(model => model.stProduct_status)
         </dt>
         <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.stProduct_status)
+                    @{
+                        string a = "";
+                        switch (Model.stProduct_status)
+                        {
+                            case _1015bookstore.data.Enums.ProductStatus.OOS:
+                                {
+                                    a = "Hết hàng";
+                                    break;
+                                }
+                            case _1015bookstore.data.Enums.ProductStatus.Normal:
+                                {
+                                    a = "Còn hàng";
+                                    break;
+                                }
+                            case _1015bookstore.data.Enums.ProductStatus.Delete:
+                                {
+                                    a = "Sản phẫm đã bị xóa";
+                                    break;
+                                }
+                        }
+                       
+                    }
+                    @a
         </dd>
         
     </dl>

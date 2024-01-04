@@ -296,5 +296,100 @@ namespace _1015bookstore.application.Catalog.Categories
                 Data = data
             };
         }
+        
+        public async Task<ResponseService<List<CategoryViewModel>>> Cate_GetAddCate(int id)
+        {
+            var cate = await _context.Categories.FindAsync(id);
+
+            if (cate == null)
+                return new ResponseService<List<CategoryViewModel>>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a categoy with id: {id}"
+                };
+
+            var data = await _context.Categories.Where(x => x.categoryparentid == 0).Select(e => new CategoryParentAndChildViewModel
+            {
+                iCate_id = e.id,
+                sCate_name = e.name,
+                iCate_parent_id = e.categoryparentid,
+                stCate_status = e.status,
+                stCate_show = e.show,
+                lCate_childs = _context.Categories.Where(x => x.categoryparentid == e.id).Select(x => new CategoryViewModel
+                {
+                    iCate_id = x.id,
+                    sCate_name = x.name,
+                    iCate_parent_id = x.categoryparentid,
+                    stCate_status = x.status,
+                    stCate_show = x.show,
+                }).ToList(),
+            }).ToListAsync();
+
+            var list = new List<CategoryViewModel>();
+            foreach (var item in data)
+            {
+                if (item.iCate_id == id)
+                    continue;
+                if (item.lCate_childs.Count > 0)
+                {
+                    foreach(var item_ in item.lCate_childs)
+                    {
+                        list.Add(new CategoryViewModel {
+                            iCate_id = item_.iCate_id,
+                            sCate_name = item_.sCate_name,
+                            stCate_show = item_.stCate_show,
+                            stCate_status=item_.stCate_status,
+                            iCate_parent_id = item_.iCate_parent_id
+                        });
+                    }
+                }
+                else
+                {
+                    list.Add(new CategoryViewModel { 
+                        iCate_id = item.iCate_id,
+                        sCate_name = item.sCate_name,
+                        stCate_show = item.stCate_show,
+                        stCate_status = item.stCate_status,
+                        iCate_parent_id = item.iCate_parent_id
+                    });
+                }    
+            }
+
+            return new ResponseService<List<CategoryViewModel>>
+            {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = list
+            };
+        }
+    
+        public async Task<ResponseService<CategoryViewModel>> Cate_GetById(int id)
+        {
+            var cate = await _context.Categories.FindAsync(id);
+
+            if (cate == null)
+                return new ResponseService<CategoryViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a categoy with id: {id}"
+                };
+            return new ResponseService<CategoryViewModel>
+            {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = new CategoryViewModel
+                {
+                    iCate_id = cate.id,
+                    sCate_name = cate.name,
+                    iCate_parent_id = cate.categoryparentid,
+                    stCate_status = cate.status,
+                    stCate_show = cate.show,
+                },
+            };
+        }
     }
 }

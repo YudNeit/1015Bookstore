@@ -23,6 +23,8 @@ namespace _1015bookstore.websiteadmin.Controllers
         {
             var session = HttpContext.Session.GetString("token");
             var response = await _userAPIClient.GetUser(session);
+            if (TempData["result"] != null)
+                ViewBag.success = TempData["result"];
             return View(response.Data);
         }
 
@@ -51,8 +53,11 @@ namespace _1015bookstore.websiteadmin.Controllers
             var response = await _userAPIClient.CraeteUserAdmin(request, session);
             
             if (response.Status)
+            {
+                TempData["result"] = $"Tạo thành công tài khoản admin {DateTime.Now}";
                 return RedirectToAction("Index");
-            ViewBag.error = response.Data;
+            }
+            ViewBag.error = response.Message;
             return View();
         }
 

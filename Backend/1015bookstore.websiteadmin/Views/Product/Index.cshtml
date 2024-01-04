@@ -12,6 +12,14 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
             <h3 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h3>
+            @if (ViewBag.success != null)
+            {
+                <div id="msg" class="card bg-success text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.success
+                    </div>
+                </div>
+            }
             <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Tạo sản phẩm mới</a>
         </div>
         <div class="card-body">

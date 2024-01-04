@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
@@ -80,7 +82,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="sImage_pathThumbnail" class="control-label"></label>
-                            <input asp-for="sImage_pathThumbnail" type="file" class="form-control" />
+                            <input asp-for="sImage_pathThumbnail" type="file" />
                             <span asp-validation-for="sImage_pathThumbnail" class="text-danger"></span>
                         </div>
                         <div class="form-group">

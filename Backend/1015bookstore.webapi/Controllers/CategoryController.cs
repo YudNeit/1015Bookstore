@@ -146,6 +146,39 @@ namespace _1015bookstore.webapi.Controllers
             }
         }
 
-        
+        [HttpGet("GetAddCate")]
+        public async Task<IActionResult> Cate_GetAddCate([FromQuery]int iCate_id)
+        {
+
+            try
+            {
+                var response = await _categoryService.Cate_GetAddCate(iCate_id);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpGet("{iCate_id}")]
+        public async Task<IActionResult> Cate_GetById(int iCate_id)
+        {
+
+            try
+            {
+                var response = await _categoryService.Cate_GetById(iCate_id);
+                if (!response.Status)
+                    return StatusCode(response.CodeStatus, response.Message);
+
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

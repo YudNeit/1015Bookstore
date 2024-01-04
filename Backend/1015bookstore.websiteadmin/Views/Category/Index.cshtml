@@ -1,0 +1,82 @@
+﻿@using _1015bookstore.viewmodel.Comon
+@model List<_1015bookstore.viewmodel.Catalog.Categories.CategoryParentAndChildViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Danh sách danh mục</h3>
+            @if (ViewBag.success != null)
+            {
+                <div id="msg" class="card bg-success text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.success
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-body">
+
+                @foreach (var item in Model)
+                {
+
+                    <li class="list-group">
+                        <div class="card border-left-primary shadow h-100 py-2" data-toggle="collapse" data-target="#collapse@{@item.iCate_id;}" aria-expanded="true" aria-controls="collapse@{@item.iCate_id;}">
+                        <div class="dropdown-header d-sm-flex align-items-center justify-content-between">
+                            @if (item.lCate_childs.Count ==0)
+                            {
+                                <div>
+                                    <a asp-action="ProductCate" asp-controller="Category" asp-route-paramName=@item.iCate_id>@item.sCate_name </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>@item.sCate_name</div>
+                            }
+                            <div class="row">
+                                <form asp-action="ChangeParent" method="get">
+                                    <input type="hidden" name="id" value=@item.iCate_id>
+                                    <input type="hidden" name="name" value="@{@item.sCate_name}">
+                                    <button type="submit">+</button>
+                                </form>
+                                
+                                <div>@item.lCate_childs.Count()</div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                        <div id="collapse@{@item.iCate_id;}" class="collapse" aria-labelledby="heading" data-parent="#accordionSidebar">
+                        <div class="bg-infor py-2 collapse-inner rounded">
+                                <ul class="list-group">
+                                    @foreach (var childitem in item.lCate_childs)
+                                    {
+                                    <li class="list-group-item d-sm-flex align-items-center justify-content-between" >
+                                        <div>
+
+                                            <a asp-action="ProductCate" asp-controller="Category" asp-route-paramName=@childitem.iCate_id>@childitem.sCate_name </a>
+                                        </div>
+                                        <form asp-action="ChangeParent" method="post">
+                                            <input type="hidden" name="id" value=0>
+                                            <input type="hidden" name="parent_id" value="@{@childitem.iCate_id}">
+                                            <button type="submit">-</button>
+                                        </form>
+                                    </li>
+                                        
+                                    }
+                                </ul>
+                        </div>
+                        </div>
+                    </li>
+                }
+            </div>
+    </div>
+
+</div>
+
+
