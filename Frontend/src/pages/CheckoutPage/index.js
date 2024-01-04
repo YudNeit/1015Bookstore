@@ -16,6 +16,7 @@ function CheckoutPage() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showConfirmationPay, setShowConfirmationPay] = useState(false);
   const [isApply, setisApply] = useState(false);
+  const [isCheck, setisCheck] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const getCookie = (cookieName) => {
     const cookies = document.cookie.split("; ");
@@ -155,10 +156,12 @@ function CheckoutPage() {
   };
 
   const handleApplyVoucher = () => {
-    // Show the confirmation modal when Apply button is clicked
-    setShowConfirmation(true);
+    if (isCheck) {
+      setShowConfirmation(true);
+    } else {
+      message.error(`You need to check voucher before apply!`);
+    }
   };
-
   const handleConfirmApplyVoucher = () => {
     setisApply(true);
     setShowConfirmation(false);

@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import "../style.css";
+import "../styleForm.css";
 import { useState, useEffect } from "react";
 import { Button, Form, Input, ConfigProvider, message } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -107,7 +107,7 @@ function ChangePassword() {
           Đổi mật khẩu
         </Typography>
         <Form.Item
-          className="no_margin red_star"
+          className="no_margin"
           label={<p className="label">Mật khẩu</p>}
           name="password"
           rules={[

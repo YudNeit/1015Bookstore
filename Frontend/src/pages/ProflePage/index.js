@@ -385,7 +385,7 @@ function ProfilePage() {
               />
             </Form.Item>
             <Form.Item
-              className="no_margin red_star"
+              className="no_margin"
               label={<p className="label">Mật khẩu Mới</p>}
               name="newpassword"
               rules={[
