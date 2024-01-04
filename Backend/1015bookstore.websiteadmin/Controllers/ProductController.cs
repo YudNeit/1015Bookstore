@@ -128,7 +128,7 @@ namespace _1015bookstore.websiteadmin.Controllers
         [HttpPost]
         public async Task<IActionResult> Receipt(int amount, int product_id, int price)
         {
-            if (amount == null || product_id == null)
+            if (amount == null || price == null)
             {
                 TempData["error"] = "Vui lòng nhập giá trị";
                 return RedirectToAction("Receipt");

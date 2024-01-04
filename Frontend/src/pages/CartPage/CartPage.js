@@ -11,7 +11,7 @@ import {
   Row,
 } from "antd";
 import { useNavigate } from "react-router-dom";
-import "./../styleMainPage.css";
+import "../stylePage.css";
 
 function CartPage() {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -199,79 +199,77 @@ function CartPage() {
 
   return (
     <div>
-      <div>
-        <div className="cartlist_item">
-          <Col md={2} offset={0}>
-            <Checkbox
-              checked={items.length === selectedItems.length}
-              onChange={handleCheckAllChange}
-            >
-              {items.length === selectedItems.length ? (
-                <h3>Hủy chọn tất cả</h3>
-              ) : (
-                <h3>Chọn tất cả</h3>
-              )}
-            </Checkbox>
-          </Col>
-          <Col md={11} offset={0}>
-            <h3>Sản phẩm</h3>
-          </Col>
-          <Col md={3}>
-            <h3>Đơn giá</h3>
-          </Col>
-          <Col md={3}>
-            <h3>Số lượng</h3>
-          </Col>
-          <Col md={3}>
-            <h3>Thành tiền</h3>
-          </Col>
-          <Col md={1}></Col>
-        </div>
+      <h3 class="title-comm">
+        <span class="title-holder">GIỎ HÀNG</span>
+      </h3>
+
+      <div className="cartlist_header">
+        <Col md={1}>
+          <Checkbox
+            checked={items.length === selectedItems.length}
+            onChange={handleCheckAllChange}
+          ></Checkbox>
+        </Col>
+        <Col md={2}>
+          <h3>Sản phẩm</h3>
+        </Col>
+        <Col md={8}></Col>
+        <Col md={3} offset={1}>
+          <h3>Đơn giá</h3>
+        </Col>
+        <Col md={3}>
+          <h3>Số lượng</h3>
+        </Col>
+        <Col md={3}>
+          <h3>Thành tiền</h3>
+        </Col>
+        <Col md={1}></Col>
       </div>
-      <div>
+      <div className="cartlist_item">
         {items.map((item) => (
-          <Card key={item.iCart_id}>
+          <Card className="item_cart" key={item.iCart_id}>
             <Row align="middle">
-              <Col md={2} offset={0}>
+              <Col md={1}>
                 <Checkbox
                   checked={selectedItems.includes(item.iCart_id)}
                   onChange={(e) => handleCheckboxChange(e, item.iCart_id)}
                 />
               </Col>
-              <Col md={11} offset={0}>
-                <div className="cartlist_item">
-                  <Image
-                    style={{
-                      height: 120,
-                      width: 100,
-                    }}
-                    src={
-                      item.sImage_path == null
-                        ? require(`../../assets/user-content/img_1.webp`)
-                        : require(`../../assets/user-content/${item.sImage_path}`)
-                    }
-                    alt={item.sProduct_name}
-                  />
-                  <span>{item.sProduct_name}</span>
-                </div>
+              <Col md={2}>
+                <Image
+                  style={{
+                    height: 80,
+                    width: 80,
+                  }}
+                  src={
+                    item.sImage_path == null
+                      ? require(`../../assets/user-content/img_1.webp`)
+                      : require(`../../assets/user-content/${item.sImage_path}`)
+                  }
+                  alt={item.sProduct_name}
+                />
               </Col>
-              <Col md={3}>
+              <Col md={8}>
+                <span>{item.sProduct_name}</span>
+              </Col>
+              <Col md={3} offset={1}>
                 <span> {item.vProduct_price}đ</span>
               </Col>
               <Col md={3}>
-                <div className="cartlist_item">
+                <div className="amount_part">
                   <Button
-                    className="fit_content"
+                    className="amount_change_button"
                     onClick={() => handleQuantityChange(item.iCart_id, +1)}
                   >
                     +
                   </Button>
 
-                  <span style={{ fontSize: "20px", margin: "0px 10px" }}>
+                  <span style={{ margin: "0px 10px" }}>
                     {item.iProduct_amount}
                   </span>
 
                   <Button
+                    className="amount_change_button"
                     onClick={() => handleQuantityChange(item.iCart_id, -1)}
                   >
                     -
@@ -279,10 +277,15 @@ function CartPage() {
                 </div>
               </Col>
               <Col md={3}>
-                <span>{item.vProduct_price * item.iProduct_amount}đ</span>
+                <span className="cp_item_price">
+                  {item.vProduct_price * item.iProduct_amount}đ
+                </span>
               </Col>
               <Col md={1}>
-                <Button onClick={() => handleRemoveItem(item.iCart_id)}>
+                <Button
+                  className="cp_delete_button"
+                  onClick={() => handleRemoveItem(item.iCart_id)}
+                >
                   Xóa
                 </Button>
               </Col>

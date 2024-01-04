@@ -31,7 +31,7 @@ h3.title-comm:before {
   z-index: 2;
   text-align: center;
   display: inline-block;
-  min-width: 280px;
+  min-width: 210px;
 }
 .title-holder:before {
   content: "";
@@ -93,9 +93,9 @@ h3.title-comm:before {
   flex-wrap: wrap;
   background-color: white;
   padding: 2vh 3vw;
-  margin: 0vh 10vw 2vh 10vw;
+  margin: 0vh 10vw 2vh;
   min-height: 100vh;
-  border-radius: 0.8vw;
+  border-radius: 0.5vw;
 }
 .card_item {
   border: 2px solid #ededed;
@@ -103,7 +103,7 @@ h3.title-comm:before {
   align-items: center;
   margin: 0px 0px 20px;
   padding: 10px 2px;
-  border-radius: 0.8vw;
+  border-radius: 0.5vw;
   max-height: 310px;
 }
 .mp_book_item_image {
