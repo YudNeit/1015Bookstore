@@ -90,6 +90,7 @@ namespace _1015bookstore.websiteadmin.Service
                 ByteArrayContent bytes = new ByteArrayContent(data);
                 requestContent.Add(bytes, "sImage_pathThumbnail", request.sImage_pathThumbnail.FileName);
             }
+            requestContent.Add(new StringContent(request.iProduct_id.ToString()), "iProduct_id");
             requestContent.Add(new StringContent(request.sProduct_name.ToString()), "sProduct_name");
             requestContent.Add(new StringContent(request.vProduct_price.ToString()), "vProduct_price");
             requestContent.Add(new StringContent(request.iProduct_waranty.ToString()), "iProduct_waranty");
@@ -97,7 +98,7 @@ namespace _1015bookstore.websiteadmin.Service
             requestContent.Add(new StringContent(request.sProduct_brand == null ? "" : request.sProduct_brand.ToString()), "sProduct_brand");
             requestContent.Add(new StringContent(request.sProduct_madein == null ? "" : request.sProduct_madein.ToString()), "sProduct_madein");
             requestContent.Add(new StringContent(request.dtProduct_mfgdate == null ? "" : request.dtProduct_mfgdate.ToString()), "dtProduct_mfgdate");
-            requestContent.Add(new StringContent(request.sProduct_supplier == null ? "" : request.sProduct_supplier.ToString()), "sProduct_suppiler");
+            requestContent.Add(new StringContent(request.sProduct_supplier == null ? "" : request.sProduct_supplier.ToString()), "sProduct_supplier");
             requestContent.Add(new StringContent(request.sProduct_author == null ? "" : request.sProduct_author.ToString()), "sProduct_author");
             requestContent.Add(new StringContent(request.sProduct_nop == null ? "" : request.sProduct_nop.ToString()), "sProduct_nop");
             requestContent.Add(new StringContent(request.iProduct_yop == null ? "" : request.iProduct_yop.ToString()), "iProduct_yop");
