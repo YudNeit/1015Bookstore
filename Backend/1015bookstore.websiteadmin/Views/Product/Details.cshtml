@@ -15,180 +15,216 @@
                 <a asp-action="Index">Trở lại danh sách</a>
             </div>
         </div>
-    <div class="card-body">
-    <dl class="row">
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.sImage_pathThumbnail)
-        </dt>
-        <dd class = "col-sm-5">
-            <img src="/img/user-content/@Model.sImage_pathThumbnail" class="img-thumbnail w-50" alt="null">
-        </dd>
-
-
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.iProduct_id)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.iProduct_id)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.sProduct_name)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.sProduct_name)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.vProduct_price)
-        </dt>
-        <dd class = "col-sm-5">
-            @String.Format("{0:0.##}", Model.vProduct_price)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.dProduct_start_count)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.dProduct_start_count)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.iProduct_review_count)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.iProduct_review_count)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.iProduct_buy_count)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.iProduct_buy_count)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.iProduct_like_count)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.iProduct_like_count)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.iProduct_waranty)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.iProduct_waranty)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.iProduct_quantity)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.iProduct_quantity)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.iProduct_view_count)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.iProduct_view_count)
-        </dd>
-        <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.sProduct_description)
-        </dt>
-        <dd class = "col-sm-5">
-            @Html.DisplayFor(model => model.sProduct_description)
-        </dd>
-        @if(!string.IsNullOrEmpty(Model.sProduct_brand))
-                {
-                    <dt class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.sProduct_brand)
-                    </dt>
-                    <dd class="col-sm-5">
-                        @Html.DisplayFor(model => model.sProduct_brand)
-                    </dd>
-                }
-                @if (!string.IsNullOrEmpty(Model.sProduct_madein))
-                {
-                    <dt class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.sProduct_madein)
-                    </dt>
-                    <dd class="col-sm-5">
-                        @Html.DisplayFor(model => model.sProduct_madein)
-                    </dd>
-                }
-                @if (Model.dtProduct_mfgdate != null)
-                {
-                    <dt class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.dtProduct_mfgdate)
-                    </dt>
-                    <dd class="col-sm-5">
-                        @Html.DisplayFor(model => model.dtProduct_mfgdate)
-                    </dd>
-                }
-                @if (!string.IsNullOrEmpty(Model.sProduct_supplier))
-                {
-                    <dt class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.sProduct_supplier)
-                    </dt>
-                    <dd class="col-sm-5">
-                        @Html.DisplayFor(model => model.sProduct_supplier)
-                    </dd>
-                }
-                @if (!string.IsNullOrEmpty(Model.sProduct_author))
-                {
-                    <dt class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.sProduct_author)
-                    </dt>
-                    <dd class="col-sm-5">
-                        @Html.DisplayFor(model => model.sProduct_author)
-                    </dd>
-                }
-                @if (!string.IsNullOrEmpty(Model.sProduct_nop))
-                {
-                    <dt class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.sProduct_nop)
-                    </dt>
-                    <dd class="col-sm-5">
-                        @Html.DisplayFor(model => model.sProduct_nop)
-                    </dd>
-                }
-                @if (Model.iProduct_yop != null)
-                {
-                    <dt class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.iProduct_yop)
-                    </dt>
-                    <dd class="col-sm-5">
-                        @Html.DisplayFor(model => model.iProduct_yop)
-                    </dd>
-                }
-                <dt class = "col-sm-5">
-            @Html.DisplayNameFor(model => model.stProduct_status)
-        </dt>
-        <dd class = "col-sm-5">
-                    @{
-                        string a = "";
-                        switch (Model.stProduct_status)
+        <div class="card-body">
+            <dl class="row">
+                <div class="col-lg-8">
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.iProduct_id)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.iProduct_id)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.sProduct_name)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.sProduct_name)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.vProduct_price)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @String.Format("{0:0.##}", Model.vProduct_price)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.dProduct_start_count)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.dProduct_start_count)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.iProduct_review_count)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.iProduct_review_count)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.iProduct_buy_count)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.iProduct_buy_count)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.iProduct_like_count)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.iProduct_like_count)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.iProduct_waranty)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.iProduct_waranty)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.iProduct_quantity)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.iProduct_quantity)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.iProduct_view_count)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.iProduct_view_count)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.sProduct_description)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @Html.DisplayFor(model => model.sProduct_description)
+                        </dd>
+                    </div>
+                    <div class="row">
+                        @if (!string.IsNullOrEmpty(Model.sProduct_brand))
                         {
-                            case _1015bookstore.data.Enums.ProductStatus.OOS:
-                                {
-                                    a = "Hết hàng";
-                                    break;
-                                }
-                            case _1015bookstore.data.Enums.ProductStatus.Normal:
-                                {
-                                    a = "Còn hàng";
-                                    break;
-                                }
-                            case _1015bookstore.data.Enums.ProductStatus.Delete:
-                                {
-                                    a = "Sản phẫm đã bị xóa";
-                                    break;
-                                }
+                            <dt class="col-sm-5">
+                                @Html.DisplayNameFor(model => model.sProduct_brand)
+                            </dt>
+                            <dd class="col-sm-5">
+                                @Html.DisplayFor(model => model.sProduct_brand)
+                            </dd>
                         }
-                       
-                    }
-                    @a
-        </dd>
-        
-    </dl>
+                    </div>
+                    <div class="row">
+                        @if (!string.IsNullOrEmpty(Model.sProduct_madein))
+                        {
+                            <dt class="col-sm-5">
+                                @Html.DisplayNameFor(model => model.sProduct_madein)
+                            </dt>
+                            <dd class="col-sm-5">
+                                @Html.DisplayFor(model => model.sProduct_madein)
+                            </dd>
+                        }
+                    </div>
+                    <div class="row">
+                        @if (Model.dtProduct_mfgdate != null)
+                        {
+                            <dt class="col-sm-5">
+                                @Html.DisplayNameFor(model => model.dtProduct_mfgdate)
+                            </dt>
+                            <dd class="col-sm-5">
+                                @Html.DisplayFor(model => model.dtProduct_mfgdate)
+                            </dd>
+                        }
+                    </div>
+                    <div class="row">
+                        @if (!string.IsNullOrEmpty(Model.sProduct_supplier))
+                        {
+                            <dt class="col-sm-5">
+                                @Html.DisplayNameFor(model => model.sProduct_supplier)
+                            </dt>
+                            <dd class="col-sm-5">
+                                @Html.DisplayFor(model => model.sProduct_supplier)
+                            </dd>
+                        }
+                    </div>
+                    <div class ="row">
+                        @if (!string.IsNullOrEmpty(Model.sProduct_author))
+                        {
+                            <dt class="col-sm-5">
+                                @Html.DisplayNameFor(model => model.sProduct_author)
+                            </dt>
+                            <dd class="col-sm-5">
+                                @Html.DisplayFor(model => model.sProduct_author)
+                            </dd>
+                        }
+                    </div>
+                    <div class="row">
+                        @if (!string.IsNullOrEmpty(Model.sProduct_nop))
+                        {
+                            <dt class="col-sm-5">
+                                @Html.DisplayNameFor(model => model.sProduct_nop)
+                            </dt>
+                            <dd class="col-sm-5">
+                                @Html.DisplayFor(model => model.sProduct_nop)
+                            </dd>
+                        }
+                    </div>
+                    <div class="row">
+                        @if (Model.iProduct_yop != null)
+                        {
+                            <dt class="col-sm-5">
+                                @Html.DisplayNameFor(model => model.iProduct_yop)
+                            </dt>
+                            <dd class="col-sm-5">
+                                @Html.DisplayFor(model => model.iProduct_yop)
+                            </dd>
+                        }
+                    </div>
+                    <div class="row">
+                        <dt class="col-sm-5">
+                            @Html.DisplayNameFor(model => model.stProduct_status)
+                        </dt>
+                        <dd class="col-sm-5">
+                            @{
+                                string a = "";
+                                switch (Model.stProduct_status)
+                                {
+                                    case _1015bookstore.data.Enums.ProductStatus.OOS:
+                                        {
+                                            a = "Hết hàng";
+                                            break;
+                                        }
+                                    case _1015bookstore.data.Enums.ProductStatus.Normal:
+                                        {
+                                            a = "Còn hàng";
+                                            break;
+                                        }
+                                    case _1015bookstore.data.Enums.ProductStatus.Delete:
+                                        {
+                                            a = "Sản phẫm đã bị xóa";
+                                            break;
+                                        }
+                                }
+
+                            }
+                            @a
+                        </dd>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <dt class="col-sm-10">
+                        @Html.DisplayNameFor(model => model.sImage_pathThumbnail)
+                    </dt>
+                    <img src="/img/user-content/@Model.sImage_pathThumbnail" class="img-thumbnail w-100" alt="null">
+                </div>
+            </dl>
             <form asp-action ="Edit" method="get">
                 <input type="hidden" name="product_id" value=@Model.iProduct_id />
                 <input type="submit" value="Chỉnh sửa thông tin" class="btn btn-primary" />
             </form>
         </div>
     </div>
-
 </div>
