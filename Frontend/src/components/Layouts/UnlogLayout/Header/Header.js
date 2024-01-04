@@ -5,46 +5,50 @@ import SearchBar from "../../../SearchBar";
 import CartButton from "../../../CartButton";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
-import "../../Header.css";
+
 const cx = classNames.bind();
 
 function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className={cx("wrapper")}>
-      <div className={cx("inner")}>
-        {/* <div className={cx("menu_button")}>
-          <MenuSlide />
-        </div> */}
+    <header className={cx("h_wrapper")}>
+      <div className={cx("inner h_log_inner h_inner")}>
         <div
-          className={cx("logo")}
+          className={cx("h_logo")}
           onClick={() => {
             navigate("/");
           }}
         >
-          <img className="logo_image" src={images.logo} alt="1015 BookStore" />
+          <img
+            className="h_logo_image"
+            src={images.logo}
+            alt="1015 BookStore"
+          />
         </div>
-        <div className={cx("search_bar")}>
+        <div className={cx("h_search_bar")}>
           <SearchBar />
         </div>
-        <div className={cx("cart_button")}>
+        <div className={cx("h_cart_button")}>
           <CartButton />
         </div>
-        <div className={cx("login_button")}>
+        <div className={cx("h_login_button")}>
           <Button
+            className="button"
+            block
+            type="default"
             style={{
-              display: "inline",
-              height: "40px",
-              border: "none",
-              backgroundColor: "#30CF82",
-              color: "white",
+              height: "4vh",
+              width: "8vw",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
             onClick={() => {
               navigate("/sign_in");
             }}
           >
-            Đăng Nhập
+            <span style={{ fontSize: "2vh" }}>Đăng nhập</span>
           </Button>
         </div>
       </div>

@@ -1,28 +1,20 @@
-.red_star {
-  .label::before {
-    content: "*";
-    position: absolute;
-    top: 0;
-    left: -10px;
-    color: red;
-    font-size: 12px;
-  }
-}
-.container{
-  
+.label {
+  padding: 0px;
+  margin: 0px;
+  font-size: 2vh;
+  color: #8c8c8c;
 }
 .no_margin {
   margin: 0px;
 }
 .button {
-  font-size: 14px;
   color: white;
   background-color: #30cf82;
-  margin: 1vh 0vh;
+  align-items: center;
+  justify-content: center;
 }
 .background {
-  width: "100vw";
-  height: 65vh;
+  height: 69vh;
   display: flex;
   align-items: center;
   justify-content: right;
@@ -33,11 +25,15 @@
   justify-content: space-between;
   flex-direction: row;
 }
-.label {
-  padding: 0px;
-  margin: 0px;
-  font-size: 16;
-  color: #8c8c8c;
+.title_container {
+}
+.button_container {
+  padding: 1vh 0vh;
+}
+.login_input_container {
+  height: max(fit-content, 30px);
+}
+.login_functions_container {
 }
 .divide_into_2cols {
   display: flex;
@@ -45,15 +41,15 @@
   justify-content: space-between;
 }
 .login_form {
-  width: 22vw;
-  height: 35vh;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  padding: 0px 20px;
-  border-color: rgba(53, 118, 192, 0.5);
+  min-width: 22vw;
+  height: 60%;
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0px 8px 32px 0 gray;
+  border-radius: 0.5vw;
+  padding: 0px 1vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .logup_form {
   width: 27vw;
@@ -65,7 +61,7 @@
   border-color: rgba(53, 118, 192, 0.5);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .forgotpassword_form {
   width: 22vw;

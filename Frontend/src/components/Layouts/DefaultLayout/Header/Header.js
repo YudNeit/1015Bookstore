@@ -6,7 +6,6 @@ import CartButton from "../../../CartButton";
 import { Button, Menu, Dropdown } from "antd";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import "../../Header.css";
 
 const cx = classNames.bind();
 
@@ -15,8 +14,8 @@ function Header() {
 
   const handleLogout = () => {
     // Xóa accessToken và userid từ cookie
-document.cookie = `accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
-document.cookie = `userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+    document.cookie = `accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+    document.cookie = `userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
 
     window.location.reload();
   };
@@ -39,34 +38,35 @@ document.cookie = `userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
   );
 
   return (
-    <header className={cx("wrapper")}>
-      <div className={cx("inner")}>
-        {/* <div className={cx("menu_button")}>
-          <MenuSlide />
-        </div> */}
-
+    <header className={cx("h_wrapper")}>
+      <div className={cx("inner h_log_inner h_inner")}>
         <div
-          className={cx("logo")}
+          className={cx("h_logo")}
           onClick={() => {
             navigate("/");
           }}
         >
-          <img className="logo_image" src={images.logo} alt="1015 BookStore" />
+          <img
+            className="h_logo_image"
+            src={images.logo}
+            alt="1015 BookStore"
+          />
         </div>
-        <div className={cx("search_bar")}>
+        <div className={cx("h_search_bar")}>
           <SearchBar />
         </div>
-        <div className={cx("cart_button")}>
+        <div className={cx("h_cart_button")}>
           <CartButton />
         </div>
-        <div className={cx("user_button")}>
+        <div className={cx("h_user_button")}>
           <Dropdown overlay={menu} placement="bottomRight">
             <Button
+              block
               icon={<UserOutlined />}
               style={{
                 display: "inline",
-                height: "40px",
-                width: "40px",
+                width: "4vh",
+                height: "4vh",
                 border: "none",
                 boxShadow: "none",
               }}

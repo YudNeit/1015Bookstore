@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import "../style.css";
+import "../styleForm.css";
 import { Button, Form, Input, ConfigProvider, message } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -173,7 +173,7 @@ function Logup() {
           </Form.Item>
         </div>
         <Form.Item
-          className="no_margin red_star"
+          className="no_margin"
           label={<p className="label">Tên đăng nhập</p>}
           name="username"
           rules={[
@@ -208,7 +208,7 @@ function Logup() {
           />
         </Form.Item>
         <Form.Item
-          className="no_margin red_star"
+          className="no_margin"
           label={<p className="label">Mật khẩu</p>}
           name="password"
           rules={[

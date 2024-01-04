@@ -38,7 +38,7 @@ const SearchBar = ({ onSearchResult, ...props }) => {
       <Button
         style={{
           border: "none",
-          background: "#fafafa",
+          background: "#ffffff",
           boxShadow: "none",
         }}
         onClick={onSearch}

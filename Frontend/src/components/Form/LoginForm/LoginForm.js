@@ -69,32 +69,44 @@ const Login = () => {
         autoComplete="off"
       >
         <Typography
-          style={{ fontWeight: "bolder", fontSize: "min(36px, 3vh)" }}
+          className="title_container"
+          style={{ fontWeight: "bolder", fontSize: "min(3vh)" }}
         >
           Đăng nhập
         </Typography>
 
         <Form.Item
-          className="no_margin"
-          label={<p className="label">Tên đăng nhập</p>}
+          className="no_margin login_input_container"
+          label={<span className="label">Tên đăng nhập</span>}
           name="username"
           rules={[
             { required: true, message: "Xin vui lòng nhập Tên đăng nhập!" },
           ]}
         >
-          <Input size="large" placeholder="Tên đăng nhập" />
+          <Input
+            placeholder="Tên đăng nhập"
+            style={{ height: "6vh", fontSize: "max(2vh)" }}
+          />
         </Form.Item>
 
         <Form.Item
-          className="no_margin"
-          label={<p className="label">Mật khẩu</p>}
+          className="no_margin login_input_container"
+          label={<span className="label">Mật khẩu</span>}
           name="password"
           rules={[{ required: true, message: "Xin vui lòng nhập Mật khẩu!" }]}
         >
-          <Input.Password size="large" placeholder="Mật khẩu" />
+          <Input.Password
+            size="large"
+            placeholder="Mật khẩu"
+            style={{
+              height: "6vh",
+              fontSize: "max(2vh)",
+              padding: "4px 11px",
+            }}
+          />
         </Form.Item>
 
-        <Form.Item className="no_margin">
+        <Form.Item className="no_margin button_container">
           <ConfigProvider
             theme={{
               token: {
@@ -105,35 +117,38 @@ const Login = () => {
             <Button
               className="button"
               block
-              size="large"
               type="default"
               htmlType="submit"
               onClick={handleLogIn}
+              style={{
+                height: "5vh",
+                display: "flex",
+                justifyContent: "center",
+              }}
             >
-              Đăng nhập
+              <span style={{ fontSize: "2vh" }}>Đăng nhập</span>
             </Button>
           </ConfigProvider>
         </Form.Item>
 
-        <div className="functions">
+        <div className="functions login_function_container ">
           <Form.Item className="no_margin">
             <a
-              className="login-form-forgot"
               href="http://localhost:3000/forgot_password"
-              style={{ color: "#1f9d60", fontSize: "12px" }}
+              style={{ color: "#1f9d60", fontSize: "1.5vh" }}
             >
               Quên mật khẩu
             </a>
           </Form.Item>
 
           <Form.Item className="no_margin">
-            <span style={{ color: "#1f9d60", fontSize: "12px" }}>
+            <span style={{ color: "#1f9d60", fontSize: "1.5vh" }}>
               Bạn chưa có tài khoản?{" "}
             </span>
             <a
               className="logup-form"
               href="http://localhost:3000/sign_up"
-              style={{ color: "#CF4330", fontSize: "12px" }}
+              style={{ color: "#CF4330", fontSize: "1.5vh" }}
             >
               Đăng ký tại đây
             </a>

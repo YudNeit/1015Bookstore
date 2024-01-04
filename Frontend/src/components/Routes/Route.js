@@ -7,12 +7,6 @@ import { message } from "antd";
 function AppRoutes() {
   useEffect(() => {}, []);
 
-  const isUserAuthenticated = () => {
-    // Replace this with your actual authentication logic
-    const accessToken = getCookie("accessToken");
-    const userid = getCookie("userid");
-    return accessToken && userid;
-  };
 
   const getCookie = (cookieName) => {
     const cookies = document.cookie.split("; ");
