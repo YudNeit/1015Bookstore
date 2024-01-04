@@ -1,5 +1,5 @@
 import { Typography, message } from "antd";
-import "../style.css";
+import "../styleForm.css";
 import { Button, Form, Input, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ function ForgotPassword() {
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
-    message.error(`Vui lòng nhập đầy đủ thông tin!`);
+    message.error(`Xin vui lòng điền đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
   console.log("isSuccess:", isSuccess);
@@ -83,7 +83,7 @@ function ForgotPassword() {
           </Typography>
           <Typography
             style={{
-              fontSize: 12,
+              fontSize: 12  ,
               color: "#bebebe",
             }}
           >
@@ -98,11 +98,11 @@ function ForgotPassword() {
           rules={[
             {
               type: "email",
-              message: "The input is not valid E-mail!",
+              message: "Đầu vào không phải là địa chỉ email hợp lệ!",
             },
             {
               required: true,
-              message: "Please input your E-mail!",
+              message: "Xin vui lòng điền Email!",
             },
           ]}
         >

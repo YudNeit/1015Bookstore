@@ -1,3 +1,5 @@
+// SearchBar.js
+
 import React, { useState } from "react";
 import { Input, Button, Spin } from "antd";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -8,6 +10,7 @@ const SearchBar = ({ onSearchResult, ...props }) => {
   const navigate = useNavigate();
   const onSearch = () => {
     localStorage.setItem("datasearch", searchValue);
+
     if (searchValue) {
       navigate(`/search/${searchValue}`);
       window.location.reload();
@@ -27,13 +30,15 @@ const SearchBar = ({ onSearchResult, ...props }) => {
         size="large"
         style={{
           flex: "1",
+          width: "50vw",
+          height: "5vh",
         }}
         {...props}
       />
       <Button
         style={{
           border: "none",
-          background: "#fafafa",
+          background: "#ffffff",
           boxShadow: "none",
         }}
         onClick={onSearch}

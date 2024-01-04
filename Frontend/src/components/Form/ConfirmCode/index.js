@@ -1,5 +1,4 @@
 import { Typography, message } from "antd";
-import "../style.css";
 import { Button, Form, Input, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

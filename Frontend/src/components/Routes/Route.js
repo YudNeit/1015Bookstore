@@ -1,19 +1,17 @@
-import { Fragment, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { publicRoutes, privateRoutes } from '../Routes/index';
-import DefaultLayout from '../Layouts/DefaultLayout';
-import { message } from 'antd';
+import { Fragment, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { publicRoutes, privateRoutes } from "../Routes/index";
+import DefaultLayout from "../Layouts/DefaultLayout";
+import { message } from "antd";
 
 function AppRoutes() {
-  useEffect(() => {
-  }, []);
-
+  useEffect(() => {}, []);
 
 
   const getCookie = (cookieName) => {
-    const cookies = document.cookie.split('; ');
+    const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
-      const [name, value] = cookie.split('=');
+      const [name, value] = cookie.split("=");
       if (name === cookieName) {
         return value;
       }
@@ -89,7 +87,7 @@ function AppRoutes() {
                   </Layout>
                 ) : (
                   <>
-                  <Navigate to="/sign_in" />
+                    <Navigate to="/sign_in" />
                   </>
                 )
               }

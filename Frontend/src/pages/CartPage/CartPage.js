@@ -11,7 +11,7 @@ import {
   Row,
 } from "antd";
 import { useNavigate } from "react-router-dom";
-import "./CartPage.css";
+import "./../styleMainPage.css";
 
 function CartPage() {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -94,29 +94,29 @@ function CartPage() {
       const selectedIds = items
         .filter((item) => selectedItems.includes(item.iCart_id))
         .map((item) => item.iCart_id);
-      console.log("selectedids:",selectedIds);
+      console.log("selectedids:", selectedIds);
       const requestData = {
         lCart_ids: selectedIds,
         gUser_id: userId,
       };
-  
+
       console.log("Request Data:", requestData);
-  
+
       const response = await fetch("https://localhost:7139/api/Order", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${jwtToken}`,
-          "Content-Type": "application/json", 
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(requestData),
       });
-  
+
       console.log("Response:", response);
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const orderResponse = await response.json();
       const orderId = orderResponse.iOrder_id;
       localStorage.setItem("orderId", orderId);
@@ -127,7 +127,6 @@ function CartPage() {
       console.error("Error placing the order:", error);
     }
   };
-  
 
   const handleCheckboxChange = (e, itemId) => {
     const { checked } = e.target;
@@ -192,7 +191,9 @@ function CartPage() {
 
   const totalQuantity = items.reduce(
     (total, item) =>
-      selectedItems.includes(item.iCart_id) ? total + item.iProduct_amount : total,
+      selectedItems.includes(item.iCart_id)
+        ? total + item.iProduct_amount
+        : total,
     0
   );
 
@@ -281,7 +282,7 @@ function CartPage() {
                 <span>{item.vProduct_price * item.iProduct_amount}đ</span>
               </Col>
               <Col md={1}>
-                <Button onClick={() => handleRemoveItem(item.iCart_id)}>  
+                <Button onClick={() => handleRemoveItem(item.iCart_id)}>
                   Xóa
                 </Button>
               </Col>

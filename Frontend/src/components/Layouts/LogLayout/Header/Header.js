@@ -15,18 +15,24 @@ console.log(images.logo);
 function Header() {
   const navigate = useNavigate();
   return (
-    <header className={cx("wrapper")}>
+    <header className={cx("h_wrapper")}>
       <div
-        className={cx("inner log_inner")}
-        style={{ display: "flex", marginBottom: 10, flexDirection: "row" }}
+        className={cx("inner h_log_inner h_inner")}
+        style={{ display: "flex", flexDirection: "row" }}
       >
-        <div className={cx("logo")}
-         onClick={() => {
-          navigate("/");
-        }}>
-          <img className="logo_image" src={images.logo} alt="1015 BookStore" />
+        <div
+          className={cx("h_logo")}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <img
+            className="h_logo_image"
+            src={images.logo}
+            alt="1015 BookStore"
+          />
         </div>
-        <div className={cx("page_name")}>{page_name}</div>
+        <div className={cx("h_page_name")}>{page_name}</div>
       </div>
     </header>
   );

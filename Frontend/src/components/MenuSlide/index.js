@@ -8,8 +8,8 @@ const { SubMenu } = Menu;
 const MenuSlide = ({ onMenuSelect }) => {
   const location = useLocation();
   const [selectedKeys, setSelectedKeys] = useState("/");
-  const [menuData, setMenuData] = useState([]); 
-  const [menuVisible, setMenuVisible] = useState(false); 
+  const [menuData, setMenuData] = useState([]);
+  const [menuVisible, setMenuVisible] = useState(false);
 
   const fetchMenuData = async () => {
     try {
@@ -31,7 +31,7 @@ const MenuSlide = ({ onMenuSelect }) => {
   };
 
   useEffect(() => {
-    fetchMenuData(); 
+    fetchMenuData();
   }, []);
 
   useEffect(() => {
@@ -62,8 +62,8 @@ const MenuSlide = ({ onMenuSelect }) => {
         <Menu
           selectedKeys={[selectedKeys]}
           style={{
-            width: "fit-content",
-            backgroundColor: "#f5f5f5",
+            width: "10vw",
+            backgroundColor: "#fff",
             borderRight: "none",
           }}
           onClick={({ key }) => onMenuSelect(key)}

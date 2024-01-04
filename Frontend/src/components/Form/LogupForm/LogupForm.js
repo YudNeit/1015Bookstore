@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import "../style.css";
+import "../styleForm.css";
 import { Button, Form, Input, ConfigProvider, message } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,8 @@ function Logup() {
   const [email, setEmail] = useState("");
   const [isSuccess, setSuccess] = useState(false);
 
-  useEffect(() => {}, []);
-
+  useEffect(() => { }, []);
+  
   const onFinish = (values) => {
     handleLogUp();
     setSuccess(true);
@@ -28,7 +28,7 @@ function Logup() {
     message.error(`Vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
-
+  
   console.log("isSuccess:", isSuccess);
 
   const handleInputChange = (e) => {
@@ -120,11 +120,13 @@ function Logup() {
               },
               {
                 validator: (_, value) => {
-                  
+                  if (!value) {
+                    return Promise.reject("Xin vui lòng điền Họ!");
+                  }
                   if (/^[^0-9]+$/i.test(value)) {
                     return Promise.resolve();
                   } else {
-                    return Promise.reject("Name is not include number");
+                    return Promise.reject("Họ không thể chứa các ký tự số!");
                   }
                 },
               },
@@ -149,10 +151,13 @@ function Logup() {
               },
               {
                 validator: (_, value) => {
+                  if (!value) {
+                    return Promise.reject("Xin vui lòng điền Tên!");
+                  }
                   if (/^[^0-9]+$/i.test(value)) {
                     return Promise.resolve();
                   } else {
-                    return Promise.reject("Name is not include number");
+                    return Promise.reject("Tên không thể chứa các ký tự số!");
                   }
                 },
               },
@@ -168,7 +173,7 @@ function Logup() {
           </Form.Item>
         </div>
         <Form.Item
-          className="no_margin red_star"
+          className="no_margin"
           label={<p className="label">Tên đăng nhập</p>}
           name="username"
           rules={[
@@ -178,14 +183,17 @@ function Logup() {
             },
             {
               validator: (_, value) => {
-                if (value.length < 6) {
+                if (!value) {
+                  return Promise.reject("Xin vui lòng nhập Tên đăng nhập!");
+                }
+                if (value.length < 5) {
                   return Promise.reject(
-                    "Username must be bigger than 6 character"
+                    "Tên đăng nhập phải chứa ít nhất 6 kí tự!"
                   );
                 } else if (/^[^0-9][a-zA-Z0-9]+$/.test(value)) {
                   return Promise.resolve();
                 } else {
-                  return Promise.reject("Fist character must not be number");
+                  return Promise.reject("Kí tự đầu không được là chữ số!");
                 }
               },
             },
@@ -200,7 +208,7 @@ function Logup() {
           />
         </Form.Item>
         <Form.Item
-          className="no_margin red_star"
+          className="no_margin"
           label={<p className="label">Mật khẩu</p>}
           name="password"
           rules={[
@@ -210,33 +218,35 @@ function Logup() {
             },
             {
               validator: (_, value) => {
-                if (value.length <= 6) {
-                  return Promise.reject(
-                    "Password should be at least 6 characters"
-                  );
+                if (!value) {
+                  return Promise.reject("Xin vui lòng nhập Mật khẩu!");
+                }
+
+                if (value.length < 6) {
+                  return Promise.reject("Mật khẩu phải chứa ít nhất 6 kí tự!");
                 }
 
                 if (!/[A-Z]/.test(value)) {
                   return Promise.reject(
-                    "Password should contain at least one uppercase letter"
+                    "Mật khẩu phải chứa tối thiểu 1 ký tự in hoa!"
                   );
                 }
 
                 if (!/[a-z]/.test(value)) {
                   return Promise.reject(
-                    "Password should contain at least one lowercase letter"
+                    "Mật khẩu phải chứa tối thiểu 1 ký tự thường!"
                   );
                 }
 
                 if (!/\d/.test(value)) {
                   return Promise.reject(
-                    "Password should contain at least one digit"
+                    "Mật khẩu phải chứa tối thiểu 1 ký tự số!"
                   );
                 }
 
                 if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
                   return Promise.reject(
-                    "Password should contain at least one special character"
+                    "Mật khẩu phải chứa tối thiểu 1 ký tự đặc biệt!"
                   );
                 }
 
@@ -262,7 +272,7 @@ function Logup() {
           rules={[
             {
               required: true,
-              message: "Please confirm your password!",
+              message: "Xin vui lòng xác nhận mật khẩu của bạn!",
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
@@ -270,7 +280,7 @@ function Logup() {
                   return Promise.resolve();
                 }
                 return Promise.reject(
-                  new Error("The new password that you entered do not match!")
+                  new Error("Mật khẩu mới mà bạn vừa nhập không khớp!")
                 );
               },
             }),
@@ -291,11 +301,11 @@ function Logup() {
           rules={[
             {
               type: "email",
-              message: "The input is not valid E-mail!",
+              message: "Xin vui lòng điền Email!",
             },
             {
               required: true,
-              message: "Please input your E-mail!",
+              message: "Xin vui lòng điền Email!",
             },
           ]}
         >

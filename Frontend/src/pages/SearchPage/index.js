@@ -61,7 +61,7 @@ const SearchPage = () => {
           <h2 className="page_title">DANH MỤC SẢN PHẨM</h2>
         </Col>
       </Row>
-      <div className="cart_container">
+      <div className="card_container">
         {items.map((item) => (
           <Card
             key={item.sProduct_name}
@@ -86,8 +86,8 @@ const SearchPage = () => {
             onClick={() => handleCardClick(item)}
           >
             <div className="flex_column">
-              <span className="title">{item.sProduct_name}</span>
-              <span className="price">{item.vProduct_price}đ</span>
+              <span className="book_title">{item.sProduct_name}</span>
+              <span className="book_price">{item.vProduct_price}đ</span>
             </div>
           </Card>
         ))}

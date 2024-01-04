@@ -4,7 +4,12 @@ import Header from "./Header/Header";
 
 function LogLayout({ children }) {
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Header />
       <div
         className="content"
@@ -13,12 +18,11 @@ function LogLayout({ children }) {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          width: "100vw",
+          flex: 1,
         }}
       >
         {children}
       </div>
-
       <Footer />
     </div>
   );
