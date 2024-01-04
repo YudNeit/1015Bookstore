@@ -26,11 +26,6 @@ namespace _1015bookstore.viewmodel.Catalog.Products
         public int iProduct_waranty { get; set; }
 
         [Required(ErrorMessage = "The * field is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "The quantity is bigger than 0")]
-        [Display(Name = "Số lượng sản phầm")]
-        public int iProduct_quantity { get; set; }
-
-        [Required(ErrorMessage = "The * field is required")]
         [Display(Name = "Mô tả sản phẩm")]
         public string sProduct_description { get; set; }
 
@@ -42,7 +37,7 @@ namespace _1015bookstore.viewmodel.Catalog.Products
         [Display(Name = "Ngày xuất xứ")]
         public DateTime? dtProduct_mfgdate { get; set; }
         [Display(Name ="Nhà cung cấp")]
-        public string? sProduct_suppiler { get; set; }
+        public string? sProduct_supplier { get; set; }
         [Display(Name = "Tác giả")]
         public string? sProduct_author { get; set; }
         [Display(Name = "Nhà phát hành")]

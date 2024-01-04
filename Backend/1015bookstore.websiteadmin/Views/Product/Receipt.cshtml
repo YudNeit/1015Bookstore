@@ -1,0 +1,83 @@
+﻿@model IEnumerable<_1015bookstore.viewmodel.Catalog.Products.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Receipt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Nhập kho</h3>
+            @if (ViewBag.success != null)
+            {
+                <div id="msg" class="card bg-success text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.success
+                    </div>
+                </div>
+            }
+            @if (ViewBag.error != null)
+            {
+                <div id="msg" class="card bg-danger text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.error
+                    </div>
+                </div>
+            }
+            <a asp-action="Index">Trở lại danh sách</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Mã sản phẩm
+                            </th>
+                            <th>
+                                Tên sản phẩm
+                            </th>
+                            <th>
+                                Số lượng hiện tại
+                            </th>
+                            <th>
+                                Số lượng nhập
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.iProduct_id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.sProduct_name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.iProduct_quantity)
+                            </td>
+                            <form asp-action="Receipt" method="post">
+                                <td>
+                                    <input type="number" class="form-control" name="amount">
+                                    <input type="hidden" class="form-control" name="product_id" value=@item.iProduct_id>
+                                </td>
+                                <td>
+                                    <input type="submit" class="btn btn-primary" value="Nhập kho">
+                                </td>
+                            </form>
+                        </tr>
+                }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
