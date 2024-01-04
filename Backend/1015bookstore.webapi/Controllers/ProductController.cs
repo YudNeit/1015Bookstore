@@ -252,14 +252,14 @@ namespace _1015bookstore.webapi.Controllers
         }
         //http://localhost:port/api/product/updatequanity
         [HttpPut("updatequantity")]
-        public async Task<IActionResult> Product_UpdateQuantity([Required][FromQuery]int iProduct_id, [Required]int addedQuantity, Guid? gUpdater_id)
+        public async Task<IActionResult> Product_UpdateQuantity([Required][FromQuery]int iProduct_id, [Required]int addedQuantity, [Required] decimal price, Guid? gUpdater_id)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var response = await _productService.Product_UpdateQuantity(iProduct_id, addedQuantity, gUpdater_id);
+                var response = await _productService.Product_UpdateQuantity(iProduct_id, addedQuantity, price, gUpdater_id);
                 return StatusCode(response.CodeStatus, response.Message);
             }
             catch (Exception ex)

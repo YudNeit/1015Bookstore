@@ -10,6 +10,6 @@ namespace _1015bookstore.websiteadmin.Service
         Task<ResponseAPI<string>> CraeteProduct(ProductCreateRequest request, string session, Guid user_id);
         Task<ResponseAPI<string>> UpdateProduct(ProductUpdateRequest request, string session, Guid user_id);
 
-        Task<ResponseAPI<string>> UpdateQuantity(int amount, int product_id, string session, Guid user_id);
+        Task<ResponseAPI<string>> UpdateQuantity(int amount, int product_id, int price, string session, Guid user_id);
     }
 }

@@ -2,8 +2,15 @@
 @model List<_1015bookstore.viewmodel.Catalog.Products.ProductViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <!-- Custom styles for this page -->
+    <link href="./vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 }
 
 <div class="container-fluid">
@@ -20,10 +27,19 @@
                     </div>
                 </div>
             }
+            @if (ViewBag.error != null)
+            {
+                <div id="msg" class="card bg-danger text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.error
+                    </div>
+                </div>
+            }
             <a class="btn btn-primary" asp-action="Create" asp-controller="Product">Tạo sản phẩm mới</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
+                
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -95,6 +111,7 @@
                         }
                     </tbody>
                 </table>
+            
             </div>
 
         </div>
@@ -103,7 +120,11 @@
 
 </div>
 
-
-
-
+@section Scripts
+{
+    <!-- Page level plugins -->
+    <script src="./vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="./vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="./js/demo/datatables-demo.js"></script>
+}
 
