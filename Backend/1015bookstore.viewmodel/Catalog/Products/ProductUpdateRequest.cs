@@ -39,6 +39,7 @@ namespace _1015bookstore.viewmodel.Catalog.Products
         [Display(Name = "Xuất xứ sản phẩm")]
         public string? sProduct_madein { get; set; }
         [Display(Name = "Ngày xuất xứ")]
+        [DataType(DataType.Date)]
         public DateTime? dtProduct_mfgdate { get; set; }
         [Display(Name = "Nhà cung cấp")]
         public string? sProduct_supplier { get; set; }

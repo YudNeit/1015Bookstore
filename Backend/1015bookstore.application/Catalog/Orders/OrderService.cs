@@ -83,11 +83,26 @@ namespace _1015bookstore.application.Catalog.Orders
                 
                 //NOTE
                 product.quanity -= item.quantity;
+                if (product.quanity <= 0)
+                {
+                    product.status = ProductStatus.OOS;
+                }    
 
+                var report = new ReportData
+                {
+                    product_id = product.id,
+                    price = product.price,
+                    amount = item.quantity,
+                    status = false,
+                    time = DateTime.Now,
+                };
+                await _context.ReportDatas.AddAsync(report);
 
                 var cart = await _context.Carts.FirstOrDefaultAsync(x => x.user_id == order.user_id && x.product_id == item.product_id);
                 _context.Carts.Remove(cart);
             }
+
+
 
             if (await _context.SaveChangesAsync() > 0)
             {

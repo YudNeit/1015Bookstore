@@ -200,7 +200,7 @@ namespace _1015bookstore.application.Catalog.Products
             product.madein = request.sProduct_madein;
             product.mfgdate = request.dtProduct_mfgdate;
             product.suppiler = request.sProduct_supplier;
-            product.author = request.sProduct_supplier;
+            product.author = request.sProduct_author;
             product.nop = request.sProduct_nop;
             product.yop = request.iProduct_yop;
 
@@ -255,7 +255,7 @@ namespace _1015bookstore.application.Catalog.Products
             };
         }
 
-        public async Task<ResponseService> Product_UpdateQuantity(int id, int addedQuantity, Guid? updater_id)
+        public async Task<ResponseService> Product_UpdateQuantity(int id, int addedQuantity, decimal price, Guid? updater_id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
@@ -304,6 +304,15 @@ namespace _1015bookstore.application.Catalog.Products
 
             product.dateupdated = DateTime.Now;
             product.updatedby = updater_username;
+
+            var report = new ReportData { 
+                product_id = product.id,
+                price = price,
+                amount = addedQuantity,
+                status = true,
+                time = DateTime.Now,
+            };
+            await _context.ReportDatas.AddAsync(report);
 
             if (await _context.SaveChangesAsync() > 0)
             {

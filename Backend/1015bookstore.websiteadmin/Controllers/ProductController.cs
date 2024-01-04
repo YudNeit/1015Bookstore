@@ -122,12 +122,28 @@ namespace _1015bookstore.websiteadmin.Controllers
             return View(response.Data);
         }
         [HttpPost]
-        public async Task<IActionResult> Receipt(int amount, int product_id)
+        public async Task<IActionResult> Receipt(int amount, int product_id, int price)
         {
+            if (amount == null || product_id == null)
+            {
+                TempData["error"] = "Vui lòng nhập giá trị";
+                return RedirectToAction("Receipt");
+            }    
+            if (price < 0)
+            {
+                TempData["error"] = "Giá phải từ 0đ";
+                return RedirectToAction("Receipt");
+            }
+            if (amount < 0)
+            {
+                TempData["error"] = "Số lượng phải từ 1 món";
+                return RedirectToAction("Receipt");
+            }    
+
             var userIdClaim = User.FindFirst("id").Value;
 
             var session = HttpContext.Session.GetString("token");
-            var response = await _productAPIClient.UpdateQuantity(amount, product_id, session, new Guid(userIdClaim));
+            var response = await _productAPIClient.UpdateQuantity(amount, product_id, price, session, new Guid(userIdClaim));
             var product = await _productAPIClient.GetProduct(session);
             if (response.Status)
             {
