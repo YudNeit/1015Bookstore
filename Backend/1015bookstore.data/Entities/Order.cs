@@ -22,6 +22,8 @@ namespace _1015bookstore.data.Entities
 
         public decimal total {  get; set; }
 
+        public bool isreview {  get; set; }
+
         //public int address_id { get; set; }
         public Guid user_id { set; get; }
         public User user { get; set; }
