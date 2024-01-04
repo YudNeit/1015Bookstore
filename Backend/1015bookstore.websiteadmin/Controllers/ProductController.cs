@@ -54,7 +54,7 @@ namespace _1015bookstore.websiteadmin.Controllers
             var response = await _productAPIClient.CraeteProduct(request, session, new Guid(userIdClaim));
             if (response.Status)
             {
-                TempData["result"] = $"Tạo thành công sản phẩm {DateTime.Now}";
+                TempData["success"] = $"Tạo thành công sản phẩm {DateTime.Now}";
                 return RedirectToAction("Index");
             }
             ViewBag.error = response.Message;
@@ -82,6 +82,7 @@ namespace _1015bookstore.websiteadmin.Controllers
                 sProduct_nop = response.Data.sProduct_nop,
                 iProduct_yop = response.Data.iProduct_yop,
             };
+            ViewBag.pathimg = response.Data.sImage_pathThumbnail;
             if (TempData["success"] != null)
                 ViewBag.success = TempData["success"];
             if (TempData["error"] != null)
