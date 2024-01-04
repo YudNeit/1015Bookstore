@@ -32,78 +32,104 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="Edit" enctype="multipart/form-data" method="post">
+                    <form asp-action="Edit" enctype="multipart/form-data" method="post" class="row">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         
                         <input asp-for="iProduct_id" type="hidden" />
                             
-                        <div class="form-group">
-                            <label asp-for="sProduct_name" class="control-label"></label>
-                            <input asp-for="sProduct_name" class="form-control" />
-                            <span asp-validation-for="sProduct_name" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="vProduct_price" class="control-label"></label>
-                            <input asp-for="vProduct_price" class="form-control" value="@String.Format("{0:0.##}", Model.vProduct_price)" />
-                            <span asp-validation-for="vProduct_price" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="iProduct_waranty" class="control-label"></label>
-                            <input asp-for="iProduct_waranty" class="form-control"/>
-                            <span asp-validation-for="iProduct_waranty" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="sProduct_description" class="control-label"></label>
-                            <input asp-for="sProduct_description" class="form-control" />
-                            <span asp-validation-for="sProduct_description" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="sProduct_brand" class="control-label"></label>
-                            <input asp-for="sProduct_brand" class="form-control" />
-                            <span asp-validation-for="sProduct_brand" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="sProduct_madein" class="control-label"></label>
-                            <input asp-for="sProduct_madein" class="form-control" />
-                            <span asp-validation-for="sProduct_madein" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="dtProduct_mfgdate" class="control-label"></label>
-                            <input asp-for="dtProduct_mfgdate" class="form-control" />
-                            <span asp-validation-for="dtProduct_mfgdate" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="sProduct_supplier" class="control-label"></label>
-                            <input asp-for="sProduct_supplier" class="form-control" />
-                            <span asp-validation-for="sProduct_supplier" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="sProduct_author" class="control-label"></label>
-                            <input asp-for="sProduct_author" class="form-control" />
-                            <span asp-validation-for="sProduct_author" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="sProduct_nop" class="control-label"></label>
-                            <input asp-for="sProduct_nop" class="form-control" />
-                            <span asp-validation-for="sProduct_nop" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="iProduct_yop" class="control-label"></label>
-                            <input asp-for="iProduct_yop" class="form-control" />
-                            <span asp-validation-for="iProduct_yop" class="text-danger"></span>
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label asp-for="sProduct_name" class="control-label"></label>
+                                <input asp-for="sProduct_name" class="form-control" />
+                                <span asp-validation-for="sProduct_name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="vProduct_price" class="control-label"></label>
+                                <input asp-for="vProduct_price" class="form-control" value="@String.Format("{0:0.##}", Model.vProduct_price)" />
+                                <span asp-validation-for="vProduct_price" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="iProduct_waranty" class="control-label"></label>
+                                <input asp-for="iProduct_waranty" class="form-control" />
+                                <span asp-validation-for="iProduct_waranty" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="sProduct_description" class="control-label"></label>
+                                <input asp-for="sProduct_description" class="form-control" />
+                                <span asp-validation-for="sProduct_description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="sProduct_brand" class="control-label"></label>
+                                <input asp-for="sProduct_brand" class="form-control" />
+                                <span asp-validation-for="sProduct_brand" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="sProduct_madein" class="control-label"></label>
+                                <input asp-for="sProduct_madein" class="form-control" />
+                                <span asp-validation-for="sProduct_madein" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="dtProduct_mfgdate" class="control-label"></label>
+                                <input asp-for="dtProduct_mfgdate" class="form-control" />
+                                <span asp-validation-for="dtProduct_mfgdate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="sProduct_supplier" class="control-label"></label>
+                                <input asp-for="sProduct_supplier" class="form-control" />
+                                <span asp-validation-for="sProduct_supplier" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="sProduct_author" class="control-label"></label>
+                                <input asp-for="sProduct_author" class="form-control" />
+                                <span asp-validation-for="sProduct_author" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="sProduct_nop" class="control-label"></label>
+                                <input asp-for="sProduct_nop" class="form-control" />
+                                <span asp-validation-for="sProduct_nop" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="iProduct_yop" class="control-label"></label>
+                                <input asp-for="iProduct_yop" class="form-control" />
+                                <span asp-validation-for="iProduct_yop" class="text-danger"></span>
+                            </div>
                         </div>
 
+                        <div class="col-lg-4">
+                            <label asp-for="sImage_pathThumbnail" class="control-label"></label>
+                            <img id="imagePreview" src="../img/user-content/@{@ViewBag.pathimg}" class="img-thumbnail w-100" alt="null">
+                            <div style="margin-top:20px" class="form-group">
+                            <input id="imageInput" asp-for="sImage_pathThumbnail" type="file" onchange="displayImage()" accept="image/*" />
+                                <span asp-validation-for="sImage_pathThumbnail" class="text-danger"></span>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <input type="submit" value="Lưu thông tin" class="btn btn-primary" />
                         </div>
                     </form>
-                </div>
-            </div>
         </div>
     </div>
 
 </div>
+
+@section Scripts
+{
+    <script>
+        function displayImage() {
+            var input = document.getElementById('imageInput');
+            var preview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+}
 

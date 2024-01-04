@@ -214,6 +214,22 @@ namespace _1015bookstore.application.Catalog.Products
                     thumbnailImage.imagepath = await this.SaveFile(request.sImage_pathThumbnail);
                     _context.ProductImages.Update(thumbnailImage);
                 }
+                else
+                {
+                    ProductImage productImage = new ProductImage()
+                    {
+                        caption = "Thumbnail image",
+                        createdate = DateTime.Now,
+                        sizeimage = request.sImage_pathThumbnail.Length,
+                        imagepath = await this.SaveFile(request.sImage_pathThumbnail),
+                        is_default = true,
+                        sortorder = 1
+                    };
+                    product.productimages = new List<ProductImage>()
+                        {
+                            productImage
+                        };
+                }    
             }
 
             string updater_username;
