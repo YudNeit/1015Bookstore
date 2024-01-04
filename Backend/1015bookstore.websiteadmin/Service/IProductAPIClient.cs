@@ -8,5 +8,8 @@ namespace _1015bookstore.websiteadmin.Service
         Task<ResponseAPI<List<ProductViewModel>>> GetProduct(string session);
         Task<ResponseAPI<ProductViewModel>> GetProductById(string session, int product_id);
         Task<ResponseAPI<string>> CraeteProduct(ProductCreateRequest request, string session, Guid user_id);
+        Task<ResponseAPI<string>> UpdateProduct(ProductUpdateRequest request, string session, Guid user_id);
+
+        Task<ResponseAPI<string>> UpdateQuantity(int amount, int product_id, string session, Guid user_id);
     }
 }

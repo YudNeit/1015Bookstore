@@ -58,5 +58,84 @@ namespace _1015bookstore.websiteadmin.Controllers
             ViewBag.error = response.Message;
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int product_id)
+        {
+            var session = HttpContext.Session.GetString("token");
+            var response = await _productAPIClient.GetProductById(session, product_id);
+            if (response.Status)
+            {
+                var productupdate = new ProductUpdateRequest
+                {
+                    iProduct_id = product_id,
+                    sProduct_name = response.Data.sProduct_name,
+                    vProduct_price = response.Data.vProduct_price,
+                    iProduct_waranty = response.Data.iProduct_waranty,
+                    sProduct_description = response.Data.sProduct_description,
+                    sProduct_brand = response.Data.sProduct_brand,
+                    sProduct_madein = response.Data.sProduct_madein,
+                    dtProduct_mfgdate = response.Data.dtProduct_mfgdate,
+                    sProduct_supplier = response.Data.sProduct_supplier,
+                    sProduct_author = response.Data.sProduct_author,
+                    sProduct_nop = response.Data.sProduct_nop,
+                    iProduct_yop = response.Data.iProduct_yop,
+                };
+                return View(productupdate);
+                    
+            }
+            TempData["error"] = $"Lấy thông tin sản phẩm thất bại {DateTime.Now}";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Edit([FromForm] ProductUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var userIdClaim = User.FindFirst("id").Value;
+
+            var session = HttpContext.Session.GetString("token");
+            var response = await _productAPIClient.UpdateProduct(request, session, new Guid(userIdClaim));
+            if (response.Status)
+            {
+                TempData["result"] = $"Cập nhật thành công sản phẩm {DateTime.Now}";
+                return RedirectToAction("Index");
+            }
+            ViewBag.error = response.Message;
+            return View();
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> Receipt()
+        {
+            var session = HttpContext.Session.GetString("token");
+            var response = await _productAPIClient.GetProduct(session);
+            if (TempData["success"] != null)
+                ViewBag.success = TempData["success"];
+            if (TempData["error"] != null)
+                ViewBag.error = TempData["error"];
+            return View(response.Data);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Receipt(int amount, int product_id)
+        {
+            var userIdClaim = User.FindFirst("id").Value;
+
+            var session = HttpContext.Session.GetString("token");
+            var response = await _productAPIClient.UpdateQuantity(amount, product_id, session, new Guid(userIdClaim));
+            var product = await _productAPIClient.GetProduct(session);
+            if (response.Status)
+            {
+                TempData["success"] = $"Nhập kho thàng công sản phẩm {DateTime.Now}";
+                return RedirectToAction("Receipt");
+            }
+            TempData["error"] = response.Message;
+            return RedirectToAction("Receipt");
+        }
     }
 }

@@ -53,7 +53,7 @@ namespace _1015bookstore.application.Catalog.Orders
                     };
                     await _context.UserUsePromotionalCode.AddAsync(codeused);
 
-                    order.total = order.total - (promotionalcode.discount_rate * order.total / 100);
+                    order.total = order.total - (promotionalcode.discount_rate * order.total / 100) + 30000;
                 }
                 else
                 {

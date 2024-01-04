@@ -91,7 +91,7 @@
         <dd class = "col-sm-5">
             @Html.DisplayFor(model => model.sProduct_description)
         </dd>
-        @if(Model.sProduct_brand != null)
+        @if(!string.IsNullOrEmpty(Model.sProduct_brand))
                 {
                     <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.sProduct_brand)
@@ -100,7 +100,7 @@
                         @Html.DisplayFor(model => model.sProduct_brand)
                     </dd>
                 }
-         @if(Model.sProduct_madein != null)
+                @if (!string.IsNullOrEmpty(Model.sProduct_madein))
                 {
                     <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.sProduct_madein)
@@ -109,7 +109,7 @@
                         @Html.DisplayFor(model => model.sProduct_madein)
                     </dd>
                 }
-        @if(Model.dtProduct_mfgdate != null)
+                @if (Model.dtProduct_mfgdate != null)
                 {
                     <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.dtProduct_mfgdate)
@@ -118,7 +118,7 @@
                         @Html.DisplayFor(model => model.dtProduct_mfgdate)
                     </dd>
                 }
-         @if(Model.sProduct_supplier!=null)
+                @if (!string.IsNullOrEmpty(Model.sProduct_supplier))
                 {
                     <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.sProduct_supplier)
@@ -127,7 +127,7 @@
                         @Html.DisplayFor(model => model.sProduct_supplier)
                     </dd>
                 }
-         @if(Model.sProduct_supplier != null)
+                @if (!string.IsNullOrEmpty(Model.sProduct_author))
                 {
                     <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.sProduct_author)
@@ -136,7 +136,7 @@
                         @Html.DisplayFor(model => model.sProduct_author)
                     </dd>
                 }
-         @if (Model.sProduct_nop != null)
+                @if (!string.IsNullOrEmpty(Model.sProduct_nop))
                 {
                     <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.sProduct_nop)
@@ -145,7 +145,7 @@
                         @Html.DisplayFor(model => model.sProduct_nop)
                     </dd>
                 }
-         @if (Model.iProduct_yop != null)
+                @if (Model.iProduct_yop != null)
                 {
                     <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.iProduct_yop)
@@ -184,7 +184,10 @@
         </dd>
         
     </dl>
-            @Html.ActionLink("Edit", "Edit", new {  })
+            <form asp-action ="Edit" method="get">
+                <input type="hidden" name="product_id" value=@Model.iProduct_id />
+                <input type="submit" value="Chỉnh sửa thông tin" class="btn btn-primary" />
+            </form>
         </div>
     </div>
 

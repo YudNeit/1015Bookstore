@@ -59,13 +59,13 @@ namespace _1015bookstore.application.Catalog.Products
                 flashsale = false,
                 like_count = 0,
                 waranty = request.iProduct_waranty,
-                quanity = request.iProduct_quantity,
+                quanity = 0,
                 view_count = 0,
                 description = request.sProduct_description,
                 brand = request.sProduct_brand,
                 madein = request.sProduct_madein,
                 mfgdate = request.dtProduct_mfgdate,
-                suppiler = request.sProduct_suppiler,
+                suppiler = request.sProduct_supplier,
                 author = request.sProduct_author,
                 nop = request.sProduct_nop,
                 yop = request.iProduct_yop,
@@ -73,7 +73,7 @@ namespace _1015bookstore.application.Catalog.Products
                 datecreated = DateTime.Now,
                 updatedby = creator_username,
                 dateupdated = DateTime.Now,
-                status = ProductStatus.Normal
+                status = ProductStatus.OOS
             };
 
             
@@ -266,30 +266,22 @@ namespace _1015bookstore.application.Catalog.Products
                     Message = $"Cannot find a product with id: {id}",
                 };
             
-            if (product.status == ProductStatus.OOS && addedQuantity < 0)
+            if (addedQuantity <=0)
+            {
                 return new ResponseService()
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = $"Cannot update because product is out of stock",
+                    Message = $"Vui lòng nhập số lượng lớn hơn 0",
                 };
+            }
 
-            if (product.quanity + addedQuantity >= 1)
-                product.quanity += addedQuantity;
-            else if (product.quanity + addedQuantity == 0)
+            if (product.status == ProductStatus.OOS)
             {
-                product.quanity = 0;
-                product.status = ProductStatus.OOS;
+                product.status = ProductStatus.Normal;
             }
-            else
-            {
-                return new ResponseService()
-                {
-                    CodeStatus = 400,
-                    Status = false,
-                    Message = $"Cannot update because product is out of stock",
-                };
-            }
+
+            product.quanity += addedQuantity;
 
             string updater_username;
             if (updater_id == null)

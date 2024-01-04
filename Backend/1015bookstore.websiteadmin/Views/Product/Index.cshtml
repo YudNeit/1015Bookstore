@@ -28,7 +28,7 @@
                     <thead>
                         <tr>
                             <th>
-                                ID
+                                Mã sản phẩm
                             </th>
                             <th>
                                 Tên sản phẩm
@@ -62,12 +62,34 @@
                                     @Html.DisplayFor(modelItem => item.iProduct_quantity)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.stProduct_status)
+                                    @{
+                                        string a = "";
+                                        switch (item.stProduct_status)
+                                        {
+                                            case _1015bookstore.data.Enums.ProductStatus.OOS:
+                                                {
+                                                    a = "Hết hàng";
+                                                    break;
+                                                }
+                                            case _1015bookstore.data.Enums.ProductStatus.Normal:
+                                                {
+                                                    a = "Còn hàng";
+                                                    break;
+                                                }
+                                            case _1015bookstore.data.Enums.ProductStatus.Delete:
+                                                {
+                                                    a = "Sản phẫm đã bị xóa";
+                                                    break;
+                                                }
+                                        }
+
+                                    }
+                                    @a
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Chỉnh sửa", "Edit", new { product_id = item.iProduct_id }) |
                                     @Html.ActionLink("Thông tin", "Details", new { product_id = item.iProduct_id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                    @Html.ActionLink("Trạng thái", "UpdateStatus", new { product_id = item.iProduct_id })
                                 </td>
                             </tr>
                         }
