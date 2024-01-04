@@ -259,6 +259,9 @@ function ProfilePage() {
 
   return (
     <div>
+      <h3 class="title-comm">
+        <span class="title-holder">TÀI KHOẢN CỦA TÔI</span>
+      </h3>
       <Row>
         <h2 className="detail_h2">THÔNG TIN CÁ NHÂN</h2>
       </Row>
@@ -266,13 +269,13 @@ function ProfilePage() {
         <Col className="profilepage_container">
           {userData && (
             <Descriptions className="description" column={1}>
-              <Descriptions.Item label="First Name">
+              <Descriptions.Item label="Họ">
                 {userData.sUser_firstname}
               </Descriptions.Item>
-              <Descriptions.Item label="Last Name">
+              <Descriptions.Item label="Tên">
                 {userData.sUser_lastname}
               </Descriptions.Item>
-              <Descriptions.Item label="Date of Birth">
+              <Descriptions.Item label="Ngày sinh">
                 {isEditing ? (
                   <Input
                     value={editedData.dtUser_dob}
@@ -284,7 +287,7 @@ function ProfilePage() {
                   userData.dtUser_dob || "N/A"
                 )}
               </Descriptions.Item>
-              <Descriptions.Item label="Sex">
+              <Descriptions.Item label="Giới tính">
                 {isEditing ? (
                   <Radio.Group
                     onChange={handleRadioChange}
@@ -299,7 +302,7 @@ function ProfilePage() {
                   "Nữ"
                 )}
               </Descriptions.Item>
-              <Descriptions.Item label="Phone Number">
+              <Descriptions.Item label="Số điện thoại">
                 {isEditing ? (
                   <Input
                     value={editedData.sUser_phonenumber}
@@ -467,19 +470,32 @@ function ProfilePage() {
             </Form.Item>
           </Form>
         </Modal>
+
         <Row>
           <h2 className="detail_h2">LỊCH SỬ GIAO DỊCH</h2>
         </Row>
         <div>
           {items.map((item) => (
-            <Card hoverable onClick={() => handleCardClick(item)}>
-              Tên người nhận: {item.sOrder_name_receiver}
-              <br />
-              Phone: {item.sOrder_phone_receiver}
-              <br />
-              Địa chỉ: {item.sOrder_address_receiver}
-              <br />
-              Tổng tiền: {item.vOrder_total}
+            <Card
+              className="order_history_cart"
+              bodyStyle={{ padding: "5px 3vw 0px" }}
+              hoverable
+              onClick={() => handleCardClick(item)}
+            >
+              <Descriptions column={1} size="small">
+                <Descriptions.Item label="Tên người nhận">
+                  {item.sOrder_name_receiver}
+                </Descriptions.Item>
+                <Descriptions.Item label="SĐT">
+                  {item.sOrder_phone_receiver}
+                </Descriptions.Item>
+                <Descriptions.Item label="Địa chỉ nhận hàng">
+                  {item.sOrder_address_receiver}
+                </Descriptions.Item>
+                <Descriptions.Item label="Tổng đơn hàng">
+                  {item.vOrder_total}
+                </Descriptions.Item>
+              </Descriptions>
             </Card>
           ))}
         </div>

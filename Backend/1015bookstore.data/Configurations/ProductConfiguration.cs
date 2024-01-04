@@ -28,7 +28,7 @@ namespace _1015bookstore.data.Configurations
             builder.Property(x => x.flashsale).HasDefaultValue(0);
             builder.Property(x => x.waranty).IsRequired().HasDefaultValue(0);
             builder.Property(x => x.quanity).IsRequired().HasDefaultValue(0);
-            builder.Property(x => x.description).IsUnicode().HasMaxLength(1000);
+            builder.Property(x => x.description).IsUnicode();
 
             builder.Property(x => x.brand).IsUnicode().HasMaxLength(100).IsRequired(false);
             builder.Property(x => x.madein).IsUnicode().HasMaxLength(100).IsRequired(false);

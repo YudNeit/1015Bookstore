@@ -182,141 +182,170 @@ function CheckoutPage() {
 
   return (
     <div>
-      <div className="location">
-        <Row>
-          <h3>
-            <IoLocationSharp />
-            Địa chỉ nhận hàng
-          </h3>
-        </Row>
-        <List.Item>
-          <div>
-            Tên người dùng:
-            <Input
-              name="sOrder_name_receiver"
-              value={order.sOrder_name_receiver}
-              onChange={handleInputChange}
-            />
-          </div>
-        </List.Item>
-        <List.Item>
-          <div>
-            Phone:{" "}
-            <Input
-              name="sOrder_phone_receiver"
-              value={order.sOrder_phone_receiver}
-              onChange={handleInputChange}
-            />
-          </div>
-        </List.Item>
-        <List.Item>
-          <div>
-            Địa chỉ:{" "}
-            <Input
-              name="sOrder_address_receiver"
-              value={order.sOrder_address_receiver}
-              onChange={handleInputChange}
-            />
-          </div>
-        </List.Item>
-      </div>
-      <div>
-        <List>
-          <List.Item>
-            <Col md={11} offset={0}>
-              <h3>Sản phẩm</h3>
-            </Col>
-            <Col md={3}>
-              <h3>Đơn giá</h3>
-            </Col>
-            <Col md={3}>
-              <h3>Số lượng</h3>
-            </Col>
-            <Col md={3}>
-              <h3>Thành tiền</h3>
-            </Col>
-          </List.Item>
-        </List>
-        <div>
+      <h3 class="title-comm">
+        <span class="title-holder">ĐẶT HÀNG</span>
+      </h3>
+      <div className="cop_container">
+        <div className="recipient_info">
+          <List>
+            <List.Item>
+              <h2>Thông tin người nhận</h2>
+            </List.Item>
+            <List.Item>
+              <div>
+                Tên người dùng:
+                <Input
+                  name="sOrder_name_receiver"
+                  value={order.sOrder_name_receiver}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </List.Item>
+            <List.Item>
+              <div>
+                Phone:{" "}
+                <Input
+                  name="sOrder_phone_receiver"
+                  value={order.sOrder_phone_receiver}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </List.Item>
+            <List.Item>
+              <div>
+                Địa chỉ:{" "}
+                <Input
+                  name="sOrder_address_receiver"
+                  value={order.sOrder_address_receiver}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </List.Item>
+          </List>
+        </div>
+        <div className="cop_cartlist_header">
+          <Col md={2} offset={1}>
+            <h3>Sản phẩm</h3>
+          </Col>
+          <Col md={8}></Col>
+          <Col md={3} offset={1}>
+            <h3>Đơn giá</h3>
+          </Col>
+          <Col md={3} offset={1}>
+            <h3>Số lượng</h3>
+          </Col>
+          <Col md={3} offset={1}>
+            <h3>Thành tiền</h3>
+          </Col>
+        </div>
+        <div className="cop_cartlist_item">
           {items.map((item) => (
-            <Card>
+            <Card className="cop_item_cart" key={item.iCart_id}>
               <Row align="middle">
-                <Col md={11} offset={0}>
-                  <div className="cartlist_item">
-                    <Image
-                      style={{
-                        height: 120,
-                        width: 100,
-                      }}
-                      src={
-                        item.sImage_path == null
-                          ? require(`../../assets/user-content/img_1.webp`)
-                          : require(`../../assets/user-content/${item.sImage_path}`)
-                      }
-                      alt={item.sProduct_name}
-                    />
-                    <span>{item.sProduct_name}</span>
-                  </div>
+                <Col md={2} offset={1}>
+                  <Image
+                    style={{
+                      height: 80,
+                      width: 80,
+                    }}
+                    src={
+                      item.sImage_path == null
+                        ? require(`../../assets/user-content/img_1.webp`)
+                        : require(`../../assets/user-content/${item.sImage_path}`)
+                    }
+                    alt={item.sProduct_name}
+                  />
                 </Col>
-                <Col md={3}>{item.vProduct_price}đ</Col>
-                <Col md={3}>{item.iProduct_amount}</Col>
-                <Col md={3}>{item.vProduct_price * item.iProduct_amount}đ</Col>
+                <Col md={8}>
+                  <span>{item.sProduct_name}</span>
+                </Col>
+                <Col md={3} offset={1}>
+                  <span>{item.vProduct_price}đ</span>
+                </Col>
+                <Col md={3} offset={1}>
+                  <span>{item.iProduct_amount}</span>
+                </Col>
+                <Col md={3} offset={1}>
+                  <span className="cop_item_price">
+                    {item.vProduct_price * item.iProduct_amount}đ
+                  </span>
+                </Col>
               </Row>
             </Card>
           ))}
         </div>
-      </div>
-      <div>
-        <h3>Voucher</h3>
-        <List.Item>
-          <Input
-            value={promotionalCode}
-            onChange={(e) => setPromotionalCode(e.target.value)}
-            disabled={isApply}
-          />
-        </List.Item>
-        <Button onClick={handleApplyVoucher} disabled={isApply}>
-          Áp dụng
-        </Button>
-        <Button onClick={handleCheckVoucher} disabled={isApply}>
-          Check Code
-        </Button>
-      </div>
-      <div>
-        <List>
-          <List.Item>
-            <h3>Phương thức thanh toán</h3>
-          </List.Item>
-          <List.Item>Tổng tiền hàng: {totalPrice}đ</List.Item>
-          <List.Item>Phí vận chuyển: {shippingFee}đ</List.Item>
-          <List.Item>Tổng thanh toán: {calculateTotalPayment()}đ</List.Item>
-          <List.Item>
+        <div className="cop_voucher">
+          <List>
+            <List.Item>
+              <h2>Voucher</h2>
+            </List.Item>
+            <List.Item>
+              <Input
+                value={promotionalCode}
+                onChange={(e) => setPromotionalCode(e.target.value)}
+                disabled={isApply}
+              />
+            </List.Item>
+
             <Button
-              onClick={() => {
-                if (
-                  order.sOrder_name_receiver &&
-                  order.sOrder_phone_receiver &&
-                  order.sOrder_address_receiver
-                ) {
-                  if (
-                    order.sOrder_phone_receiver.length !== 10 ||
-                    order.sOrder_phone_receiver[0] !== "0"
-                  ) {
-                    message.error(
-                      "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0"
-                    );
-                  } else {
-                    setShowConfirmationPay(true);
-                  }
-                } else {
-                  message.error("Vui lòng nhập đầy đủ thông tin người nhận!");
-                }
-              }}
+              className="cop_button1"
+              onClick={handleCheckVoucher}
+              disabled={isApply}
             >
-              Thanh toán
+              Check Code
             </Button>
-          </List.Item>
-        </List>
+            <Button
+              className="cop_button2"
+              onClick={handleApplyVoucher}
+              disabled={isApply}
+            >
+              Áp dụng
+            </Button>
+          </List>
+        </div>
+        <div className="cop_checkout_info">
+          <List>
+            <List.Item>
+              <h2>Thanh toán</h2>
+            </List.Item>
+            <List.Item>
+              <span>Tổng tiền hàng: {totalPrice}đ</span>
+            </List.Item>
+            <List.Item>
+              <span>Phí vận chuyển: {shippingFee}đ</span>
+            </List.Item>
+            <List.Item>
+              <span>Tổng thanh toán: {calculateTotalPayment()}đ</span>
+            </List.Item>
+            <List.Item>
+              <Button
+                className="cop_button1"
+                onClick={() => {
+                  if (
+                    order.sOrder_name_receiver &&
+                    order.sOrder_phone_receiver &&
+                    order.sOrder_address_receiver
+                  ) {
+                    if (
+                      order.sOrder_phone_receiver.length !== 10 ||
+                      order.sOrder_phone_receiver[0] !== "0"
+                    ) {
+                      message.error(
+                        "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0"
+                      );
+                    } else {
+                      setShowConfirmationPay(true);
+                    }
+                  } else {
+                    message.error("Vui lòng nhập đầy đủ thông tin người nhận!");
+                  }
+                }}
+              >
+                Thanh toán
+              </Button>
+            </List.Item>
+          </List>
+        </div>
       </div>
       {contextHolder}
       <Modal
