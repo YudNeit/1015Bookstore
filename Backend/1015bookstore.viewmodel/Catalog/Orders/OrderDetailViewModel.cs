@@ -8,6 +8,7 @@ namespace _1015bookstore.viewmodel.Catalog.Orders
 {
     public class OrderDetailViewModel
     {
+        public int iProduct_id { get; set; }
         public string sProduct_name {  get; set; }
         public string? sImage_path {  get; set; }
         public int iProduct_amount { get; set; }

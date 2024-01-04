@@ -15,6 +15,8 @@ namespace _1015bookstore.viewmodel.Catalog.Orders
         public string? sOrder_address_receiver { set; get; }
         public string? sPromoionalCode_code { get; set; }
         public Decimal vOrder_total {  get; set; }
+        public bool bOrder_review {  get; set; }
+        public DateTime dtOrrder_dateorder { get; set; }
         public List<OrderDetailViewModel> lOrder_items { get; set; }
 
     }

@@ -25,6 +25,7 @@ namespace _1015bookstore.data.Configurations
             builder.Property(x => x.paymentdate).IsRequired(false);
             builder.Property(x => x.deliverydate).IsRequired(false);
             builder.Property(x => x.completedate).IsRequired(false);
+            builder.Property(x => x.isreview).HasDefaultValue(false);
             builder.Property(x => x.promotionalcode).IsRequired(false).HasMaxLength(8).IsUnicode(false);
             builder.Property(x => x.total).HasColumnType("decimal(18,2)");
         }

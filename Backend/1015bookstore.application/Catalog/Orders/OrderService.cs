@@ -162,8 +162,11 @@ namespace _1015bookstore.application.Catalog.Orders
                 sOrder_phone_receiver = order.phone_reciver,
                 sPromoionalCode_code = order.promotionalcode,
                 vOrder_total = order.total,
+                dtOrrder_dateorder = order.orderdate,
+                bOrder_review = order.isreview,
                 lOrder_items = _context.OrderDetails.Where(x => x.order_id == order.id).Select(x => new OrderDetailViewModel
                 {
+                    iProduct_id = x.product_id,
                     sProduct_name = x.product_name,
                     vProduct_price = x.price,
                     iProduct_amount = x.quantity,
@@ -198,8 +201,11 @@ namespace _1015bookstore.application.Catalog.Orders
                 sOrder_phone_receiver = order.phone_reciver,
                 sPromoionalCode_code = order.promotionalcode,
                 vOrder_total = order.total,
+                dtOrrder_dateorder = order.orderdate,
+                bOrder_review = order.isreview,
                 lOrder_items = _context.OrderDetails.Where(x => x.order_id == order.id).Select(x => new OrderDetailViewModel
                 {
+                    iProduct_id = x.product_id,
                     sProduct_name = x.product_name,
                     vProduct_price = x.price,
                     iProduct_amount = x.quantity,
@@ -233,8 +239,11 @@ namespace _1015bookstore.application.Catalog.Orders
                 sOrder_phone_receiver = x.phone_reciver,
                 sPromoionalCode_code = x.promotionalcode,
                 vOrder_total = x.total,
+                dtOrrder_dateorder = x.orderdate,
+                bOrder_review = x.isreview,
                 lOrder_items = _context.OrderDetails.Where(e => e.order_id == x.id).Select(e => new OrderDetailViewModel
                 {
+                    iProduct_id = e.product_id,
                     sProduct_name = e.product_name,
                     vProduct_price = e.price,
                     iProduct_amount = e.quantity,
