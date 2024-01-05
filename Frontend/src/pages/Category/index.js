@@ -44,16 +44,17 @@ const FilteredPage = () => {
     };
 
     fetchData();
+
   }, [selectedMenu, pagination.current, pagination.pageSize]);
 
   const handleMenuSelect = (selectedValue) => {
     setSelectedMenu(selectedValue);
+    window.location.reload();
   };
 
   const handleProductClick = (item) => {
     navigate(`/product-detail/${item.iProduct_id}`, { state: { item } });
   };
-
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>

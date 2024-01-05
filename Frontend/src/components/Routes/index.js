@@ -12,7 +12,7 @@ import ProductPage from "../../pages/ProductPage/ProductPage";
 import SignIn from "../../pages/SignIn/SignIn";
 import SignUp from "../../pages/SignUp/SignUp";
 import ChangePasswordPage from "../../pages/ChangePasswordPage";
-import ProfilePage from "../../pages/ProflePage";
+import ProfilePage from "../../pages/ProfilePage";
 import CheckoutPage from "../../pages/CheckoutPage";
 import FilteredPage from "../../pages/Category";
 import SearchPage from "../../pages/SearchPage";
@@ -20,22 +20,22 @@ import HistoryOrderPage from "../../pages/HistoryOrderPage";
 
 function DefineLayout() {
   const isUserAuthenticated = () => {
-    const accessToken = getCookie('accessToken');
-    const userid = getCookie('userid');
-  
+    const accessToken = getCookie("accessToken");
+    const userid = getCookie("userid");
+
     if (accessToken && userid) {
       try {
-        const decodedToken = JSON.parse(atob(accessToken.split('.')[1]));
-  
+        const decodedToken = JSON.parse(atob(accessToken.split(".")[1]));
+
         if (decodedToken && decodedToken.exp) {
           const currentTimeInSeconds = Math.floor(Date.now() / 1000);
           return decodedToken.exp > currentTimeInSeconds;
         }
       } catch (error) {
-        console.error('Error decoding token:', error);
+        console.error("Error decoding token:", error);
       }
     }
-  
+
     return false;
   };
 

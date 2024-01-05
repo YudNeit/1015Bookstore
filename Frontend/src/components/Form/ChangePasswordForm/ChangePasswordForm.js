@@ -117,11 +117,39 @@ function ChangePassword() {
             },
             {
               validator: (_, value) => {
-                if (value.length <= 6) {
+                if (!value) {
+                  return Promise.reject("Xin vui lòng nhập Mật khẩu!");
+                }
+
+                if (value.length < 6) {
+                  return Promise.reject("Mật khẩu phải chứa ít nhất 6 kí tự!");
+                }
+
+                if (!/[A-Z]/.test(value)) {
                   return Promise.reject(
-                    "Password should bigger than 6 characters"
+                    "Mật khẩu phải chứa tối thiểu 1 ký tự in hoa!"
                   );
-                } else return Promise.resolve();
+                }
+
+                if (!/[a-z]/.test(value)) {
+                  return Promise.reject(
+                    "Mật khẩu phải chứa tối thiểu 1 ký tự thường!"
+                  );
+                }
+
+                if (!/\d/.test(value)) {
+                  return Promise.reject(
+                    "Mật khẩu phải chứa tối thiểu 1 ký tự số!"
+                  );
+                }
+
+                if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+                  return Promise.reject(
+                    "Mật khẩu phải chứa tối thiểu 1 ký tự đặc biệt!"
+                  );
+                }
+
+                return Promise.resolve();
               },
             },
           ]}

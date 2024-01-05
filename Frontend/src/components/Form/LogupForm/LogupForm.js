@@ -15,8 +15,8 @@ function Logup() {
   const [email, setEmail] = useState("");
   const [isSuccess, setSuccess] = useState(false);
 
-  useEffect(() => { }, []);
-  
+  useEffect(() => {}, []);
+
   const onFinish = (values) => {
     handleLogUp();
     setSuccess(true);
@@ -28,7 +28,7 @@ function Logup() {
     message.error(`Vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
-  
+
   console.log("isSuccess:", isSuccess);
 
   const handleInputChange = (e) => {
@@ -101,227 +101,217 @@ function Logup() {
         autoComplete="off"
       >
         <Typography
+          className="title_container"
           style={{
             fontWeight: "bolder",
-            fontSize: 24,
+            fontSize: "2.3vh",
+            margin: "0px",
           }}
         >
           Đăng ký
         </Typography>
-        <div className="divide_into_2cols">
+        <div className="">
+          <div className="divide_into_2cols">
+            <Form.Item
+              className="no_margin"
+              label={<span className="label">Họ</span>}
+              name="lastname"
+              rules={[
+                {
+                  validator: (_, value) => {
+                    if (!value) {
+                      return Promise.reject("Xin vui lòng điền Họ!");
+                    }
+                    if (/^[^0-9]+$/i.test(value)) {
+                      return Promise.resolve();
+                    } else {
+                      return Promise.reject("Họ không thể chứa các ký tự số!");
+                    }
+                  },
+                },
+              ]}
+            >
+              <Input
+                style={{ height: "4vh", fontSize: "1.8vh" }}
+                placeholder="Họ"
+                name="lastname"
+                value={lastname}
+                onChange={handleInputChange}
+              />
+            </Form.Item>
+            <Form.Item
+              className="no_margin"
+              label={<span className="label">Tên</span>}
+              name="firstname"
+              rules={[
+                {
+                  validator: (_, value) => {
+                    if (!value) {
+                      return Promise.reject("Xin vui lòng điền Tên!");
+                    }
+                    if (/^[^0-9]+$/i.test(value)) {
+                      return Promise.resolve();
+                    } else {
+                      return Promise.reject("Tên không thể chứa các ký tự số!");
+                    }
+                  },
+                },
+              ]}
+            >
+              <Input
+                style={{ height: "4vh", fontSize: "1.8vh" }}
+                placeholder="Tên"
+                name="firstname"
+                value={firstname}
+                onChange={handleInputChange}
+              />
+            </Form.Item>
+          </div>
           <Form.Item
             className="no_margin"
-            label={<p className="label">Họ</p>}
-            name="lastname"
+            label={<span className="label">Tên đăng nhập</span>}
+            name="username"
             rules={[
-              {
-                required: true,
-                message: "Please input your lastname!",
-              },
               {
                 validator: (_, value) => {
                   if (!value) {
-                    return Promise.reject("Xin vui lòng điền Họ!");
+                    return Promise.reject("Xin vui lòng nhập Tên đăng nhập!");
                   }
-                  if (/^[^0-9]+$/i.test(value)) {
+                  if (value.length < 5) {
+                    return Promise.reject(
+                      "Tên đăng nhập phải chứa ít nhất 6 kí tự!"
+                    );
+                  } else if (/^[^0-9][a-zA-Z0-9]+$/.test(value)) {
                     return Promise.resolve();
                   } else {
-                    return Promise.reject("Họ không thể chứa các ký tự số!");
+                    return Promise.reject("Kí tự đầu không được là chữ số!");
                   }
                 },
               },
             ]}
           >
             <Input
-              size="large"
-              placeholder="Họ"
-              name="lastname"
-              value={lastname}
+              style={{ height: "4vh", fontSize: "1.8vh" }}
+              placeholder="Tên đăng nhập"
+              name="username"
+              value={username}
               onChange={handleInputChange}
             />
           </Form.Item>
           <Form.Item
             className="no_margin"
-            label={<p className="label">Tên</p>}
-            name="firstname"
+            label={<span className="label">Mật khẩu</span>}
+            name="password"
             rules={[
-              {
-                required: true,
-                message: "Please input your firstname!",
-              },
               {
                 validator: (_, value) => {
                   if (!value) {
-                    return Promise.reject("Xin vui lòng điền Tên!");
+                    return Promise.reject("Xin vui lòng nhập Mật khẩu!");
                   }
-                  if (/^[^0-9]+$/i.test(value)) {
-                    return Promise.resolve();
-                  } else {
-                    return Promise.reject("Tên không thể chứa các ký tự số!");
+
+                  if (value.length < 6) {
+                    return Promise.reject(
+                      "Mật khẩu phải chứa ít nhất 6 kí tự!"
+                    );
                   }
+
+                  if (!/[A-Z]/.test(value)) {
+                    return Promise.reject(
+                      "Mật khẩu phải chứa tối thiểu 1 ký tự in hoa!"
+                    );
+                  }
+
+                  if (!/[a-z]/.test(value)) {
+                    return Promise.reject(
+                      "Mật khẩu phải chứa tối thiểu 1 ký tự thường!"
+                    );
+                  }
+
+                  if (!/\d/.test(value)) {
+                    return Promise.reject(
+                      "Mật khẩu phải chứa tối thiểu 1 ký tự số!"
+                    );
+                  }
+
+                  if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+                    return Promise.reject(
+                      "Mật khẩu phải chứa tối thiểu 1 ký tự đặc biệt!"
+                    );
+                  }
+
+                  return Promise.resolve();
                 },
               },
             ]}
           >
+            <Input.Password
+              style={{ height: "4vh", fontSize: "1.8vh" }}
+              placeholder="Mật khẩu"
+              name="password"
+              value={password}
+              onChange={handleInputChange}
+            />
+          </Form.Item>
+          <Form.Item
+            className="no_margin"
+            label={<span className="label">Xác nhận mật khẩu</span>}
+            name="confirmpassword"
+            dependencies={["password"]}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "Xin vui lòng xác nhận mật khẩu của bạn!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("Mật khẩu mới mà bạn vừa nhập không khớp!")
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              style={{ height: "4vh", fontSize: "1.8vh" }}
+              placeholder="Xác nhận mật khẩu"
+              name="confirmpassword"
+              value={confirmpassword}
+              onChange={handleInputChange}
+            />
+          </Form.Item>
+          <Form.Item
+            className="no_margin"
+            label={<span className="label">Email</span>}
+            name="email"
+            rules={[
+              {
+                type: "email",
+                message: "Xin vui lòng điền dạng Email!",
+              },
+              {
+                required: true,
+                message: "Xin vui lòng điền Email!",
+              },
+            ]}
+          >
             <Input
-              size="large"
-              placeholder="Tên"
-              name="firstname"
-              value={firstname}
+              style={{ height: "4vh", fontSize: "1.8vh" }}
+              placeholder="Email"
+              name="email"
+              value={email}
               onChange={handleInputChange}
             />
           </Form.Item>
         </div>
-        <Form.Item
-          className="no_margin"
-          label={<p className="label">Tên đăng nhập</p>}
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "Please input your username!",
-            },
-            {
-              validator: (_, value) => {
-                if (!value) {
-                  return Promise.reject("Xin vui lòng nhập Tên đăng nhập!");
-                }
-                if (value.length < 5) {
-                  return Promise.reject(
-                    "Tên đăng nhập phải chứa ít nhất 6 kí tự!"
-                  );
-                } else if (/^[^0-9][a-zA-Z0-9]+$/.test(value)) {
-                  return Promise.resolve();
-                } else {
-                  return Promise.reject("Kí tự đầu không được là chữ số!");
-                }
-              },
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            placeholder="Tên đăng nhập"
-            name="username"
-            value={username}
-            onChange={handleInputChange}
-          />
-        </Form.Item>
-        <Form.Item
-          className="no_margin"
-          label={<p className="label">Mật khẩu</p>}
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-            {
-              validator: (_, value) => {
-                if (!value) {
-                  return Promise.reject("Xin vui lòng nhập Mật khẩu!");
-                }
 
-                if (value.length < 6) {
-                  return Promise.reject("Mật khẩu phải chứa ít nhất 6 kí tự!");
-                }
-
-                if (!/[A-Z]/.test(value)) {
-                  return Promise.reject(
-                    "Mật khẩu phải chứa tối thiểu 1 ký tự in hoa!"
-                  );
-                }
-
-                if (!/[a-z]/.test(value)) {
-                  return Promise.reject(
-                    "Mật khẩu phải chứa tối thiểu 1 ký tự thường!"
-                  );
-                }
-
-                if (!/\d/.test(value)) {
-                  return Promise.reject(
-                    "Mật khẩu phải chứa tối thiểu 1 ký tự số!"
-                  );
-                }
-
-                if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
-                  return Promise.reject(
-                    "Mật khẩu phải chứa tối thiểu 1 ký tự đặc biệt!"
-                  );
-                }
-
-                return Promise.resolve();
-              },
-            },
-          ]}
-        >
-          <Input.Password
-            size="large"
-            placeholder="Mật khẩu"
-            name="password"
-            value={password}
-            onChange={handleInputChange}
-          />
-        </Form.Item>
-        <Form.Item
-          className="no_margin"
-          label={<p className="label">Xác nhận mật khẩu</p>}
-          name="confirmpassword"
-          dependencies={["password"]}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: "Xin vui lòng xác nhận mật khẩu của bạn!",
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error("Mật khẩu mới mà bạn vừa nhập không khớp!")
-                );
-              },
-            }),
-          ]}
-        >
-          <Input.Password
-            size="large"
-            placeholder="Xác nhận mật khẩu"
-            name="confirmpassword"
-            value={confirmpassword}
-            onChange={handleInputChange}
-          />
-        </Form.Item>
-        <Form.Item
-          className="no_margin"
-          label={<p className="label">Email</p>}
-          name="email"
-          rules={[
-            {
-              type: "email",
-              message: "Xin vui lòng điền Email!",
-            },
-            {
-              required: true,
-              message: "Xin vui lòng điền Email!",
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            placeholder="Email"
-            name="email"
-            value={email}
-            onChange={handleInputChange}
-          />
-        </Form.Item>
-        <Form.Item className="no_margin">
+        <Form.Item className="no_margin button_container">
           <ConfigProvider
             theme={{
               token: {
-                colorBgContainer: "rgba(0, 52, 101, 1)",
                 colorBorder: "none",
               },
             }}
@@ -329,11 +319,15 @@ function Logup() {
             <Button
               className="button"
               block
-              size="large"
               type="default"
               htmlType="submit"
+              style={{
+                height: "5vh",
+                display: "flex",
+                justifyContent: "center",
+              }}
             >
-              Đăng ký
+              <span style={{ fontSize: "2vh" }}>Đăng ký</span>
             </Button>
           </ConfigProvider>
         </Form.Item>
