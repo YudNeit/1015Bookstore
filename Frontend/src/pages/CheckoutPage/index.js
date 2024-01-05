@@ -99,6 +99,7 @@ function CheckoutPage() {
         setVoucherDiscount(data.iPromotionalCode_discount_rate);
         message.success("Voucher is apply successful!");
         console.log(voucherDiscount);
+        setisCheck(true);
       }
     } catch (error) {
       message.error("Voucher không tồn tại!");
