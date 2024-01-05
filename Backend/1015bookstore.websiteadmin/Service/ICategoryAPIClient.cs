@@ -14,5 +14,8 @@ namespace _1015bookstore.websiteadmin.Service
         Task<ResponseAPI<string>> DeleteProductInCate(string session, int id_cate, int id_product);
         Task<ResponseAPI<string>> SetProductInCate(string session, int id_cate, int id_product);
         Task<ResponseAPI<List<ProductViewModel>>> GetProductNotInCate(string session, int id);
+        Task<ResponseAPI<List<CategoryViewModel>>> GetCateParent(string session);
+
+        Task<ResponseAPI<string>> CreateCate(string session, CategoryCreateRequest request, Guid? gUser_id);
     }
 }

@@ -17,7 +17,26 @@ namespace _1015bookstore.webapi.Controllers
         public ProductController(IProductService ProductService) {
             _productService = ProductService;
         }
+        [HttpGet("category")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Product_GetCategory([Required]int iProduct_id) {
+            try
+            {
+                var response = await _productService.Product_GetCategory(iProduct_id);
+                if (response.Status)
+                {
+                    return StatusCode(response.CodeStatus, response.Data);
+                }
+                return StatusCode(response.CodeStatus, response.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
         
+
         //http://localhost:port/api/product/public-paging
         [HttpGet("public-paging-cate")]
         [AllowAnonymous]

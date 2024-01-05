@@ -50,7 +50,7 @@ namespace _1015bookstore.application.Catalog.Categories
                 updatedby = creator_username,
                 dateupdated = DateTime.Now,
                 status = CategoryStatus.Normal,
-                show = CategoryShow.None,
+                show = request.stCate_show,
             };
             _context.Categories.Add(cate);
             await _context.SaveChangesAsync();
@@ -272,14 +272,14 @@ namespace _1015bookstore.application.Catalog.Categories
         }
         public async Task<ResponseService<List<CategoryParentAndChildViewModel>>> Cate_GetTaskbar()
         {
-            var data = await _context.Categories.Where(x => x.categoryparentid == 0 && x.show == CategoryShow.Taskbar).Select(e => new CategoryParentAndChildViewModel
+            var data = await _context.Categories.Where(x => x.categoryparentid == 0 && x.show == CategoryShow.Taskbar && x.status == CategoryStatus.Normal).Select(e => new CategoryParentAndChildViewModel
             {
                 iCate_id = e.id,
                 sCate_name = e.name,
                 iCate_parent_id = e.categoryparentid,
                 stCate_status = e.status,
                 stCate_show = e.show,
-                lCate_childs = _context.Categories.Where(x => x.categoryparentid == e.id && x.show == CategoryShow.Taskbar).Select(x => new CategoryViewModel
+                lCate_childs = _context.Categories.Where(x => x.categoryparentid == e.id && x.show == CategoryShow.Taskbar && x.status == CategoryStatus.Normal).Select(x => new CategoryViewModel
                 {
                     iCate_id = x.id,
                     sCate_name = x.name,

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\1015bookstore.data\1015bookstore.data.csproj" />
     <ProjectReference Include="..\1015bookstore.viewmodel\1015bookstore.viewmodel.csproj" />
   </ItemGroup>
 

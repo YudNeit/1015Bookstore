@@ -1,4 +1,5 @@
-﻿using _1015bookstore.viewmodel.Catalog.Products;
+﻿using _1015bookstore.viewmodel.Catalog.Categories;
+using _1015bookstore.viewmodel.Catalog.Products;
 using _1015bookstore.viewmodel.Comon;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace _1015bookstore.application.Catalog.Products
         Task<ResponseService<List<ProductViewModel>>> Product_GetProductByKeywordAllPublic(string? sKeyword);
 
         Task<ResponseService<List<ProductViewModel>>> Product_GetProductNotInCate(int cate_id);
+
+        Task<ResponseService<List<CategoryViewModel>>> Product_GetCategory(int id);
 
     }
 }
