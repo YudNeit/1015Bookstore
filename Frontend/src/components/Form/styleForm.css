@@ -4,6 +4,7 @@
   font-size: 2vh;
   color: #8c8c8c;
 }
+
 .no_margin {
   margin: 0px;
 }
@@ -14,7 +15,7 @@
   justify-content: center;
 }
 .background {
-  height: 69vh;
+  height: 63vh;
   display: flex;
   align-items: center;
   justify-content: right;
@@ -40,6 +41,13 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.logup_form .label {
+  padding: 0px;
+  margin: 0px;
+  font-size: 1.5vh;
+  color: #8c8c8c;
+}
+
 .login_form {
   min-width: 22vw;
   height: 60%;
@@ -52,16 +60,14 @@
   justify-content: space-between;
 }
 .logup_form {
-  width: 27vw;
-  height: 60vh;
+  min-width: 27vw;
+  height: 98%;
   background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0px 8px 32px 0 rgba(0, 0, 255, 0.3);
-  border-radius: 10px;
-  padding: 0px 20px;
-  border-color: rgba(53, 118, 192, 0.5);
+  box-shadow: 0px 8px 32px 0 gray;
+  border-radius: 0.5vw;
+  padding: 0px 1vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 .forgotpassword_form {
   width: 22vw;

@@ -283,7 +283,10 @@ function CheckoutPage() {
             <List.Item>
               <Input
                 value={promotionalCode}
-                onChange={(e) => setPromotionalCode(e.target.value)}
+                onChange={(e) => {
+                  setPromotionalCode(e.target.value);
+                  setisCheck(false);
+                }}
                 disabled={isApply}
               />
             </List.Item>
@@ -335,7 +338,13 @@ function CheckoutPage() {
                         "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0"
                       );
                     } else {
-                      setShowConfirmationPay(true);
+                      if (!promotionalCode) {
+                        setShowConfirmationPay(true);
+                      } else if (isApply) {
+                        setShowConfirmationPay(true);
+                      } else {
+                        message.error("Vui lòng xác nhận voucher!");
+                      }
                     }
                   } else {
                     message.error("Vui lòng nhập đầy đủ thông tin người nhận!");

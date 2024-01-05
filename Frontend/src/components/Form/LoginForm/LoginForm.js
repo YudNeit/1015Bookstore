@@ -70,7 +70,7 @@ const Login = () => {
       >
         <Typography
           className="title_container"
-          style={{ fontWeight: "bolder", fontSize: "min(3vh)" }}
+          style={{ fontWeight: "bolder", fontSize: "3vh" }}
         >
           Đăng nhập
         </Typography>
@@ -85,7 +85,7 @@ const Login = () => {
         >
           <Input
             placeholder="Tên đăng nhập"
-            style={{ height: "6vh", fontSize: "max(2vh)" }}
+            style={{ height: "6vh", fontSize: "2vh" }}
           />
         </Form.Item>
 
@@ -96,12 +96,10 @@ const Login = () => {
           rules={[{ required: true, message: "Xin vui lòng nhập Mật khẩu!" }]}
         >
           <Input.Password
-            size="large"
             placeholder="Mật khẩu"
             style={{
               height: "6vh",
-              fontSize: "max(2vh)",
-              padding: "4px 11px",
+              fontSize: "2vh",
             }}
           />
         </Form.Item>
@@ -134,7 +132,7 @@ const Login = () => {
         <div className="functions login_function_container ">
           <Form.Item className="no_margin">
             <a
-              href="http://localhost:3000/forgot_password"
+              href="/forgot_password"
               style={{ color: "#1f9d60", fontSize: "1.5vh" }}
             >
               Quên mật khẩu
@@ -147,7 +145,7 @@ const Login = () => {
             </span>
             <a
               className="logup-form"
-              href="http://localhost:3000/sign_up"
+              href="/sign_up"
               style={{ color: "#CF4330", fontSize: "1.5vh" }}
             >
               Đăng ký tại đây

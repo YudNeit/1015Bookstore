@@ -64,6 +64,12 @@ function CartPage() {
 
   const removeCartItem = async (cartItemId) => {
     try {
+      if (selectedItems.includes(cartItemId)) {
+        // If yes, update selectedItems by removing cartItemId
+        setSelectedItems((prevSelectedItems) =>
+          prevSelectedItems.filter((id) => id !== cartItemId)
+        );
+      }
       const response = await fetch(
         `https://localhost:7139/api/Cart/delete/${cartItemId}`,
         {
@@ -169,8 +175,19 @@ function CartPage() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Fetch the updated cart data after updating the quantity
+      const currentItem = items.find((item) => item.iCart_id === itemId);
+      const currentQuantity = currentItem ? currentItem.iProduct_amount : 0;
+      console.log(currentQuantity);
+      if (currentQuantity <= 1 && selectedItems.includes(itemId)) {
+        setSelectedItems((prevSelectedItems) =>
+          prevSelectedItems.filter((id) => id !== itemId)
+        );
+      } else if (currentQuantity > 1 && !selectedItems.includes(itemId)) {
+        setSelectedItems((prevSelectedItems) => [...prevSelectedItems, itemId]);
+      }
+
       await fetchCartData(userId);
+      
     } catch (error) {
       message.error("Không thể đặt thêm sản phẩm này!");
       console.error("Error updating cart item quantity:", error);

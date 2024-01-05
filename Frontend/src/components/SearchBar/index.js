@@ -24,6 +24,7 @@ const SearchBar = ({ onSearchResult, ...props }) => {
     <div style={{ display: "flex", alignItems: "center" }}>
       <Input
         onChange={(e) => setSearchValue(e.target.value)}
+        onPressEnter={onSearch}
         value={searchValue}
         placeholder="Search book"
         allowClear
