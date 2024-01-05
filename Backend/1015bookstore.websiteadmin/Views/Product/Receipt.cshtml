@@ -52,6 +52,9 @@
                                 Số lượng hiện tại
                             </th>
                             <th>
+                                Giá hiện tại
+                            </th>
+                            <th>
                                 Số lượng nhập
                             </th>
                             <th>
@@ -71,6 +74,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.iProduct_quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.vProduct_price)
                             </td>
                             <form asp-action="Receipt" method="post">
                                 <td>

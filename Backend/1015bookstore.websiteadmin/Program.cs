@@ -30,6 +30,7 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddTransient<IUserAPIClient, UserAPIClient>();
 builder.Services.AddTransient<IProductAPIClient, ProductAPIClient>();
 builder.Services.AddTransient<ICategoryAPIClient, CategoryAPIClient>();
+builder.Services.AddTransient<IReportAPIClient, ReportAPIClient>();
 
 var app = builder.Build();
 

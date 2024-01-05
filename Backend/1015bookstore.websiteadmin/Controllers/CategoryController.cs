@@ -8,12 +8,11 @@ namespace _1015bookstore.websiteadmin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryAPIClient _categoryAPIClient;
-        private readonly IConfiguration _config;
 
-        public CategoryController(ICategoryAPIClient categoryAPIClient, IConfiguration config)
+
+        public CategoryController(ICategoryAPIClient categoryAPIClient)
         {
             _categoryAPIClient = categoryAPIClient;
-            _config = config;
         }
         public async Task<IActionResult> Index()
         {

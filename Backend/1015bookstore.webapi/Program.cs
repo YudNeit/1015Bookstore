@@ -7,6 +7,7 @@ using _1015bookstore.application.Catalog.PromotionalCodes;
 using _1015bookstore.application.Catalog.Reviews;
 using _1015bookstore.application.Common;
 using _1015bookstore.application.Helper;
+using _1015bookstore.application.System.Reports;
 using _1015bookstore.application.System.Users;
 using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
@@ -43,6 +44,7 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IRemoveUnicode, RemoveUnicode>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IReviewService, ReviewService>();
+builder.Services.AddTransient<IReportService, ReportService>();
 
 
 builder.Services.AddSwaggerGen(c =>
