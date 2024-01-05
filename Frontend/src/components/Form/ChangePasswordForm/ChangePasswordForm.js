@@ -20,7 +20,7 @@ function ChangePassword() {
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
-    message.error(`Vui lòng nhập đầy đủ thông tin!`);
+    message.error(`Xin vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
 
@@ -72,17 +72,17 @@ function ChangePassword() {
             message.error(`${error}`);
           }
         } catch (error) {
-          message.error("Change Password failed.");
+          message.error("Cập nhật mật khẩu thất bại!");
         }
       } else {
-        message.success("Change Password is successful.");
+        message.success("Cập nhật mật khẩu thành công!");
         document.cookie = `forgotToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
         navigate(`/sign_in`);
         window.location.reload();
       }
     } catch (error) {
       console.error("Error Change Password:", error);
-      message.error("Confirmation Code failed. Please try again later.");
+      message.error("Mã xác nhận không đúng. Hãy thử lại sau!");
     }
   };
 
@@ -98,23 +98,34 @@ function ChangePassword() {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Typography
-          style={{
-            fontWeight: "bolder",
-            fontSize: 36,
-          }}
-        >
-          Đổi mật khẩu
-        </Typography>
+        <div>
+          <Typography
+            style={{
+              fontWeight: "bolder",
+              fontSize: "3vh",
+            }}
+          >
+            Đổi mật khẩu
+          </Typography>
+
+          <Typography
+            style={{
+              fontSize: "1.4vh",
+              color: "#bebebe",
+            }}
+          >
+            Hãy cập nhật mật khẩu mới của bạn!
+          </Typography>
+        </div>
         <Form.Item
           className="no_margin"
-          label={<p className="label">Mật khẩu</p>}
+          label={
+            <span className="label">
+              <span style={{ color: "red" }}>* </span>Mật khẩu
+            </span>
+          }
           name="password"
           rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
             {
               validator: (_, value) => {
                 if (!value) {
@@ -155,7 +166,7 @@ function ChangePassword() {
           ]}
         >
           <Input.Password
-            size="large"
+            style={{ height: "6vh", fontSize: "2vh" }}
             placeholder="Mật khẩu"
             name="password"
             value={password}
@@ -164,29 +175,27 @@ function ChangePassword() {
         </Form.Item>
         <Form.Item
           className="no_margin"
-          label={<p className="label">Xác nhận mật khẩu</p>}
+          label={
+            <span className="label">
+              <span style={{ color: "red" }}>* </span>Xác nhận mật khẩu
+            </span>
+          }
           name="confirmpassword"
           dependencies={["password"]}
           hasFeedback
           rules={[
-            {
-              required: true,
-              message: "Please confirm your password!",
-            },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(
-                  new Error("The new password that you entered do not match!")
-                );
+                return Promise.reject(new Error("Mật khẩu không khớp!"));
               },
             }),
           ]}
         >
           <Input.Password
-            size="large"
+            style={{ height: "6vh", fontSize: "2vh" }}
             placeholder="Xác nhận mật khẩu"
             name="confirmpassword"
             value={confirmpassword}
@@ -204,9 +213,12 @@ function ChangePassword() {
             <Button
               className="button"
               block
-              size="large"
               type="default"
               htmlType="submit"
+              style={{
+                height: "5vh",
+                fontSize: "2vh",
+              }}
             >
               Xác nhận
             </Button>

@@ -13,6 +13,7 @@
   background-color: #30cf82;
   align-items: center;
   justify-content: center;
+  display: "flex";
 }
 .background {
   height: 63vh;
@@ -47,7 +48,12 @@
   font-size: 1.5vh;
   color: #8c8c8c;
 }
-
+.logup_nav:hover {
+  text-decoration: underline;
+}
+.forgotpassword_nav:hover {
+  text-decoration: underline;
+}
 .login_form {
   min-width: 22vw;
   height: 60%;
@@ -61,44 +67,45 @@
 }
 .logup_form {
   min-width: 27vw;
-  height: 98%;
+  height: 99%;
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0px 8px 32px 0 gray;
   border-radius: 0.5vw;
   padding: 0px 1vw;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 .forgotpassword_form {
   width: 22vw;
-  height: 35vh;
+  height: 45%;
   background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  padding: 0px 20px;
-  border-color: rgba(53, 118, 192, 0.5);
+  box-shadow: 0px 8px 32px 0 gray;
+  border-radius: 0.5vw;
+  padding: 0 1vw 1vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-}
-.changepassword_form {
-  width: 22vw;
-  height: 35vh;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  padding: 0px 20px;
-  border-color: rgba(53, 118, 192, 0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .confirmcode_form {
   width: 22vw;
-  height: 25vh;
+  height: 45%;
   background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  padding: 0px 20px;
-  border-color: rgba(53, 118, 192, 0.5);
+  box-shadow: 0px 8px 32px 0 gray;
+  border-radius: 0.5vw;
+  padding: 0 1vw 1vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+.changepassword_form {
+  width: 22vw;
+  height: 60%;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0px 8px 32px 0 gray;
+  border-radius: 0.5vw;
+  padding: 0 1vw 1vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

@@ -474,7 +474,7 @@ function ProfilePage() {
         <Row>
           <h2 className="detail_h2">LỊCH SỬ GIAO DỊCH</h2>
         </Row>
-        <div>
+        <div style={{ display: "flex", flexDirection: "column-reverse" }}>
           {items.map((item) => (
             <Card
               className="order_history_cart"

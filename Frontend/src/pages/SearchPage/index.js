@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "antd"; 
+import { Card, Col, Rate, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import MenuSlide from "../../components/MenuSlide";
 
@@ -11,7 +11,6 @@ const SearchPage = () => {
   const [selectedMenu, setSelectedMenu] = useState(null);
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -50,31 +49,24 @@ const SearchPage = () => {
 
   return (
     <div>
+      <h3 class="title-comm">
+        <span class="title-holder">TÌM KIẾM SẢN PHẨM</span>
+      </h3>
       <Row className="title_bar">
         <Col>
-          <MenuSlide
-            style={{ backgroundColor: "#30cf82" }}
-            onMenuSelect={handleMenuSelect}
-          />
-        </Col>
-        <Col offset={1} style={{ borderRadius: "30px" }}>
-          <h2 className="page_title">DANH MỤC SẢN PHẨM</h2>
+          <MenuSlide onMenuSelect={handleMenuSelect} />
         </Col>
       </Row>
       <div className="card_container">
         {items.map((item) => (
           <Card
+            className="card_item"
             key={item.sProduct_name}
-            style={{
-              border: "2px solid #ededed",
-              display: "inline-block",
-              margin: "0px 30px 30px 0px",
-              padding: "10px 5px",
-            }}
             hoverable
+            bodyStyle={{ padding: "10px 24px" }}
             cover={
               <img
-                style={{ height: 300, width: 260 }}
+                className="mp_book_item_image"
                 alt={item.sProduct_name}
                 src={
                   item.sImage_pathThumbnail == null
@@ -86,8 +78,27 @@ const SearchPage = () => {
             onClick={() => handleCardClick(item)}
           >
             <div className="flex_column">
-              <span className="book_title">{item.sProduct_name}</span>
-              <span className="book_price">{item.vProduct_price}đ</span>
+              <div className="title_start_container">
+                <span className="book_title">{item.sProduct_name}</span>
+                <Rate
+                  disabled
+                  className="book_star"
+                  defaultValue={item.dProduct_start_count}
+                />
+              </div>
+              <span className="book_price">
+                {item.vProduct_price}
+                <span
+                  style={{
+                    verticalAlign: "super",
+                    fontSize: "10px",
+                    textDecoration: "underline",
+                    marginLeft: "2px",
+                  }}
+                >
+                  đ
+                </span>
+              </span>
             </div>
           </Card>
         ))}

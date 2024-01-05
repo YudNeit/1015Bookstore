@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Button, Card, Col, Row, Pagination } from "antd";
+import { Button, Card, Col, Row, Pagination, Rate } from "antd";
 import { useNavigate } from "react-router-dom";
 import MenuSlide from "../../components/MenuSlide";
 
@@ -44,11 +44,11 @@ const FilteredPage = () => {
     };
 
     fetchData();
-
   }, [selectedMenu, pagination.current, pagination.pageSize]);
 
   const handleMenuSelect = (selectedValue) => {
     setSelectedMenu(selectedValue);
+    navigate(`/${selectedValue}`);
     window.location.reload();
   };
 
@@ -57,26 +57,28 @@ const FilteredPage = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      <Col>
-        <MenuSlide onMenuSelect={handleMenuSelect} />
-      </Col>
-      <Col>
+    <div>
+      <h3 class="title-comm">
+        <span class="title-holder">SẢN PHẨM CÙNG THỂ LOẠI</span>
+      </h3>
+      <Row className="title_bar">
+        <Col>
+          <MenuSlide onMenuSelect={handleMenuSelect} />
+        </Col>
+      </Row>
+      <div className="card_container">
         {loading && <p>Loading...</p>}
         {error && <p>Error: {error.message}</p>}
         {!loading && !error && Array.isArray(items) && items.length > 0 ? (
           items.map((item) => (
             <Card
+              className="card_item"
               key={item.iProduct_id}
-              style={{
-                border: "1px solid black",
-                display: "inline-block",
-                margin: "0px 30px 30px 0px",
-              }}
               hoverable
+              bodyStyle={{ padding: "10px 24px" }}
               cover={
                 <img
-                  style={{ height: 300, width: 260 }}
+                  className="mp_book_item_image"
                   alt={item.sProduct_name}
                   src={
                     item.sImage_pathThumbnail == null
@@ -87,14 +89,35 @@ const FilteredPage = () => {
               }
               onClick={() => handleProductClick(item)}
             >
-              <Meta title={item.sProduct_name} />
-              <div>Price: {item.vProduct_price}</div>
+              <div className="flex_column">
+                <div className="title_start_container">
+                  <span className="book_title">{item.sProduct_name}</span>
+                  <Rate
+                    disabled
+                    className="book_star"
+                    defaultValue={item.dProduct_start_count}
+                  />
+                </div>
+                <span className="book_price">
+                  {item.vProduct_price}
+                  <span
+                    style={{
+                      verticalAlign: "super",
+                      fontSize: "10px",
+                      textDecoration: "underline",
+                      marginLeft: "2px",
+                    }}
+                  >
+                    đ
+                  </span>
+                </span>
+              </div>
             </Card>
           ))
         ) : (
           <p>No items available.</p>
         )}
-      </Col>
+      </div>
     </div>
   );
 };

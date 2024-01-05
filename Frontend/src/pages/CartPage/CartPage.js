@@ -126,7 +126,7 @@ function CartPage() {
       const orderResponse = await response.json();
       const orderId = orderResponse.iOrder_id;
       localStorage.setItem("orderId", orderId);
-      navigate(`/checkout`);
+      navigate(`/`);
       console.log("Order placed successfully!");
     } catch (error) {
       message.error("Vui lòng chọn sản phẩm bạn muốn thanh toán!");
@@ -176,9 +176,8 @@ function CartPage() {
       }
 
       await fetchCartData(userId);
-      
     } catch (error) {
-      message.error("Không thể đặt thêm sản phẩm này!");
+      message.error("Không thể đặt thêm sản phẩm này!");  
       console.error("Error updating cart item quantity:", error);
     }
   };
@@ -277,7 +276,7 @@ function CartPage() {
                   <Button
                     className="amount_change_button"
                     onClick={() => handleQuantityChange(item.iCart_id, -1)}
-                    disabled = {item.iProduct_amount === 1}
+                    disabled={item.iProduct_amount === 1}
                   >
                     -
                   </Button>
