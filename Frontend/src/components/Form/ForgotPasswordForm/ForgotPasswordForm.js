@@ -1,5 +1,4 @@
 import { Typography, message } from "antd";
-import "../styleForm.css";
 import { Button, Form, Input, ConfigProvider } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +11,7 @@ function ForgotPassword() {
   const [isSuccess, setSuccess] = useState(false);
 
   useEffect(() => {}, []);
+
   const onFinish = (values) => {
     setSuccess(true);
     handleSendCodeClick();
@@ -20,7 +20,7 @@ function ForgotPassword() {
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
-    message.error(`Xin vui lòng điền đầy đủ thông tin!`);
+    message.error(`Xin vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
   console.log("isSuccess:", isSuccess);
@@ -76,14 +76,14 @@ function ForgotPassword() {
           <Typography
             style={{
               fontWeight: "bolder",
-              fontSize: 36,
+              fontSize: "3vh",
             }}
           >
             Quên mật khẩu
           </Typography>
           <Typography
             style={{
-              fontSize: 12  ,
+              fontSize: "1.4vh",
               color: "#bebebe",
             }}
           >
@@ -93,7 +93,11 @@ function ForgotPassword() {
         </div>
         <Form.Item
           className="no_margin"
-          label={<p className="label">Email</p>}
+          label={
+            <span className="label">
+              <span style={{ color: "red" }}>* </span>Email
+            </span>
+          }
           name="email"
           rules={[
             {
@@ -101,13 +105,16 @@ function ForgotPassword() {
               message: "Đầu vào không phải là địa chỉ email hợp lệ!",
             },
             {
-              required: true,
-              message: "Xin vui lòng điền Email!",
+              validator: (_, value) => {
+                if (!value) {
+                  return Promise.reject("Xin vui lòng nhập Email!");
+                }
+              },
             },
           ]}
         >
           <Input
-            size="large"
+            style={{ height: "6vh", fontSize: "2vh" }}
             placeholder="Email"
             name="email"
             value={email}
@@ -118,7 +125,6 @@ function ForgotPassword() {
           <ConfigProvider
             theme={{
               token: {
-                colorBgContainer: "rgba(0, 52, 101, 1)",
                 colorBorder: "none",
               },
             }}
@@ -126,9 +132,12 @@ function ForgotPassword() {
             <Button
               className="button"
               block
-              size="large"
               type="default"
               htmlType="submit"
+              style={{
+                height: "5vh",
+                fontSize: "2vh",
+              }}
             >
               Gửi mã xác nhận
             </Button>

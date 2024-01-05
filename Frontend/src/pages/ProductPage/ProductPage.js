@@ -21,6 +21,7 @@ function ProductPage() {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(1);
   const [reviewsdata, setReviewsData] = useState([]);
+  const [currentRatingFilter, setCurrentRatingFilter] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -121,7 +122,11 @@ function ProductPage() {
               <List className="detail_list">
                 <List.Item>
                   <h1>{item.sProduct_name}</h1>
-                  <span><br /><br />của {item.sProduct_author}</span>
+                  <span>
+                    <br />
+                    <br />
+                    của {item.sProduct_author}
+                  </span>
                 </List.Item>
                 <List.Item className="pp_rate">
                   <span className="green rate_num">
@@ -209,19 +214,53 @@ function ProductPage() {
                   </Row>
                 </Col>
                 <Col className="rate_filter">
-                  <Button className="rate_filter_button">Tất cả</Button>
-                  <Button className="rate_filter_button">5 sao</Button>
-                  <Button className="rate_filter_button">4 sao</Button>
-                  <Button className="rate_filter_button">3 sao</Button>
-                  <Button className="rate_filter_button">2 sao</Button>
-                  <Button className="rate_filter_button">1 sao</Button>
+                  <Button
+                    className="rate_filter_button"
+                    onClick={() => setCurrentRatingFilter(null)}
+                  >
+                    Tất cả
+                  </Button>
+                  <Button
+                    className="rate_filter_button"
+                    onClick={() => setCurrentRatingFilter(5)}
+                  >
+                    5 sao
+                  </Button>
+                  <Button
+                    className="rate_filter_button"
+                    onClick={() => setCurrentRatingFilter(4)}
+                  >
+                    4 sao
+                  </Button>
+                  <Button
+                    className="rate_filter_button"
+                    onClick={() => setCurrentRatingFilter(3)}
+                  >
+                    3 sao
+                  </Button>
+                  <Button
+                    className="rate_filter_button"
+                    onClick={() => setCurrentRatingFilter(2)}
+                  >
+                    2 sao
+                  </Button>
+                  <Button
+                    className="rate_filter_button"
+                    onClick={() => setCurrentRatingFilter(1)}
+                  >
+                    1 sao
+                  </Button>
                 </Col>
               </Row>
             </Row>
             <Row>
               <List
                 className="user_review_list"
-                dataSource={reviewsdata}
+                dataSource={reviewsdata.filter((review) =>
+                  currentRatingFilter
+                    ? review.iReview_start === currentRatingFilter
+                    : true
+                )}
                 renderItem={(item, index) => (
                   <List.Item>
                     <List.Item.Meta

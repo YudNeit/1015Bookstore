@@ -74,10 +74,7 @@ const publicRoutes = [
     layout: LogLayout,
   },
   { path: "/confirm_code", component: ConfirmCode, layout: LogLayout },
-  { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
-  { path: "/checkout", component: CheckoutPage, layout: DefineLayout() },
-  { path: "/cart", component: CartPage },
-  { path: "/history", component: HistoryOrderPage, layout: DefineLayout() },
+
   {
     path: "/search/:searchValue",
     component: SearchPage,
@@ -85,6 +82,11 @@ const publicRoutes = [
   },
 ];
 //PrivateRoutes
-const privateRoutes = [];
+const privateRoutes = [
+  { path: "/profile_page", component: ProfilePage, layout: DefineLayout() },
+  { path: "/checkout", component: CheckoutPage, layout: DefineLayout() },
+  { path: "/cart", component: CartPage },
+  { path: "/history", component: HistoryOrderPage, layout: DefineLayout() },
+];
 
 export { publicRoutes, privateRoutes };

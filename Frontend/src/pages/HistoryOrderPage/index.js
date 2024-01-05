@@ -114,62 +114,72 @@ function HistoryOrderPage() {
 
   return (
     <div>
-      <div className="location">
-        <Row>
-          <h3>
-            <IoLocationSharp />
-            Địa chỉ nhận hàng
-          </h3>
-        </Row>
-        <List>
-          <List.Item>Tên người dùng: {order.sOrder_name_receiver}</List.Item>
-          <List.Item>Phone: {order.sOrder_phone_receiver}</List.Item>
-          <List.Item>Địa chỉ: {order.sOrder_address_receiver}</List.Item>
-        </List>
-      </div>
-      <div>
-        <List>
-          <List.Item>
-            <Col md={11} offset={0}>
-              <h3>Sản phẩm</h3>
-            </Col>
-            <Col md={3}>
-              <h3>Đơn giá</h3>
-            </Col>
-            <Col md={3}>
-              <h3>Số lượng</h3>
-            </Col>
-            <Col md={3}>
-              <h3>Thành tiền</h3>
-            </Col>
-          </List.Item>
-        </List>
-        <div>
+      <h3 class="title-comm">
+        <span class="title-holder">ĐƠN HÀNG ĐÃ MUA</span>
+      </h3>
+      <div className="ho_container">
+        <div className="recipient_info">
+          <List>
+            <List.Item>
+              <h2>Thông tin người nhận</h2>
+            </List.Item>
+            <List.Item>Tên người dùng: {order.sOrder_name_receiver}</List.Item>
+            <List.Item>Phone: {order.sOrder_phone_receiver}</List.Item>
+            <List.Item>Địa chỉ: {order.sOrder_address_receiver}</List.Item>
+          </List>
+        </div>
+        <div className="ho_cartlist_header">
+          <Col md={2} offset={1}>
+            <h3>Sản phẩm</h3>
+          </Col>
+          <Col md={8}></Col>
+          <Col md={2} offset={1}>
+            <h3>Đơn giá</h3>
+          </Col>
+          <Col md={2} offset={1}>
+            <h3>Số lượng</h3>
+          </Col>
+          <Col md={2} offset={1}>
+            <h3>Thành tiền</h3>
+          </Col>
+        </div>
+        <div className="ho_cartlist_item">
           {items.map((item, index) => (
-            <Card>
+            <Card className="ho_item_cart">
               <Row align="middle">
-                <Col md={11} offset={0}>
-                  <div className="cartlist_item">
-                    <Image
-                      style={{
-                        height: 120,
-                        width: 100,
-                      }}
-                      src={
-                        item.sImage_path == null
-                          ? require(`../../assets/user-content/img_1.webp`)
-                          : require(`../../assets/user-content/${item.sImage_path}`)
-                      }
-                      alt={item.sProduct_name}
-                    />
-                    <span>{item.sProduct_name}</span>
-                  </div>
+                <Col md={2} offset={1}>
+                  <Image
+                    style={{
+                      height: 80,
+                      width: 80,
+                    }}
+                    src={
+                      item.sImage_path == null
+                        ? require(`../../assets/user-content/img_1.webp`)
+                        : require(`../../assets/user-content/${item.sImage_path}`)
+                    }
+                    alt={item.sProduct_name}
+                  />
                 </Col>
-                <Col md={3}>{item.vProduct_price}đ</Col>
-                <Col md={3}>{item.iProduct_amount}</Col>
-                <Col md={3}>{item.vProduct_price * item.iProduct_amount}đ</Col>
-                <Col md={3}>
-                  <Button onClick={() => handleReviewClick(index)}>
+                <Col md={8}>
+                  <span>{item.sProduct_name}</span>
+                </Col>
+                <Col md={2} offset={1}>
+                  <span>{item.vProduct_price}đ</span>
+                </Col>
+                <Col md={2} offset={1}>
+                  <span>{item.iProduct_amount}</span>
+                </Col>
+                <Col md={2} offset={1}>
+                  <span className="ho_item_price">
+                    {item.vProduct_price * item.iProduct_amount}đ
+                  </span>
+                </Col>
+                <Col md={2} offset={1}>
+                  <Button
+                    className="ho_review_button"
+                    onClick={() => handleReviewClick(index)}
+                  >
                     Đánh giá
                   </Button>
                 </Col>
@@ -177,14 +187,27 @@ function HistoryOrderPage() {
             </Card>
           ))}
         </div>
+        <div className="ho_checkout_info">
+          <List>
+            <List.Item>
+              <h2>Thanh toán</h2>
+            </List.Item>
+            <List.Item>
+              <span>Voucher:{order.sPromoionalCode_code}</span>
+            </List.Item>
+            <List.Item>
+              <span>Tổng tiền hàng: {totalPrice}đ</span>
+            </List.Item>
+            <List.Item>
+              <span>Phí vận chuyển: {shippingFee}đ</span>
+            </List.Item>
+            <List.Item>
+              <span>Tổng thanh toán: {order.vOrder_total}đ</span>
+            </List.Item>
+          </List>
+        </div>
       </div>
-      <div>
-        <h3>Voucher</h3>
-        <List.Item>{order.sPromoionalCode_code}</List.Item>
-      </div>
-      <List.Item>Tổng tiền hàng: {totalPrice}đ</List.Item>
-      <List.Item>Phí vận chuyển: {shippingFee}đ</List.Item>
-      <List.Item>Tổng thanh toán: {order.vOrder_total}đ</List.Item>
+
       <Modal
         title="Đánh giá sản phẩm"
         visible={isReviewModalVisible}

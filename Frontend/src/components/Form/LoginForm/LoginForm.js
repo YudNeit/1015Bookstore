@@ -120,11 +120,10 @@ const Login = () => {
               onClick={handleLogIn}
               style={{
                 height: "5vh",
-                display: "flex",
-                justifyContent: "center",
+                fontSize: "2vh",
               }}
             >
-              <span style={{ fontSize: "2vh" }}>Đăng nhập</span>
+              Đăng nhập
             </Button>
           </ConfigProvider>
         </Form.Item>
@@ -132,6 +131,7 @@ const Login = () => {
         <div className="functions login_function_container ">
           <Form.Item className="no_margin">
             <a
+              className="forgotpassword_nav"
               href="/forgot_password"
               style={{ color: "#1f9d60", fontSize: "1.5vh" }}
             >
@@ -144,7 +144,7 @@ const Login = () => {
               Bạn chưa có tài khoản?{" "}
             </span>
             <a
-              className="logup-form"
+              className="logup_nav"
               href="/sign_up"
               style={{ color: "#CF4330", fontSize: "1.5vh" }}
             >

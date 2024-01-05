@@ -31,7 +31,7 @@ function ConfirmCodeForm() {
 
   const onFinishFailed = (errorInfo) => {
     setSuccess(false);
-    message.error(`Vui lòng nhập đầy đủ thông tin!`);
+    message.error(`Xin vui lòng nhập đầy đủ thông tin!`);
     console.log("Failed:", errorInfo);
   };
   console.log("isSuccess:", isSuccess);
@@ -64,26 +64,25 @@ function ConfirmCodeForm() {
       console.log(response);
       if (!response.ok) {
         try {
-          const responseBody = await response.clone().text(); 
+          const responseBody = await response.clone().text();
           const errorResponse = JSON.parse(responseBody);
 
           if (errorResponse.errors && errorResponse.errors.sUser_codeFP) {
             const codeErrors = errorResponse.errors.sUser_codeFP;
             const errorString = codeErrors.join(". ");
-            message.error(`Confirm Code failed: ${errorString}`);
+            message.error(`Xác nhận thất bại: ${errorString}`);
           }
         } catch (parseError) {
           const error = await response.text();
-        message.error(`Confirm Code failed: ${error}`);
+          message.error(`Xác nhận thất bại: ${error}`);
         }
       } else {
-        message.success("Confirm Code is successful.");
+        message.success("Xác nhận thành công!");
         navigate(`/change_password`);
       }
-    
     } catch (error) {
       console.error("Error Confirmation Code:", error);
-      message.error("Confirmation Code failed. Please try again later.");
+      message.error("Mã xác nhận không đúng. Hãy thử lại sau!");
     }
   };
 
@@ -103,25 +102,39 @@ function ConfirmCodeForm() {
           <Typography
             style={{
               fontWeight: "bolder",
-              fontSize: 36,
+              fontSize: "3vh",
             }}
           >
-            Mã xác nhận
+            Nhập mã xác nhận
+          </Typography>
+          <Typography
+            style={{
+              fontSize: "1.4vh",
+              color: "#bebebe",
+            }}
+          >
+            Chúng tôi đã gửi mã xác nhận qua email của bạn, hãy điền mã xác nhận
+            để tiến hành khôi phục mật khẩu.
           </Typography>
         </div>
         <Form.Item
           className="no_margin"
-          label={<p className="label">Confirmcode</p>}
+          label={
+            <span className="label">
+              {" "}
+              <span style={{ color: "red" }}>* </span>Confirmcode
+            </span>
+          }
           name="comfirm"
           rules={[
             {
               required: true,
-              message: "Please input confirm code!",
+              message: "Xin vui lòng điền Mã xác nhận!",
             },
           ]}
         >
           <Input
-            size="large"
+            style={{ height: "6vh", fontSize: "2vh" }}
             placeholder="Confirmcode"
             name="confirmcode"
             value={confirmcode}
@@ -132,7 +145,6 @@ function ConfirmCodeForm() {
           <ConfigProvider
             theme={{
               token: {
-                colorBgContainer: "rgba(0, 52, 101, 1)",
                 colorBorder: "none",
               },
             }}
@@ -140,9 +152,12 @@ function ConfirmCodeForm() {
             <Button
               className="button"
               block
-              size="large"
               type="default"
               htmlType="submit"
+              style={{
+                height: "5vh",
+                fontSize: "2vh",
+              }}
             >
               Xác nhận
             </Button>
