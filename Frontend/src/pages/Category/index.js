@@ -35,8 +35,7 @@ const FilteredPage = () => {
         }
 
         const data = await response.json();
-        setItems(data.items);
-        setPagination((prev) => ({ ...prev, total: data.total }));
+        setItems(data);
       } catch (error) {
         setError(error);
       } finally {
@@ -55,9 +54,6 @@ const FilteredPage = () => {
     navigate(`/product-detail/${item.iProduct_id}`, { state: { item } });
   };
 
-  const handlePageChange = (page, pageSize) => {
-    setPagination((prev) => ({ ...prev, current: page, pageSize }));
-  };
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -97,12 +93,6 @@ const FilteredPage = () => {
         ) : (
           <p>No items available.</p>
         )}
-        <Pagination
-          current={pagination.current}
-          pageSize={pagination.pageSize}
-          total={pagination.total}
-          onChange={handlePageChange}
-        />
       </Col>
     </div>
   );
