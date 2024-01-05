@@ -126,7 +126,7 @@ function CartPage() {
       const orderResponse = await response.json();
       const orderId = orderResponse.iOrder_id;
       localStorage.setItem("orderId", orderId);
-      navigate(`/`);
+      navigate(`/checkout`);
       console.log("Order placed successfully!");
     } catch (error) {
       message.error("Vui lòng chọn sản phẩm bạn muốn thanh toán!");
@@ -177,7 +177,7 @@ function CartPage() {
 
       await fetchCartData(userId);
     } catch (error) {
-      message.error("Không thể đặt thêm sản phẩm này!");  
+      message.error("Không thể đặt thêm sản phẩm này!");
       console.error("Error updating cart item quantity:", error);
     }
   };

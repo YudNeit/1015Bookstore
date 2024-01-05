@@ -88,7 +88,7 @@ function ProductPage() {
       );
       console.log(response);
       if (response.ok) {
-        navigate(`/cart`);
+        navigate(`/`);
         console.log("Item added to the cart in the database");
       } else {
         const error = await response.text();
