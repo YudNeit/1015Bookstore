@@ -14,7 +14,7 @@ import {
 import "../stylePage.css";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 
-const data = [
+const data1 = [
   {
     title: "Ant Design Title 1",
     description:
@@ -43,9 +43,35 @@ function ProductPage() {
   const item = state ? state.item : null;
   const navigate = useNavigate();
   const [amount, setAmount] = useState(1);
+  const [reviewsdata,setReviewsData] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const fetchreviewsdata = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:7139/api/Review/getbyid?iProduct_id=${item.iProduct_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        setReviewsData(data);
+
+        return data;
+      } catch (error) {
+        console.error("Error fetching reviews data:", error);
+      }
+    };
+    fetchreviewsdata();
   }, []);
 
   const getCookie = (cookieName) => {
@@ -189,11 +215,11 @@ function ProductPage() {
               <Row className="review_proportion">
                 <Col>
                   <Row className="rate_proportion">
-                    <span className="proportion_myrate green">3</span>
+                    <span className="proportion_myrate green">{item.dProduct_start_count}</span>
                     <span className="proportion_allrate green">trên 5</span>
                   </Row>
                   <Row>
-                    <Rate className="green" defaultValue={3} />
+                    <Rate className="green" defaultValue={item.dProduct_start_count} />
                   </Row>
                 </Col>
                 <Col className="rate_filter">
@@ -209,7 +235,7 @@ function ProductPage() {
             <Row>
               <List
                 className="user_review_list"
-                dataSource={data}
+                dataSource={reviewsdata}
                 renderItem={(item, index) => (
                   <List.Item>
                     <List.Item.Meta
@@ -219,7 +245,7 @@ function ProductPage() {
                           src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
                         />
                       }
-                      title={<div>{item.title}</div>}
+                      title={<div>{item.sUser_username}</div>}
                       description={
                         <div className="user_review_description">
                           <Rate
@@ -227,11 +253,15 @@ function ProductPage() {
                             style={{ fontSize: "15px" }}
                             allowHalf
                             disabled
-                            defaultValue={item.rate}
+                            defaultValue={item.iReview_start}
                           />
                           <br></br>
                           <span style={{ fontSize: "10px", color: "#8c8c8c" }}>
-                            {item.description}
+                            {item.sReview_content}
+                          </span>
+                          <br></br>
+                          <span style={{ fontSize: "10px", color: "#8c8c8c" }}>
+                            {item.dtReview_date}
                           </span>
                         </div>
                       }

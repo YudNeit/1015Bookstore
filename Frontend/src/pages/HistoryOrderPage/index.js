@@ -16,7 +16,7 @@ function HistoryOrderPage() {
     iReview_start: 0,
     sReview_content: "",
   });
-
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
 
   const getCookie = (cookieName) => {
     const cookies = document.cookie.split("; ");
@@ -70,18 +70,47 @@ function HistoryOrderPage() {
 
   let totalPrice = calculateTotalPrice();
 
-
-  const handleReviewClick = () => {
+  const handleReviewClick = (index) => {
     setReviewModalVisible(true);
+    setSelectedItemIndex(index);
   };
 
-  const handleReviewSubmit = () => {
-    
-    console.log("Review submitted:", reviewData);
-    message.success("Review submitted successfully");
-    setReviewModalVisible(false);
-  };
+  const handleReviewSubmit = async () => {
+    try {
+      if (selectedItemIndex !== null) {
+        const selectedProduct = items[selectedItemIndex];
+        const requestBody = {
+          iOrder_id: order.iOrder_id,
+          lReview_products: [
+            {
+              iProduct_id: selectedProduct.iProduct_id,
+              iReview_start: reviewData.iReview_start,
+              sReview_content: reviewData.sReview_content,
+            },
+          ],
+        };
+        console.log(`requestdata`, requestBody);
+        const response = await fetch("https://localhost:7139/api/Review", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          body: JSON.stringify(requestBody),
+        });
 
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        message.success("Review submitted successfully");
+        setReviewModalVisible(false);
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      message.error("Error submitting review");
+    }
+  };
 
   return (
     <div>
@@ -116,7 +145,7 @@ function HistoryOrderPage() {
           </List.Item>
         </List>
         <div>
-          {items.map((item) => (
+          {items.map((item, index) => (
             <Card>
               <Row align="middle">
                 <Col md={11} offset={0}>
@@ -139,7 +168,11 @@ function HistoryOrderPage() {
                 <Col md={3}>{item.vProduct_price}đ</Col>
                 <Col md={3}>{item.iProduct_amount}</Col>
                 <Col md={3}>{item.vProduct_price * item.iProduct_amount}đ</Col>
-                <Col md={3}><Button onClick={handleReviewClick}>Đánh giá</Button> </Col>
+                <Col md={3}>
+                  <Button onClick={() => handleReviewClick(index)}>
+                    Đánh giá
+                  </Button>
+                </Col>
               </Row>
             </Card>
           ))}
@@ -160,9 +193,10 @@ function HistoryOrderPage() {
       >
         <p>Đánh giá sao:</p>
         <Rate
-          allowHalf
           value={reviewData.iReview_start}
-          onChange={(value) => setReviewData({ ...reviewData, iReview_start: value })}
+          onChange={(value) =>
+            setReviewData({ ...reviewData, iReview_start: value })
+          }
         />
         <p>Nội dung đánh giá:</p>
         <TextArea

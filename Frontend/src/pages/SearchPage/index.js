@@ -27,7 +27,7 @@ const SearchPage = () => {
         const data = await response.json();
         console.log("API Response:", data);
 
-        setItems(data.items);
+        setItems(data);
       } catch (error) {
         console.error("API Error:", error);
       } finally {
