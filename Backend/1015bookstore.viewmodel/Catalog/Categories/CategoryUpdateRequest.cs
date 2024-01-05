@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _1015bookstore.data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,8 +13,11 @@ namespace _1015bookstore.viewmodel.Catalog.Categories
         [Required]
         public int iCate_id {  get; set; }
         [Required]
+        [Display(Name = "Tên danh mục")]
         public string sCate_name { get; set; }
-        [Required]
-        public int? iCate_parent_id { get; set; }
+        [Display(Name = "Trạng thái danh mục")]
+        public CategoryStatus stCate_status { get; set; }
+        [Display(Name = "Trạng thái hiển thị")]
+        public CategoryShow stCate_show { get; set; }
     }
 }

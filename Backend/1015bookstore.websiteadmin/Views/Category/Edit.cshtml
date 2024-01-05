@@ -1,0 +1,87 @@
+﻿@using _1015bookstore.data.Enums
+@model _1015bookstore.viewmodel.Catalog.Categories.CategoryUpdateRequest
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Chỉnh sửa danh mục</h3>
+            @if (ViewBag.error != null)
+            {
+                <div id="msg" class="card bg-danger text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.error
+                    </div>
+                </div>
+            }
+            <div>
+                <a asp-action="Index" asp-controller="Category">Xem danh sách</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Edit" method="Post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="iCate_id" class="form-control" type="hidden"/>
+                        <div class="form-group">
+                            <label asp-for="sCate_name" class="control-label"></label>
+                            <input asp-for="sCate_name" class="form-control" />
+                            <span asp-validation-for="sCate_name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="stCate_status" class="control-label"></label>
+                            <select asp-for="stCate_status" class="form-control">
+                                @if (Model.stCate_status == CategoryStatus.Normal)
+                                {
+                                    <option value=@CategoryStatus.Normal>Bình thường</option>
+                                    <option value=@CategoryStatus.Delete>Ẩn danh mục</option>
+                                }
+                                else if (Model.stCate_status == CategoryStatus.Delete)
+                                {
+                                    <option value=@CategoryStatus.Delete>Ẩn danh mục</option>
+                                    <option value=@CategoryStatus.Normal>Bình thường</option>
+                                }
+
+                            </select>
+                            <span asp-validation-for="stCate_status" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="stCate_show" class="control-label"></label>
+                            <select asp-for="stCate_show" class="form-control">
+                                @if (Model.stCate_show == CategoryShow.Taskbar)
+                                {
+                                    <option value=0>Hiển thị taskbar</option>
+                                    <option value=1>Hiển thị yêu thích</option>
+                                    <option value=2>Không hiển thị</option>
+                                }
+                                else if (Model.stCate_show == CategoryShow.Favorite)
+                                {
+                                    <option value=1>Hiển thị yêu thích</option>
+                                    <option value=0>Hiển thị taskbar</option>
+                                    <option value=2>Không hiển thị</option>
+                                }
+                                else if (Model.stCate_show == CategoryShow.None)
+                                {
+                                    <option value=2>Không hiển thị</option>
+                                    <option value=0>Hiển thị taskbar</option>
+                                    <option value=1>Hiển thị yêu thích</option>
+                                }
+
+                            </select>
+                            <span asp-validation-for="stCate_show" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Chỉnh sửa" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -55,13 +55,41 @@
                                 }
                             case _1015bookstore.data.Enums.CategoryStatus.Delete:
                                 {
-                                    b = "Đã xóa";
+                                    b = "Đã ẩn";
                                     break;
                                 }
                         }
 
                     }
                     @b
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.stCate_show)
+                </dt>
+                <dd class="col-sm-10">
+                    @{
+                        string c = "";
+                        switch (Model.stCate_show)
+                        {
+                            case _1015bookstore.data.Enums.CategoryShow.None:
+                                {
+                                    c = "Không hiển thị";
+                                    break;
+                                }
+                            case _1015bookstore.data.Enums.CategoryShow.Taskbar:
+                                {
+                                    c = "Hiển thị ở Taskbar";
+                                    break;
+                                }
+                            case _1015bookstore.data.Enums.CategoryShow.Favorite:
+                                {
+                                    c = "Hiển thị ở yêu thích";
+                                    break;
+                                }
+                        }
+
+                    }
+                    @c
                 </dd>
             </dl>
             <div style="margin-bottom: 20px" class="row">

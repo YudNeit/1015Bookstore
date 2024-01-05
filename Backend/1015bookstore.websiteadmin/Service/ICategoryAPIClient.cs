@@ -17,5 +17,6 @@ namespace _1015bookstore.websiteadmin.Service
         Task<ResponseAPI<List<CategoryViewModel>>> GetCateParent(string session);
 
         Task<ResponseAPI<string>> CreateCate(string session, CategoryCreateRequest request, Guid? gUser_id);
+        Task<ResponseAPI<string>> UpdateCate(string session, CategoryUpdateRequest request, Guid? gUser_id);
     }
 }

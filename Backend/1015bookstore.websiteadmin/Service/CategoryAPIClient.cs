@@ -185,6 +185,29 @@ namespace _1015bookstore.websiteadmin.Service
             };
         }
 
+        public async Task<ResponseAPI<string>> UpdateCate(string session, CategoryUpdateRequest request, Guid? gUser_id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:7139");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
+            var json = JsonSerializer.Serialize(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync($"/api/category?gCreator_id={gUser_id}", httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new ResponseAPI<string>
+                {
+                    Message = "success",
+                    Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
+                };
+            }
+            return new ResponseAPI<string>
+            {
+                Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
+                Message = await response.Content.ReadAsStringAsync()
+            };
+        }
 
     }
 }
