@@ -1,0 +1,207 @@
+﻿@using System.Text.Json;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts
+{
+    <!-- Page level plugins -->
+    @* <script src="./vendor/chart.js/Chart.min.js"></script> *@
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+        function initChart(chartId, labels, soldData, importData) {
+            const chartElement = document.getElementById(chartId);
+
+            // Kiểm tra nếu đối tượng Chart đã tồn tại, hủy nó trước khi tạo mới
+            const existingChart = Chart.getChart(chartElement);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
+            new Chart(chartElement, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Bán ra',
+                        data: soldData,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Nhập vào',
+                        data: importData,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function thaydoitrangthai1() {
+            const selectElement = document.getElementById('select');
+            const selectedValue = selectElement.value;
+
+            if (selectedValue == 1) {
+                const selectweek = document.getElementById('myChartWeek');
+                selectweek.id = 'myChartMonth';
+                initChart('myChartMonth', ['Ngày 1-5', 'Ngày 6-10', 'Ngày 11-15', 'Ngày 16-20', 'Ngày 21-25', 'Ngày 25-31'], @JsonSerializer.Serialize(ViewData["soldmonth"]), @JsonSerializer.Serialize(ViewData["importmonth"]));
+                
+            } else if (selectedValue == 2) {
+                const selectmonth = document.getElementById('myChartMonth');
+                selectmonth.id = 'myChartWeek';
+                initChart('myChartWeek', ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'], @JsonSerializer.Serialize(ViewData["soldweek"]), @JsonSerializer.Serialize(ViewData["importweek"]));
+            }
+        }
+
+        // Khởi tạo biểu đồ mặc định
+        initChart('myChartMonth', ['Ngày 1-5', 'Ngày 6-10', 'Ngày 11-15', 'Ngày 16-20', 'Ngày 21-25', 'Ngày 25-31'], @JsonSerializer.Serialize(ViewData["soldmonth"]), @JsonSerializer.Serialize(ViewData["importmonth"]));
+    </script>
+
+
+    <script>
+
+        function initChart1(chartId, labels, soldData) {
+            const chartElement = document.getElementById(chartId);
+
+            const existingChart = Chart.getChart(chartElement);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
+            new Chart(chartElement, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Bán ra',
+                        data: soldData,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function thaydoitrangthai2() {
+            const selectElement1 = document.getElementById('select1');
+            const selectedValue1 = selectElement1.value;
+
+            if (selectedValue1 == 1) {
+                const selectweek1 = document.getElementById('myChart2');
+                selectweek1.id = 'myChart1';
+                initChart1('myChart1', @Html.Raw(Json.Serialize(ViewData["top10monthname"])), @Html.Raw(Json.Serialize(ViewData["top10monthamount"])));
+            
+            } else if (selectedValue1 == 2) {
+                const selectmonth1 = document.getElementById('myChart1');
+                selectmonth1.id = 'myChart2';
+                initChart1('myChart2', @Html.Raw(Json.Serialize(ViewData["top10weekname"])), @Html.Raw(Json.Serialize(ViewData["top10weekamount"])));
+            }
+        }
+        initChart1('myChart1', @Html.Raw(Json.Serialize(ViewData["top10monthname"])), @Html.Raw(Json.Serialize(ViewData["top10monthamount"])));
+    </script>
+}
+
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+                    <h3 class="m-0 font-weight-bold text-primary">Bán ra/Nhập vào</h3>
+                    <div>
+                        <select class="form-control" id="select" onchange="thaydoitrangthai1()">
+                            <option value=1>Theo tháng</option>
+                            <option value=2>Theo tuần</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChartMonth"></canvas>
+                    <div class="d-flex justify-content-center display-5">Biểu đồ bán và nhập sản phẩm</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+                    <h3 class="m-0 font-weight-bold text-primary">Sản phẩm bán chạy nhất</h3>
+                    <div>
+                        <select class="form-control" id="select1" onchange="thaydoitrangthai2()">
+                            <option value=1>Theo tháng</option>
+                            <option value=2>Theo tuần</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart1"></canvas>
+                    <div class="d-flex justify-content-center display-5">Biểu đồ sách bán chạy nhất</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* <div class="card shadow" style="margin-top:20px">
+    <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+        <h3 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm bán chạy nhất</h3>
+    </div>
+        <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            Mã sản phẩm
+                        </th>
+                        <th>
+                            Tên sản phẩm
+                        </th>
+                        <th>
+                            Số lượng đã bán
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="change">
+                    @foreach (var item in ViewBag.top10month)
+                    {
+                        <tr>
+                            <td>
+                                @item.product_id
+                            </td>
+                            <td>
+                                @item.product_name
+                            </td>
+                            <td>
+                                @item.amount
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    </div> *@
+
+</div>
+
+
+
+
