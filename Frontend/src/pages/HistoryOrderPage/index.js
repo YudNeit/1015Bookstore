@@ -17,7 +17,6 @@ function HistoryOrderPage() {
     sReview_content: "",
   });
 
-
   const getCookie = (cookieName) => {
     const cookies = document.cookie.split("; ");
     for (const cookie of cookies) {
@@ -70,18 +69,15 @@ function HistoryOrderPage() {
 
   let totalPrice = calculateTotalPrice();
 
-
   const handleReviewClick = () => {
     setReviewModalVisible(true);
   };
 
   const handleReviewSubmit = () => {
-    
     console.log("Review submitted:", reviewData);
     message.success("Review submitted successfully");
     setReviewModalVisible(false);
   };
-
 
   return (
     <div>
@@ -139,7 +135,9 @@ function HistoryOrderPage() {
                 <Col md={3}>{item.vProduct_price}đ</Col>
                 <Col md={3}>{item.iProduct_amount}</Col>
                 <Col md={3}>{item.vProduct_price * item.iProduct_amount}đ</Col>
-                <Col md={3}><Button onClick={handleReviewClick}>Đánh giá</Button> </Col>
+                <Col md={3}>
+                  <Button onClick={handleReviewClick}>Đánh giá</Button>{" "}
+                </Col>
               </Row>
             </Card>
           ))}
@@ -162,7 +160,9 @@ function HistoryOrderPage() {
         <Rate
           allowHalf
           value={reviewData.iReview_start}
-          onChange={(value) => setReviewData({ ...reviewData, iReview_start: value })}
+          onChange={(value) =>
+            setReviewData({ ...reviewData, iReview_start: value })
+          }
         />
         <p>Nội dung đánh giá:</p>
         <TextArea
