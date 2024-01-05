@@ -82,7 +82,6 @@ function CheckoutPage() {
             errorResponse.errors &&
             errorResponse.errors.sPromotionalCode_code
           ) {
-            // Check if status is 400 and sPromotionalCode_code field is required
             message.error("Need to enter Voucher");
           } else {
             const error = await response.text();

@@ -175,17 +175,6 @@ function CartPage() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const currentItem = items.find((item) => item.iCart_id === itemId);
-      const currentQuantity = currentItem ? currentItem.iProduct_amount : 0;
-      console.log(currentQuantity);
-      if (currentQuantity <= 1 && selectedItems.includes(itemId)) {
-        setSelectedItems((prevSelectedItems) =>
-          prevSelectedItems.filter((id) => id !== itemId)
-        );
-      } else if (currentQuantity > 1 && !selectedItems.includes(itemId)) {
-        setSelectedItems((prevSelectedItems) => [...prevSelectedItems, itemId]);
-      }
-
       await fetchCartData(userId);
       
     } catch (error) {
@@ -267,7 +256,7 @@ function CartPage() {
                 />
               </Col>
               <Col md={8}>
-                <span>{item.sProduct_name}</span>
+                <span>{item.sProduct_name} </span>
               </Col>
               <Col md={3} offset={1}>
                 <span> {item.vProduct_price}đ</span>
@@ -288,6 +277,7 @@ function CartPage() {
                   <Button
                     className="amount_change_button"
                     onClick={() => handleQuantityChange(item.iCart_id, -1)}
+                    disabled = {item.iProduct_amount === 1}
                   >
                     -
                   </Button>

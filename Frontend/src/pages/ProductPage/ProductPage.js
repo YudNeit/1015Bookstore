@@ -14,36 +14,13 @@ import {
 import "../stylePage.css";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 
-const data1 = [
-  {
-    title: "Ant Design Title 1",
-    description:
-      "1234567890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvyd67890edfghjasvydasgbfklfjnldksjrl",
-    rate: 2.5,
-  },
-  {
-    title: "Ant Design Title 2",
-    rate: 1,
-  },
-  {
-    title: "Ant Design Title 3",
-    description: "ydasgbfklfjnldksjr31231241455642342432141l",
-    rate: 5,
-  },
-  {
-    title: "Ant Design Title 4",
-    description: "1hgjghj34534534534534534534ydasgbfklfjnldksjrl",
-    rate: 3,
-  },
-];
-
 function ProductPage() {
   const location = useLocation();
   const { state } = location;
   const item = state ? state.item : null;
   const navigate = useNavigate();
   const [amount, setAmount] = useState(1);
-  const [reviewsdata,setReviewsData] = useState([]);
+  const [reviewsdata, setReviewsData] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -144,6 +121,7 @@ function ProductPage() {
               <List className="detail_list">
                 <List.Item>
                   <h1>{item.sProduct_name}</h1>
+                  <span><br /><br />của {item.sProduct_author}</span>
                 </List.Item>
                 <List.Item className="pp_rate">
                   <span className="green rate_num">
@@ -187,7 +165,10 @@ function ProductPage() {
                   <h2>Thông tin sản phẩm</h2>
                 </List.Item>
                 <List.Item style={{ fontSize: "15px", color: "#8c8c8c" }}>
-                  Danh Mục: {item.category}
+                  Xuất Sứ: {item.sProduct_madein}
+                </List.Item>
+                <List.Item style={{ fontSize: "15px", color: "#8c8c8c" }}>
+                  Năm xuất bản: {item.iProduct_yop}
                 </List.Item>
                 <List.Item style={{ fontSize: "15px", color: "#8c8c8c" }}>
                   Nhà xuất bản: {item.sProduct_brand}
@@ -215,11 +196,16 @@ function ProductPage() {
               <Row className="review_proportion">
                 <Col>
                   <Row className="rate_proportion">
-                    <span className="proportion_myrate green">{item.dProduct_start_count}</span>
+                    <span className="proportion_myrate green">
+                      {item.dProduct_start_count}
+                    </span>
                     <span className="proportion_allrate green">trên 5</span>
                   </Row>
                   <Row>
-                    <Rate className="green" defaultValue={item.dProduct_start_count} />
+                    <Rate
+                      className="green"
+                      defaultValue={item.dProduct_start_count}
+                    />
                   </Row>
                 </Col>
                 <Col className="rate_filter">
