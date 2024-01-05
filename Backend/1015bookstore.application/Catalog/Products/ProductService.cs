@@ -146,7 +146,7 @@ namespace _1015bookstore.application.Catalog.Products
                 };
             var a = _context.ProductInCategory.Where(x => x.product_id == id).Select(x=>x.category_id).ToList();
 
-            var categories = await _context.Categories.Where(x => a.Contains(x.id) && x.status == CategoryStatus.Normal).Select(x => new CategoryViewModel { 
+            var categories = await _context.Categories.Where(x => a.Contains(x.id) && x.status == CategoryStatus.Normal && x.show == CategoryShow.Taskbar).Select(x => new CategoryViewModel { 
                 iCate_id = x.id,
                 sCate_name = x.name,
                 iCate_parent_id = x.categoryparentid,
