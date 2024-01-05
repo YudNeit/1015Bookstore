@@ -41,7 +41,7 @@ namespace _1015bookstore.application.Catalog.Reviews
                 };
             }
 
-            if (order.orderdetails.Count() != request.lReview_products.Count())
+            if (_context.OrderDetails.Where(x=>x.order_id==order.id).Count() != request.lReview_products.Count())
             {
                 return new ResponseService()
                 {

@@ -2,13 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { IoLocationSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { Button, Row, Col, List, Card, Image, Modal, Input } from "antd";
+import { Button, Row, Col, List, Card, Image, Modal, Input, Rate } from "antd";
 import { message } from "antd";
+
+const { TextArea } = Input;
 
 function HistoryOrderPage() {
   const [items, setItems] = useState([]);
   const [order, setOrder] = useState([]);
   const [shippingFee, setShippingFee] = useState(30000);
+  const [isReviewModalVisible, setReviewModalVisible] = useState(false);
+  const [reviewData, setReviewData] = useState({
+    iReview_start: 0,
+    sReview_content: "",
+  });
+
 
   const getCookie = (cookieName) => {
     const cookies = document.cookie.split("; ");
@@ -61,6 +69,20 @@ function HistoryOrderPage() {
   };
 
   let totalPrice = calculateTotalPrice();
+
+
+  const handleReviewClick = () => {
+    setReviewModalVisible(true);
+  };
+
+  const handleReviewSubmit = () => {
+    
+    console.log("Review submitted:", reviewData);
+    message.success("Review submitted successfully");
+    setReviewModalVisible(false);
+  };
+
+
   return (
     <div>
       <div className="location">
@@ -117,6 +139,7 @@ function HistoryOrderPage() {
                 <Col md={3}>{item.vProduct_price}đ</Col>
                 <Col md={3}>{item.iProduct_amount}</Col>
                 <Col md={3}>{item.vProduct_price * item.iProduct_amount}đ</Col>
+                <Col md={3}><Button onClick={handleReviewClick}>Đánh giá</Button> </Col>
               </Row>
             </Card>
           ))}
@@ -129,6 +152,30 @@ function HistoryOrderPage() {
       <List.Item>Tổng tiền hàng: {totalPrice}đ</List.Item>
       <List.Item>Phí vận chuyển: {shippingFee}đ</List.Item>
       <List.Item>Tổng thanh toán: {order.vOrder_total}đ</List.Item>
+      <Modal
+        title="Đánh giá sản phẩm"
+        visible={isReviewModalVisible}
+        onOk={handleReviewSubmit}
+        onCancel={() => setReviewModalVisible(false)}
+      >
+        <p>Đánh giá sao:</p>
+        <Rate
+          allowHalf
+          value={reviewData.iReview_start}
+          onChange={(value) => setReviewData({ ...reviewData, iReview_start: value })}
+        />
+        <p>Nội dung đánh giá:</p>
+        <TextArea
+          rows={4}
+          value={reviewData.sReview_content}
+          onChange={(e) =>
+            setReviewData({
+              ...reviewData,
+              sReview_content: e.target.value,
+            })
+          }
+        />
+      </Modal>
     </div>
   );
 }
