@@ -17,6 +17,7 @@ namespace _1015bookstore.viewmodel.Catalog.Categories
         public int? iCate_parent_id { get; set; }
         [Display(Name = "Trạng thái danh mục")]
         public CategoryStatus stCate_status { get; set; }
+        [Display(Name = "Hiển thị ở")]
         public CategoryShow stCate_show { get; set; }
 
     }

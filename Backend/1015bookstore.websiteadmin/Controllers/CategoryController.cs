@@ -64,16 +64,11 @@ namespace _1015bookstore.websiteadmin.Controllers
         {
             var session = HttpContext.Session.GetString("token");
             var response = await _categoryAPIClient.GetAddCate(session, id);
-            ViewBag.ParentCate = response.Data.Select(x => new SelectListItem { 
-                Text = x.sCate_name,
-                Value = x.iCate_id.ToString(),
-                
-            });
             ViewBag.Name = name;
             ViewBag.Id = id;
             if (TempData["error"] != null)
                 ViewBag.error = TempData["error"];
-            return View();
+            return View(response.Data);
         }
 
         [HttpPost]
@@ -147,6 +142,38 @@ namespace _1015bookstore.websiteadmin.Controllers
             });
             ViewBag.Name = name;
             ViewBag.Id = id;
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var session = HttpContext.Session.GetString("token");
+            var response = await _categoryAPIClient.GetById(session, id);
+            var updatecate = new CategoryUpdateRequest()
+            {
+                iCate_id = id,
+                sCate_name= response.Data.sCate_name,
+                stCate_status = response.Data.stCate_status,
+                stCate_show = response.Data.stCate_show,
+            };
+            return View(updatecate);
+        
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CategoryUpdateRequest request)
+        {
+            var session = HttpContext.Session.GetString("token");
+            var userIdClaim = User.FindFirst("id").Value;
+            var response = await _categoryAPIClient.UpdateCate(session, request, new Guid(userIdClaim));
+
+            if (response.Status)
+            {
+                TempData["success"] = $"Cập nhật thành công danh mục sản phẩm {DateTime.Now}";
+                return RedirectToAction("ProductCate", new { paramName = request.iCate_id});
+            }
+            ViewBag.error = response.Message;
             return View();
         }
     }

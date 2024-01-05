@@ -42,9 +42,9 @@
                         <div class="form-group">
                             <label asp-for="stCate_show" class="control-label"></label>
                             <select asp-for="stCate_show" class="form-control">
-                                <option value=@CategoryShow.Taskbar>Hiển thị taskbar</option>
-                                <option value=@CategoryShow.Favorite>Hiển thị yêu thích</option>
-                                <option value=@CategoryShow.None>Không hiển thị</option>
+                                <option value=0>Hiển thị taskbar</option>
+                                <option value=1>Hiển thị yêu thích</option>
+                                <option value=2>Không hiển thị</option>
                             </select>
                             <span asp-validation-for="iCate_parent_id" class="text-danger"></span>
                         </div>

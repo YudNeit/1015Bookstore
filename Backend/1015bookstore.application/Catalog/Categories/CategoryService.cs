@@ -152,9 +152,23 @@ namespace _1015bookstore.application.Catalog.Categories
                     Message = $"Cannot find a categoy with id: {id}"
                 };
 
+            if (parent_id != 0)
+            {
+                if (await _context.Categories.Where(x => x.categoryparentid == parent_id).CountAsync() == 0)
+                {
+                    var productincate = _context.ProductInCategory.Where(x => x.category_id == parent_id);
+                    foreach (var item in productincate)
+                    {
+                        _context.ProductInCategory.Remove(item);
+                    }
+                }
+            }    
+
             cate.categoryparentid = parent_id;
             cate.dateupdated = DateTime.Now;
             cate.updatedby = updater_username;
+
+               
 
             if (await _context.SaveChangesAsync() > 0)
             {
@@ -230,9 +244,10 @@ namespace _1015bookstore.application.Catalog.Categories
                 };
 
             cate.name = request.sCate_name;
-            cate.categoryparentid = request.iCate_parent_id;
             cate.dateupdated = DateTime.Now;
             cate.updatedby = updater_username;
+            cate.status = request.stCate_status;
+            cate.show = request.stCate_show;
 
             if (await _context.SaveChangesAsync() > 0)
             {

@@ -34,30 +34,40 @@
                 @foreach (var item in Model)
                 {
 
-                    <li class="list-group">
+                    <li class="list-group" style="margin-bottom:10px">
                         <div class="card border-left-primary shadow h-100 py-2" data-toggle="collapse" data-target="#collapse@{@item.iCate_id;}" aria-expanded="true" aria-controls="collapse@{@item.iCate_id;}">
-                        <div class="dropdown-header d-sm-flex align-items-center justify-content-between">
-                            @if (item.lCate_childs.Count ==0)
-                            {
-                                <div>
-                                    <a asp-action="ProductCate" asp-controller="Category" asp-route-paramName=@item.iCate_id>@item.sCate_name </a>
+                            <div class="dropdown-header">
+                                <div class="row">
+                                    @if (item.lCate_childs.Count == 0)
+                                    {
+                                        <div class="col-md-5">
+                                            <h4><a asp-action="ProductCate" asp-controller="Category" asp-route-paramName=@item.iCate_id>@item.sCate_name </a></h4>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-5"><h4>@item.sCate_name</h4></div>
+                                    }
+                                    <div class="col-md-7 d-flex flex-column align-items-end">
+                                        <div class="row">
+                                            <form asp-action="Edit" method="get">
+                                                <input type="hidden" name="id" value=@item.iCate_id>
+                                                <button type="submit" class="btn btn-warning">Sửa</button>
+                                            </form>
+
+                                             <form asp-action="ChangeParent" method="get" style="margin-left:20px">
+                                                <input type="hidden" name="id" value=@item.iCate_id>
+                                                <input type="hidden" name="name" value="@{@item.sCate_name}">
+                                                <button type="submit" class="btn btn-primary">Thêm danh mục</button>
+                                            </form>
+
+                                            <div style="margin-left:20px">@item.lCate_childs.Count()</div>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                            }
-                            else
-                            {
-                                <div>@item.sCate_name</div>
-                            }
-                            <div class="row">
-                                <form asp-action="ChangeParent" method="get">
-                                    <input type="hidden" name="id" value=@item.iCate_id>
-                                    <input type="hidden" name="name" value="@{@item.sCate_name}">
-                                    <button type="submit">+</button>
-                                </form>
-                                
-                                <div>@item.lCate_childs.Count()</div>
-                            </div>
                             
-                        </div>
+                            </div>
                         </div>
                         <div id="collapse@{@item.iCate_id;}" class="collapse" aria-labelledby="heading" data-parent="#accordionSidebar">
                         <div class="bg-infor py-2 collapse-inner rounded">
@@ -66,14 +76,23 @@
                                     {
                                     <li class="list-group-item d-sm-flex align-items-center justify-content-between" >
                                         <div>
-
                                             <a asp-action="ProductCate" asp-controller="Category" asp-route-paramName=@childitem.iCate_id>@childitem.sCate_name </a>
                                         </div>
-                                        <form asp-action="ChangeParent" method="post">
-                                            <input type="hidden" name="id" value=0>
-                                            <input type="hidden" name="parent_id" value="@{@childitem.iCate_id}">
-                                            <button type="submit">-</button>
-                                        </form>
+
+                                        <div class="row">
+                                            <form asp-action="Edit" method="get">
+                                                <input type="hidden" name="id" value=@item.iCate_id>
+                                                <button type="submit" class="btn btn-warning">Sửa</button>
+                                            </form>
+
+                                            <form asp-action="ChangeParent" method="post" style="margin-left:20px">
+                                                <input type="hidden" name="id" value=0>
+                                                <input type="hidden" name="parent_id" value="@{
+                                            @childitem.iCate_id
+}">
+                                                <button type="submit" class="btn btn-danger">-</button>
+                                            </form>
+                                        </div>
                                     </li>
                                         
                                     }
