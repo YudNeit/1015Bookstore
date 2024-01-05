@@ -1,4 +1,5 @@
-﻿using _1015bookstore.websiteadmin.Service;
+﻿using _1015bookstore.viewmodel.Catalog.Categories;
+using _1015bookstore.websiteadmin.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -18,8 +19,45 @@ namespace _1015bookstore.websiteadmin.Controllers
         {
             var session = HttpContext.Session.GetString("token");
             var response = await _categoryAPIClient.GetCate(session);
+            if (TempData["success"] != null)
+                ViewBag.success = TempData["success"];
+            if (TempData["error"] != null)
+                ViewBag.error = TempData["error"];
             return View(response.Data);
         }
+
+        [HttpGet]
+        public async Task<IActionResult>Create()
+        {
+            var session = HttpContext.Session.GetString("token");
+            var response = await _categoryAPIClient.GetCateParent(session);
+            ViewBag.ParentCate = response.Data.Select(x => new SelectListItem
+            {
+                Text = x.sCate_name,
+                Value = x.iCate_id.ToString(),
+
+            });
+            if (TempData["error"] != null)
+                ViewBag.error = TempData["error"];
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult>Create(CategoryCreateRequest request)
+        {
+            var session = HttpContext.Session.GetString("token");
+            var userIdClaim = User.FindFirst("id").Value;
+            var response = await _categoryAPIClient.CreateCate(session, request, new Guid(userIdClaim));
+
+            if (response.Status)
+            {
+                TempData["success"] = $"Tạo thành công danh mục sản phẩm {DateTime.Now}";
+                return RedirectToAction("Index");
+            }
+            ViewBag.error = response.Message;
+            return View();
+        }
+
+        
 
         [HttpGet]
         public async Task<IActionResult> ChangeParent(int id, string name)
@@ -32,7 +70,9 @@ namespace _1015bookstore.websiteadmin.Controllers
                 
             });
             ViewBag.Name = name;
-            ViewBag.Id = id;    
+            ViewBag.Id = id;
+            if (TempData["error"] != null)
+                ViewBag.error = TempData["error"];
             return View();
         }
 
@@ -44,7 +84,7 @@ namespace _1015bookstore.websiteadmin.Controllers
             var response = await _categoryAPIClient.ChangeParent(session,parent_id ,id, new Guid(userIdClaim));
             if (response.Status)
             {
-                TempData["result"] = $"Thay đổi danh mục thành công {DateTime.Now}";
+                TempData["success"] = $"Thay đổi danh mục thành công {DateTime.Now}";
                 return RedirectToAction("Index");
             }
             ViewBag.error = response.Message;
@@ -59,6 +99,11 @@ namespace _1015bookstore.websiteadmin.Controllers
             
             var product = await _categoryAPIClient.GetProductByCate(session, paramName);
             ViewBag.product = product.Data;
+            if (TempData["success"] != null)
+                ViewBag.success = TempData["success"];
+            if (TempData["error"] != null)
+                ViewBag.error = TempData["error"];
+
             return View(response.Data);
         }
         [HttpPost]
@@ -68,10 +113,10 @@ namespace _1015bookstore.websiteadmin.Controllers
             var response = await _categoryAPIClient.DeleteProductInCate(session, cate_id, product_id);
             if (response.Status)
             {
-                TempData["result"] = $"Thay đổi danh mục thành công {DateTime.Now}";
+                TempData["success"] = $"Thay đổi danh mục thành công {DateTime.Now}";
                 return RedirectToAction("ProductCate", "Category", new { paramName = cate_id });
             }
-            ViewBag.error = response.Message;
+            TempData["success"] = response.Message;
             return RedirectToAction("ProductCate", "Category", new { paramName = cate_id });
         }
 
@@ -82,10 +127,10 @@ namespace _1015bookstore.websiteadmin.Controllers
             var response = await _categoryAPIClient.SetProductInCate(session, cate_id, product_id);
             if (response.Status)
             {
-                TempData["result"] = $"Thay đổi danh mục thành công {DateTime.Now}";
+                TempData["success"] = $"Thay đổi danh mục thành công {DateTime.Now}";
                 return RedirectToAction("ProductCate", "Category", new { paramName = cate_id });
             }
-            ViewBag.error = response.Message;
+            TempData["error"] = response.Message;
             return RedirectToAction("ProductCate", "Category", new { paramName = cate_id });
         }
 

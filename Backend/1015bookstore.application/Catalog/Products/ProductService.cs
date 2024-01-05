@@ -133,6 +133,35 @@ namespace _1015bookstore.application.Catalog.Products
         
         }
 
+        public async Task<ResponseService<List<CategoryViewModel>>> Product_GetCategory(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+                return new ResponseService<List<CategoryViewModel>>()
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Cannot find a product with id: {id}",
+                };
+            var a = _context.ProductInCategory.Where(x => x.product_id == id).Select(x=>x.category_id).ToList();
+
+            var categories = await _context.Categories.Where(x => a.Contains(x.id) && x.status == CategoryStatus.Normal).Select(x => new CategoryViewModel { 
+                iCate_id = x.id,
+                sCate_name = x.name,
+                iCate_parent_id = x.categoryparentid,
+                stCate_show = x.show,
+                stCate_status = x.status,
+            }).ToListAsync();
+            return new ResponseService<List<CategoryViewModel>>()
+            {
+                CodeStatus= 200,
+                Status = true,
+                Message = "Success",
+                Data = categories
+            };
+        }    
+
         public async Task<ResponseService> Product_Delete(int id, Guid? updater_id)
         {
             var product = await _context.Products.FindAsync(id);
