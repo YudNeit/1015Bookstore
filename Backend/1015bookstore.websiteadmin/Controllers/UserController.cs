@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
-    //[Authorize(Policy = "RequireAdmin")]
+    [Authorize(Policy = "RequireAdmin")]
     public class UserController : BaseController
     {
         private readonly IUserAPIClient _userAPIClient;

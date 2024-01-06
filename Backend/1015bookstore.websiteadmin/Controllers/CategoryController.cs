@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
-    //[Authorize(Policy = "RequireAdmin")]
+    [Authorize(Policy = "RequireAdmin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryAPIClient _categoryAPIClient;

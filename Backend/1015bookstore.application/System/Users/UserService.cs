@@ -183,7 +183,7 @@ namespace _1015bookstore.application.System.Users
                 RoleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DA"),
                 UserId = _userManager.FindByNameAsync(request.sUser_username).Result.Id
             });
-
+            await _context.SaveChangesAsync();
             if (result.Succeeded)
             {
                 return new ResponseService()
