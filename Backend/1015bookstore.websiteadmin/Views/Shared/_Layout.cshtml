@@ -106,6 +106,21 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePromotionalCode"
+                   aria-expanded="true" aria-controls="collapsePromotionalCode">
+                    <i class="fas fa-solid fa-percent"></i>
+                    <span>Mã giảm giá</span>
+                </a>
+                <div id="collapsePromotionalCode" class="collapse" aria-labelledby="headingProduct" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Quản lý mã giảm giá</h6>
+                        <a class="collapse-item" asp-action="Index" asp-controller="PromotionalCode">Danh sách mã giảm giá</a>
+                        <a class="collapse-item" asp-action="Create" asp-controller="PromotionalCode">Tạo mới mã giảm giá</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport"
                    aria-expanded="true" aria-controls="collapseReport">
                     <i class="fas fa-solid fa-layer-group"></i>
@@ -119,6 +134,7 @@
                     </div>
                 </div>
             </li>
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

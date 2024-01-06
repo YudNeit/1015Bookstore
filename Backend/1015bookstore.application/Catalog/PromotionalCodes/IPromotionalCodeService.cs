@@ -12,5 +12,7 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
         Task<ResponseService> PromotionalCode_UpdataToDate(int id, Guid? updater_id, DateTime todate);
         Task<ResponseService> PromotionalCode_Update(PromotionalCodeUpdateRequest request, Guid? updater_id);
         Task<ResponseService<PromotionalCodeViewModel>> PromotionalCode_CheckCode(string stringcode, Guid user_id);
+
+        Task<ResponseService<PromotionalCodeViewModel>> PromotionalCode_GetById(int id);
     } 
 }

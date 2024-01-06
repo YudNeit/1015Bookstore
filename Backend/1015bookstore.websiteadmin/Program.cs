@@ -31,6 +31,7 @@ builder.Services.AddTransient<IUserAPIClient, UserAPIClient>();
 builder.Services.AddTransient<IProductAPIClient, ProductAPIClient>();
 builder.Services.AddTransient<ICategoryAPIClient, CategoryAPIClient>();
 builder.Services.AddTransient<IReportAPIClient, ReportAPIClient>();
+builder.Services.AddTransient<IPromotionalCodeAPIClient, PromotionalCodeAPIClient>();
 
 var app = builder.Build();
 

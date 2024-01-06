@@ -1,0 +1,97 @@
+﻿@using _1015bookstore.data.Enums
+@model _1015bookstore.viewmodel.Catalog.PromotionalCodes.PromotionalCodeUpdateRequest
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Chỉnh sửa mã giảm giá</h3>
+            @if (ViewBag.error != null)
+            {
+                <div id="msg" class="card bg-danger text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.error
+                    </div>
+                </div>
+            }
+            <div>
+                <a asp-action="Index" asp-controller="PromotionalCode">Xem danh sách</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="iPromotionalCode_id" class="form-control" type="hidden" value=@Model.iPromotionalCode_id/>
+
+            <div class="form-group">
+                <label asp-for="sPromotionalCode_code" class="control-label"></label>
+                <input asp-for="sPromotionalCode_code" class="form-control" />
+                <span asp-validation-for="sPromotionalCode_code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="sPromotionalCode_name" class="control-label"></label>
+                <input asp-for="sPromotionalCode_name" class="form-control" />
+                <span asp-validation-for="sPromotionalCode_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="sPromotionalCode_description" class="control-label"></label>
+                <input asp-for="sPromotionalCode_description" class="form-control" />
+                <span asp-validation-for="sPromotionalCode_description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="iPromotionalCode_discount_rate" class="control-label"></label>
+                <input asp-for="iPromotionalCode_discount_rate" class="form-control" />
+                <span asp-validation-for="iPromotionalCode_discount_rate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="iPromotionalCode_amount" class="control-label"></label>
+                <input asp-for="iPromotionalCode_amount" class="form-control" />
+                <span asp-validation-for="iPromotionalCode_amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="dtPromotionalCode_fromdate" class="control-label"></label>
+                <input asp-for="dtPromotionalCode_fromdate" class="form-control" />
+                <span asp-validation-for="dtPromotionalCode_fromdate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="dtPromotionalCode_todate" class="control-label"></label>
+                <input asp-for="dtPromotionalCode_todate" class="form-control" />
+                <span asp-validation-for="dtPromotionalCode_todate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="stPromotionalCode_status" class="control-label"></label>
+                @if(Model.stPromotionalCode_status == PromotionalCodeStatus.OOS)
+                {
+                       <input asp-for="stPromotionalCode_status" class="form-control" value=@Model.stPromotionalCode_status type="hidden" />
+                      <div>Mã giảm giá hết số lượng</div>
+                }
+                else
+                {
+                    <select asp-for="stPromotionalCode_status" class="form-control">
+                            @if (Model.stPromotionalCode_status == PromotionalCodeStatus.Active)
+                        {
+                                <option value=@PromotionalCodeStatus.Active>Bình thường</option>
+                                <option value=@PromotionalCodeStatus.InActive>Ngừng phát hành</option>
+                        }
+                            else if (Model.stPromotionalCode_status == PromotionalCodeStatus.InActive)
+                        {
+                                <option value=@PromotionalCodeStatus.InActive>Ngừng phát hành</option>
+                                <option value=@PromotionalCodeStatus.Active>Bình thường</option>
+                        }
+
+                    </select>
+                }
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+

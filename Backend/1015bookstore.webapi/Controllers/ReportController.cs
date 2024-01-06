@@ -9,7 +9,7 @@ namespace _1015bookstore.webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class ReportController : ControllerBase
     {
         private readonly IReportService _reportService;

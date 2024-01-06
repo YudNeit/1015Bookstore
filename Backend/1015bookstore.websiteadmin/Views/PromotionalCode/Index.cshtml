@@ -1,0 +1,125 @@
+﻿@using _1015bookstore.data.Enums
+@model List<_1015bookstore.viewmodel.Catalog.PromotionalCodes.PromotionalCodeViewModel>
+
+@{
+    ViewData["Title"] = "Mã giảm giá";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+    {
+    <!-- Custom styles for this page -->
+    <link href="./vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+}
+
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h3>
+            @if (ViewBag.success != null)
+            {
+                <div id="msg" class="card bg-success text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.success
+                    </div>
+                </div>
+            }
+            @if (ViewBag.error != null)
+            {
+                <div id="msg" class="card bg-danger text-white shadow">
+                    <div class="card-body">
+                        @ViewBag.error
+                    </div>
+                </div>
+            }
+            <a class="btn btn-primary" asp-action="Create" asp-controller="PromotionalCode">Tạo mã giảm giá</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Mã giảm giá
+                            </th>
+                            <th>
+                                Tỉ lệ giảm giá
+                            </th>
+                            <th>
+                                Số lượng
+                            </th>
+                            <th>
+                                Tình trạng
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.iPromotionalCode_id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.sPromotionalCode_code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.iPromotionalCode_discount_rate)%
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.iPromotionalCode_amount)
+                            </td>
+                            <td>
+                                    @{
+                                        string a = "";
+                                        switch (item.stPromotionalCode_status)
+                                        {
+                                            case _1015bookstore.data.Enums.PromotionalCodeStatus.Active:
+                                                {
+                                                    a = "Bình thường";
+                                                    break;
+                                                }
+                                            case _1015bookstore.data.Enums.PromotionalCodeStatus.InActive:
+                                                {
+                                                    a = "Ngừng hoạt động";
+                                                    break;
+                                                }
+                                            case _1015bookstore.data.Enums.PromotionalCodeStatus.OOS:
+                                                {
+                                                    a = "Hết số lượng";
+                                                    break;
+                                                }
+                                        }
+
+                                    }
+                                    @a
+                            </td>
+                            <td>
+                                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.iPromotionalCode_id }) |
+                                @Html.ActionLink("Thông tin", "Details", new { id = item.iPromotionalCode_id })
+                            </td>
+                        </tr>
+                }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@section Scripts
+    {
+    <!-- Page level plugins -->
+    <script src="./vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="./vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="./js/demo/datatables-demo.js"></script>
+}
