@@ -219,6 +219,7 @@ function ChangePassword() {
                 height: "5vh",
                 fontSize: "2vh",
               }}
+              onClick={handleChange}
             >
               Xác nhận
             </Button>

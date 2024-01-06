@@ -354,6 +354,7 @@ function Logup() {
                 height: "5vh",
                 fontSize: "2vh",
               }}
+              onClick={handleLogUp}
             >
               Đăng ký
             </Button>
