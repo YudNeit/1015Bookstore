@@ -5,8 +5,7 @@ using System.Diagnostics;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
-    [Authorize]
-    
+    //[Authorize(Policy = "RequireAdmin")]
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;

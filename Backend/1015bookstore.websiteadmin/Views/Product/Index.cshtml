@@ -94,7 +94,7 @@
                                                 }
                                             case _1015bookstore.data.Enums.ProductStatus.Delete:
                                                 {
-                                                    a = "Sản phẫm đã bị xóa";
+                                                    a = "Sản phẫm ngừng hoạt động";
                                                     break;
                                                 }
                                         }
@@ -104,8 +104,7 @@
                                 </td>
                                 <td>
                                     @Html.ActionLink("Chỉnh sửa", "Edit", new { product_id = item.iProduct_id }) |
-                                    @Html.ActionLink("Thông tin", "Details", new { product_id = item.iProduct_id }) |
-                                    @Html.ActionLink("Trạng thái", "UpdateStatus", new { product_id = item.iProduct_id })
+                                    @Html.ActionLink("Thông tin", "Details", new { product_id = item.iProduct_id })
                                 </td>
                             </tr>
                         }

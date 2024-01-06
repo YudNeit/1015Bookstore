@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
-    [Authorize]
+    //[Authorize(Policy = "RequireAdmin")]
     public class ProductController : BaseController
     {
         private readonly IProductAPIClient _productAPIClient;
@@ -108,7 +108,7 @@ namespace _1015bookstore.websiteadmin.Controllers
             if (response.Status)
             {
                 TempData["success"] = $"Cập nhật thành công sản phẩm {DateTime.Now}";
-                return RedirectToAction("Edit", new { product_id = request.iProduct_id});
+                return RedirectToAction("Details", new { product_id = request.iProduct_id});
             }
             TempData["error"] = response.Message;
             return RedirectToAction("Edit", new { product_id = request.iProduct_id });

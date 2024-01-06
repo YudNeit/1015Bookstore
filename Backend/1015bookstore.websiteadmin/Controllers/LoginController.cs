@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using _1015bookstore.websiteadmin.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {

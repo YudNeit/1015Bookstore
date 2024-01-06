@@ -1,8 +1,10 @@
 ﻿using _1015bookstore.websiteadmin.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
+    //[Authorize(Policy = "RequireAdmin")]
     public class ReportController : BaseController
     {
         private readonly IReportAPIClient _reportAPIClient;

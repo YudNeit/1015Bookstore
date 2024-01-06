@@ -95,6 +95,7 @@ namespace _1015bookstore.websiteadmin.Service
             requestContent.Add(new StringContent(request.vProduct_price.ToString()), "vProduct_price");
             requestContent.Add(new StringContent(request.iProduct_waranty.ToString()), "iProduct_waranty");
             requestContent.Add(new StringContent(request.sProduct_description.ToString()), "sProduct_description");
+            requestContent.Add(new StringContent(request.stProduct_status.ToString()), "stProduct_status");
             requestContent.Add(new StringContent(request.sProduct_brand == null ? "" : request.sProduct_brand.ToString()), "sProduct_brand");
             requestContent.Add(new StringContent(request.sProduct_madein == null ? "" : request.sProduct_madein.ToString()), "sProduct_madein");
             requestContent.Add(new StringContent(request.dtProduct_mfgdate == null ? "" : request.dtProduct_mfgdate.ToString()), "dtProduct_mfgdate");
