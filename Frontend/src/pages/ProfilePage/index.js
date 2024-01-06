@@ -211,11 +211,11 @@ function ProfilePage() {
           }
         } catch (error) {
           // Handle non-JSON response or other errors
-          message.error("Please try again later.");
+          message.error("Vui lòng thử lại sau!");
         }
       }
       if (response.ok) {
-        message.success("Password changed successfully!");
+        message.success("Thay đổi mật khẩu thành công!");
 
         setChangePasswordData({
           oldPassword: "",
@@ -226,7 +226,7 @@ function ProfilePage() {
       }
     } catch (error) {
       console.error("Error changing password:", error);
-      message.error("Failed to change password. Please try again later.");
+      message.error("Thay đổi mật khẩu thất bại. Xin vui lòng thử lại sau!");
     }
   };
 
@@ -496,7 +496,10 @@ function ProfilePage() {
                 <Descriptions.Item label="Địa chỉ nhận hàng">
                   {item.sOrder_address_receiver}
                 </Descriptions.Item>
-                <Descriptions.Item label="Tổng đơn hàng">
+                <Descriptions.Item label="Ngày mua">
+                  {item.dtOrrder_dateorder}
+                </Descriptions.Item>
+                 <Descriptions.Item label="Tổng đơn hàng">
                   {item.vOrder_total}
                 </Descriptions.Item>
               </Descriptions>

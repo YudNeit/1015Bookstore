@@ -138,6 +138,7 @@ function ForgotPassword() {
                 height: "5vh",
                 fontSize: "2vh",
               }}
+              onClick={handleSendCodeClick}
             >
               Gửi mã xác nhận
             </Button>

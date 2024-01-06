@@ -128,8 +128,11 @@ function ConfirmCodeForm() {
           name="comfirm"
           rules={[
             {
-              required: true,
-              message: "Xin vui lòng điền Mã xác nhận!",
+              validator: (_, value) => {
+                if (!value) {
+                  return Promise.reject("Xin vui lòng nhập Mã xác nhận!");
+                }
+              },
             },
           ]}
         >
@@ -158,6 +161,7 @@ function ConfirmCodeForm() {
                 height: "5vh",
                 fontSize: "2vh",
               }}
+              onClick={handleConfirmClick}
             >
               Xác nhận
             </Button>

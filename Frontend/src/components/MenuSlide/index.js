@@ -65,6 +65,7 @@ const MenuSlide = ({ onMenuSelect }) => {
             width: "10vw",
             backgroundColor: "#fff",
             borderRight: "none",
+            fontSize: "10px"
           }}
           onClick={({ key }) => onMenuSelect(key)}
         >

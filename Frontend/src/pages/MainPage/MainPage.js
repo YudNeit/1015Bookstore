@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Col, Rate, Row } from "antd";
+import { Button, Card, Col, Image, Rate, Row } from "antd";
 import MenuSlide from "../../components/MenuSlide";
 import { useNavigate } from "react-router-dom";
 import { fetchProductData } from "../../components/Data/api";
 import { floatButtonPrefixCls } from "antd/es/float-button/FloatButton";
 import "./../styleMainPage.css";
+import background_log from "./../../assets/images/background_log.png";
 
 const { Meta } = Card;
 
@@ -54,6 +55,16 @@ function MainPage() {
 
   return (
     <div>
+      <div
+        className="content"
+        style={{
+          backgroundImage: `url(${background_log})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          height: "400px",
+        }}
+      ></div>
       <h3 class="title-comm">
         <span class="title-holder">DANH MỤC SẢN PHẨM</span>
       </h3>
