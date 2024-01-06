@@ -40,9 +40,6 @@ function Header() {
             style={{
               height: "4vh",
               width: "8vw",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
             }}
             onClick={() => {
               navigate("/sign_in");

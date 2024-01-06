@@ -82,10 +82,10 @@ function CheckoutPage() {
             errorResponse.errors &&
             errorResponse.errors.sPromotionalCode_code
           ) {
-            message.error("Need to enter Voucher");
+            message.error("Hãy nhập vào mã giảm giá");
           } else {
             const error = await response.text();
-            message.error(`Check code failed: ${error}`);
+            message.error(`Xác thực mã không thành công: ${error}`);
           }
         } catch (parseError) {
           const error = await response.text();
@@ -96,12 +96,12 @@ function CheckoutPage() {
         const data = await response.json();
         console.log(data);
         setVoucherDiscount(data.iPromotionalCode_discount_rate);
-        message.success("Voucher is apply successful!");
+        message.success("Áp dụng mã giảm giá thành công!");
         console.log(voucherDiscount);
         setisCheck(true);
       }
     } catch (error) {
-      message.error("Voucher không tồn tại!");
+      message.error("Mã giảm giá không tồn tại!");
       console.error("Cannot check voucher:", error);
     }
   };
@@ -117,9 +117,7 @@ function CheckoutPage() {
 
   const calculateTotalPayment = () => {
     totalPrice *= 1 - voucherDiscount / 100;
-
     totalPrice += shippingFee;
-
     return totalPrice;
   };
 
@@ -147,7 +145,7 @@ function CheckoutPage() {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      message.success(`Order completed.`);
+      message.success(`Đặt hàng thành công.`);
       setShowConfirmationPay(false);
       navigate("/");
     } catch (error) {
@@ -159,7 +157,7 @@ function CheckoutPage() {
     if (isCheck) {
       setShowConfirmation(true);
     } else {
-      message.error(`You need to check voucher before apply!`);
+      message.error(`Xin vui lòng xác thực mã giảm giá trước khi áp dụng!`);
     }
   };
   const handleConfirmApplyVoucher = () => {
@@ -289,21 +287,26 @@ function CheckoutPage() {
                 disabled={isApply}
               />
             </List.Item>
-
-            <Button
-              className="cop_button1"
-              onClick={handleCheckVoucher}
-              disabled={isApply}
+            <List.Item
+              style={{ display: "flex", justifyContent: "flex-start" }}
             >
-              Check Code
-            </Button>
-            <Button
-              className="cop_button2"
-              onClick={handleApplyVoucher}
-              disabled={isApply}
-            >
-              Áp dụng
-            </Button>
+              <Button
+                className="cop_button1"
+                onClick={handleCheckVoucher}
+                disabled={isApply}
+                style={{ width: "120px" }}
+              >
+                Check Code
+              </Button>
+              <Button
+                className="cop_button2"
+                onClick={handleApplyVoucher}
+                disabled={isApply}
+                style={{ width: "120px" }}
+              >
+                Áp dụng
+              </Button>
+            </List.Item>
           </List>
         </div>
         <div className="cop_checkout_info">
@@ -318,11 +321,14 @@ function CheckoutPage() {
               <span>Phí vận chuyển: {shippingFee}đ</span>
             </List.Item>
             <List.Item>
-              <span>Tổng thanh toán: {calculateTotalPayment()}đ</span>
+              <span style={{ fontWeight: "500", fontStyle: "italic" }}>
+                Tổng thanh toán: {calculateTotalPayment()}đ
+              </span>
             </List.Item>
             <List.Item>
               <Button
                 className="cop_button1"
+                style={{ width: "150px" }}
                 onClick={() => {
                   if (
                     order.sOrder_name_receiver &&

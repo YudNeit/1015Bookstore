@@ -54,6 +54,8 @@
 }
 .h_login_button {
   display: flex;
+  align-items: center;
+  justify-content: center;
   max-width: max-content;
   flex-grow: 1;
   margin-right: 2vw;

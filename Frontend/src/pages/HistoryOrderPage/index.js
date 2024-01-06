@@ -13,7 +13,7 @@ function HistoryOrderPage() {
   const [shippingFee, setShippingFee] = useState(30000);
   const [isReviewModalVisible, setReviewModalVisible] = useState(false);
   const [reviewData, setReviewData] = useState({
-    iReview_start: 0,
+    iReview_start: 1,
     sReview_content: "",
   });
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
@@ -100,6 +100,10 @@ function HistoryOrderPage() {
         });
 
         if (!response.ok) {
+          const error = await response.text();
+          if (error) {
+            message.error(`${error}`);
+          }
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
@@ -202,7 +206,9 @@ function HistoryOrderPage() {
               <span>Phí vận chuyển: {shippingFee}đ</span>
             </List.Item>
             <List.Item>
-              <span>Tổng thanh toán: {order.vOrder_total}đ</span>
+              <span style={{ fontWeight: "500", fontStyle: "italic" }}>
+                Tổng thanh toán: {order.vOrder_total}đ
+              </span>
             </List.Item>
           </List>
         </div>
@@ -220,6 +226,7 @@ function HistoryOrderPage() {
           onChange={(value) =>
             setReviewData({ ...reviewData, iReview_start: value })
           }
+          min={1}
         />
         <p>Nội dung đánh giá:</p>
         <TextArea

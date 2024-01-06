@@ -53,7 +53,7 @@ namespace _1015bookstore.application.Catalog.Orders
                     };
                     await _context.UserUsePromotionalCode.AddAsync(codeused);
 
-                    order.total = order.total - (promotionalcode.discount_rate * order.total / 100) + 30000;
+                    order.total = order.total - (promotionalcode.discount_rate * order.total / 100);
                 }
                 else
                 {
@@ -165,8 +165,8 @@ namespace _1015bookstore.application.Catalog.Orders
                     imgpath = cart.imgpath,
                 };
                 await _context.OrderDetails.AddAsync(orderdetail);
-            }    
-
+            }
+            order.total += 30000;
             await _context.SaveChangesAsync();
             
             var data = new OrderViewModel

@@ -88,7 +88,8 @@ function MainPage() {
                 <Rate
                   disabled
                   className="book_star"
-                  defaultValue={item.dProduct_start_count}
+                  allowHalf
+                  defaultValue={item.dProduct_start_count.toFixed(1)}
                 />
               </div>
               <span className="book_price">

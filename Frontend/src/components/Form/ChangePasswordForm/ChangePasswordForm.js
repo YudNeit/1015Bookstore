@@ -132,8 +132,8 @@ function ChangePassword() {
                   return Promise.reject("Xin vui lòng nhập Mật khẩu!");
                 }
 
-                if (value.length < 6) {
-                  return Promise.reject("Mật khẩu phải chứa ít nhất 6 kí tự!");
+                if (value.length < 8) {
+                  return Promise.reject("Mật khẩu phải chứa ít nhất 8 kí tự!");
                 }
 
                 if (!/[A-Z]/.test(value)) {
