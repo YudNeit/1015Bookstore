@@ -318,6 +318,7 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
             code.amount = request.iPromotionalCode_amount;
             code.fromdate = request.dtPromotionalCode_fromdate;
             code.todate = request.dtPromotionalCode_todate;
+            code.status = request.stPromotionalCode_status;
 
             string updater_username;
             if (updater_id == null)
@@ -428,6 +429,40 @@ namespace _1015bookstore.application.Catalog.PromotionalCodes
                 Status =true,
                 Message = "Success",
                 Data = data
+            };
+        }
+
+        public async Task<ResponseService<PromotionalCodeViewModel>> PromotionalCode_GetById(int id)
+        {
+            var code = await _context.PromotionCodes.FirstOrDefaultAsync(x => x.id == id);
+            if (code == null)
+            {
+                return new ResponseService<PromotionalCodeViewModel>
+                {
+                    CodeStatus = 400,
+                    Status = false,
+                    Message = $"Can not find promotional code with id: {id}",
+                };
+            }
+
+            var data = new PromotionalCodeViewModel
+            {
+                iPromotionalCode_id = code.id,
+                sPromotionalCode_code = code.code,
+                sPromotionalCode_name = code.name,
+                sPromotionalCode_description = code.description,
+                stPromotionalCode_status = code.status,
+                dtPromotionalCode_fromdate = code.fromdate,
+                dtPromotionalCode_todate = code.todate,
+                iPromotionalCode_amount = code.amount,
+                iPromotionalCode_discount_rate = code.discount_rate,
+            };
+            return new ResponseService<PromotionalCodeViewModel>
+            {
+                CodeStatus = 200,
+                Status = true,
+                Data = data,
+                Message = "Success"
             };
         }
     }

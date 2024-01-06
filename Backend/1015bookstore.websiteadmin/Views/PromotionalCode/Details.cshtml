@@ -1,0 +1,104 @@
+﻿@model _1015bookstore.viewmodel.Catalog.PromotionalCodes.PromotionalCodeViewModel
+
+@{
+    ViewData["Title"] = "Mã giảm giá";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+            <h3 class="m-0 font-weight-bold text-primary">Thông tin mã giảm gia</h3>
+            <div>
+                <a asp-action="Index">Trở lại danh sách</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.iPromotionalCode_id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.iPromotionalCode_id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sPromotionalCode_code)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sPromotionalCode_code)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sPromotionalCode_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sPromotionalCode_name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.sPromotionalCode_description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.sPromotionalCode_description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.iPromotionalCode_discount_rate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.iPromotionalCode_discount_rate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.iPromotionalCode_amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.iPromotionalCode_amount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dtPromotionalCode_fromdate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.dtPromotionalCode_fromdate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.dtPromotionalCode_todate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.dtPromotionalCode_todate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.stPromotionalCode_status)
+        </dt>
+        <dd class = "col-sm-10">
+                    @{
+                        string a = "";
+                        switch (Model.stPromotionalCode_status)
+                        {
+                            case _1015bookstore.data.Enums.PromotionalCodeStatus.Active:
+                                {
+                                    a = "Bình thường";
+                                    break;
+                                }
+                            case _1015bookstore.data.Enums.PromotionalCodeStatus.InActive:
+                                {
+                                    a = "Ngừng hoạt động";
+                                    break;
+                                }
+                            case _1015bookstore.data.Enums.PromotionalCodeStatus.OOS:
+                                {
+                                    a = "Hết số lượng";
+                                    break;
+                                }
+                        }
+
+                    }
+                    @a
+        </dd>
+                <form asp-action="Edit" method="get">
+                    <input type="hidden" name="id" value=@Model.iPromotionalCode_id />
+                    <input type="submit" value="Chỉnh sửa thông tin" class="btn btn-primary" />
+                </form>
+    </dl>
+        </div>
+    </div>
+
+</div>

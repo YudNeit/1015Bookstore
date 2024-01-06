@@ -41,7 +41,7 @@ namespace _1015bookstore.webapi.Controllers
 
         //http:localhost:port/api/promotionalcode
         [HttpGet("checkcode")]
-        public async Task<IActionResult> PromotionalCode_CheckCode([FromQuery][Required]string sPromotionalCode_code, [FromQuery][Required] Guid gUser_id)
+        public async Task<IActionResult> PromotionalCode_CheckCode([FromQuery][Required] string sPromotionalCode_code, [FromQuery][Required] Guid gUser_id)
         {
             try
             {
@@ -77,6 +77,22 @@ namespace _1015bookstore.webapi.Controllers
             }
         }
 
+        //http:localhost:port/api/promotionalcode
+        [HttpGet("{iPromotionalCode_id}")]
+        public async Task<IActionResult> PromotionalCode_GetById(int iPromotionalCode_id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var response = await _promotionalCodeService.PromotionalCode_GetById(iPromotionalCode_id);
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
 
         //http://localhost:port/api/promotionalcode/1
         [HttpDelete("{IPromotionalCode_id}")]

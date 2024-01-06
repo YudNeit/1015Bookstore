@@ -98,7 +98,7 @@ namespace _1015bookstore.websiteadmin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(request);
             }
 
             var userIdClaim = User.FindFirst("id").Value;
