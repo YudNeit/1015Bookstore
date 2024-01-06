@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
-    //[Authorize(Policy = "RequireAdmin")]
+    [Authorize(Policy = "RequireAdmin")]
     public class ProductController : BaseController
     {
         private readonly IProductAPIClient _productAPIClient;
