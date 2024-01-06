@@ -12,7 +12,8 @@ import {
   Col,
   Card,
 } from "antd";
-import "./ProfilePage.css";
+import "../stylePage.css";
+
 import { useNavigate } from "react-router-dom";
 const getCookie = (cookieName) => {
   const cookies = document.cookie.split("; ");
@@ -104,6 +105,10 @@ function ProfilePage() {
       );
 
       if (!response.ok) {
+        const error = await response.text();
+        if (error) {
+          message.error(`Sai định dạng hoặc thiếu thông tin!`);
+        }
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
@@ -113,6 +118,8 @@ function ProfilePage() {
         dtUser_dob: editedData.dtUser_dob,
         bUser_sex: editedData.bUser_sex,
       });
+      message.success(`Đổi thông tin thành công!`);
+
       setIsEditing(false);
       window.location.reload();
     } catch (error) {
@@ -278,6 +285,7 @@ function ProfilePage() {
               <Descriptions.Item label="Ngày sinh">
                 {isEditing ? (
                   <Input
+                    placeholder="yyyy-mm-dd"
                     value={editedData.dtUser_dob}
                     onChange={(e) =>
                       handleInputChange("dtUser_dob", e.target.value)
@@ -376,7 +384,7 @@ function ProfilePage() {
               rules={[
                 {
                   required: true,
-                  message: "Please input your old password!",
+                  message: "Xin vui lòng nhập Mật khẩu cũ!",
                 },
               ]}
             >
@@ -394,33 +402,33 @@ function ProfilePage() {
               rules={[
                 {
                   required: true,
-                  message: "Please confirm your new password!",
+                  message: "Xin vui lòng nhập Mật khẩu!",
                 },
                 {
                   validator: (_, value) => {
                     if (value.length < 8) {
                       return Promise.reject(
-                        "Password should be at least 8 characters"
+                        "Mật khẩu phải chứa ít nhất 8 kí tự!"
                       );
                     }
                     if (!/[A-Z]/.test(value)) {
                       return Promise.reject(
-                        "Password should contain at least one uppercase letter"
+                        "Mật khẩu phải chứa tối thiểu 1 ký tự in hoa!"
                       );
                     }
                     if (!/[a-z]/.test(value)) {
                       return Promise.reject(
-                        "Password should contain at least one lowercase letter"
+                        "Mật khẩu phải chứa tối thiểu 1 ký tự thường!"
                       );
                     }
                     if (!/\d/.test(value)) {
                       return Promise.reject(
-                        "Password should contain at least one digit"
+                        "Mật khẩu phải chứa tối thiểu 1 ký tự số!"
                       );
                     }
                     if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
                       return Promise.reject(
-                        "Password should contain at least one special character"
+                        "Mật khẩu phải chứa tối thiểu 1 ký tự đặc biệt!"
                       );
                     }
                     return Promise.resolve();
@@ -445,18 +453,14 @@ function ProfilePage() {
               rules={[
                 {
                   required: true,
-                  message: "Please confirm your new password!",
+                  message: "Xin vui lòng xác nhận mật khẩu mới!",
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
                     if (!value || getFieldValue("newpassword") === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(
-                      new Error(
-                        "The new password that you entered do not match!"
-                      )
-                    );
+                    return Promise.reject(new Error("Mật khẩu không khớp!"));
                   },
                 }),
               ]}

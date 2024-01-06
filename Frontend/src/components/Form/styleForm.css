@@ -11,9 +11,11 @@
 .button {
   color: white;
   background-color: #30cf82;
+  font-weight: 400;
+  border-radius: 2px !important;
+  display: flex;
   align-items: center;
   justify-content: center;
-  display: "flex";
 }
 .background {
   height: 63vh;

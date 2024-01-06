@@ -66,6 +66,9 @@
   font-weight: 400;
   border-width: 1.5px;
   border-radius: 2px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .productdetail {
@@ -124,6 +127,11 @@
   border-radius: 0px;
   width: 8vw;
   margin: 0px 0.5vw;
+  font-weight: 400;
+  border-width: 1.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .user_avatar {
   width: fit-content;
@@ -179,9 +187,14 @@
 }
 .cart_button {
   background-color: #d5ffea;
+  border-color: #30cf82;
   color: #30cf82;
-  font-weight: 600;
+  font-weight: 400;
+  border-width: 1.5px;
   border-radius: 2px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .amount_part {
   align-items: center;
@@ -200,6 +213,9 @@
   font-weight: 400;
   border-width: 1.5px;
   border-radius: 2px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .cp_item_price {
   color: #30cf82;
@@ -221,6 +237,50 @@
 }
 
 /* Profile Page */
+.detail_h2 {
+  width: 100vw;
+  border-radius: 0px;
+  padding: 10px 20px;
+  vertical-align: middle;
+  background-color: #30cf82;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+.order_history_cart {
+  padding: 0px;
+}
+.order_history_cart:hover {
+  opacity: 50%;
+  background-color: #d5ffea;
+}
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 1vh 3vw;
+}
+.profilepage_container {
+  width: 100vw;
+  padding-top: 3vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cover {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+}
+.profilepage_button {
+  background-color: #d5ffea;
+  color: #30cf82;
+  border-color: #30cf82;
+  font-weight: 400;
+  border-radius: 2px !important;
+}
 
 /* Checkout Page */
 .cop_container {
@@ -241,15 +301,25 @@
 .cop_button1 {
   background-color: #d5ffea;
   color: #30cf82;
-  font-weight: 600;
   border-radius: 2px !important;
+  border-color: #30cf82;
+  font-weight: 400;
+  border-width: 1.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .cop_button2 {
-  font-weight: 600;
+  border-color: #30cf82;
+  font-weight: 400;
+  border-width: 1.5px;
   border-radius: 2px !important;
   color: white;
   background-color: #30cf82;
   margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .recipient_info {
   display: flex;
@@ -300,7 +370,7 @@
   padding: 0vh 3vw;
 }
 .cop_checkout_info span {
-  font-size: 20px;
+  font-size: 18px;
 }
 /* History Order Page*/
 .ho_container {

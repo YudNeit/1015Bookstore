@@ -191,7 +191,7 @@ function Logup() {
                 if (!value) {
                   return Promise.reject("Xin vui lòng nhập Tên đăng nhập!");
                 }
-                if (value.length < 5) {
+                if (value.length < 6) {
                   return Promise.reject(
                     "Tên đăng nhập phải chứa ít nhất 6 kí tự!"
                   );
@@ -229,8 +229,8 @@ function Logup() {
                   return Promise.reject("Xin vui lòng nhập Mật khẩu!");
                 }
 
-                if (value.length < 6) {
-                  return Promise.reject("Mật khẩu phải chứa ít nhất 6 kí tự!");
+                if (value.length < 8) {
+                  return Promise.reject("Mật khẩu phải chứa ít nhất 8 kí tự!");
                 }
 
                 if (!/[A-Z]/.test(value)) {

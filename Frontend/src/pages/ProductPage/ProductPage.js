@@ -90,6 +90,7 @@ function ProductPage() {
       if (response.ok) {
         navigate(`/`);
         console.log("Item added to the cart in the database");
+        message.success("Sản phẩm đã được thêm vào giỏ hàng!");
       } else {
         const error = await response.text();
         if (error) {
@@ -125,16 +126,17 @@ function ProductPage() {
                   <span>
                     <br />
                     <br />
-                    của {item.sProduct_author}
+                    {item.sProduct_author}
                   </span>
                 </List.Item>
                 <List.Item className="pp_rate">
                   <span className="green rate_num">
-                    {item.dProduct_start_count}
+                    {item.dProduct_start_count.toFixed(1)}
                   </span>
                   <Rate
                     className="green rate_star"
                     disabled
+                    allowHalf
                     defaultValue={item.dProduct_start_count}
                   />
                 </List.Item>
@@ -202,13 +204,15 @@ function ProductPage() {
                 <Col>
                   <Row className="rate_proportion">
                     <span className="proportion_myrate green">
-                      {item.dProduct_start_count}
+                      {item.dProduct_start_count.toFixed(1)}
                     </span>
                     <span className="proportion_allrate green">trên 5</span>
                   </Row>
                   <Row>
                     <Rate
                       className="green"
+                      allowHalf
+                      disabled
                       defaultValue={item.dProduct_start_count}
                     />
                   </Row>
@@ -276,9 +280,8 @@ function ProductPage() {
                           <Rate
                             className="green"
                             style={{ fontSize: "15px" }}
-                            allowHalf
                             disabled
-                            defaultValue={item.iReview_start}
+                            value={item.iReview_start}
                           />
                           <br></br>
                           <span style={{ fontSize: "10px", color: "#8c8c8c" }}>

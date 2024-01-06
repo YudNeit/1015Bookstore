@@ -9,7 +9,6 @@ import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind();
-const page_name = "Trang đăng nhập";
 
 console.log(images.logo);
 function Header() {
@@ -32,7 +31,6 @@ function Header() {
             alt="1015 BookStore"
           />
         </div>
-        <div className={cx("h_page_name")}>{page_name}</div>
       </div>
     </header>
   );

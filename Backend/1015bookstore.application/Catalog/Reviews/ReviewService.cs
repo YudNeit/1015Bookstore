@@ -41,15 +41,6 @@ namespace _1015bookstore.application.Catalog.Reviews
                 };
             }
 
-            if (_context.OrderDetails.Where(x=>x.order_id==order.id).Count() != request.lReview_products.Count())
-            {
-                return new ResponseService()
-                {
-                    CodeStatus = 400,
-                    Status = false,
-                    Message = $"Wrong beacause lack of product review in order id: {request.iOrder_id}"
-                };
-            }    
 
             order.isreview = true;
 
@@ -67,7 +58,7 @@ namespace _1015bookstore.application.Catalog.Reviews
 
                 var product = await _context.Products.FirstOrDefaultAsync(x => x.id == item.iProduct_id);
                 product.review_count += 1;
-                product.start_count = (product.start_count + item.iReview_start)/product.review_count;
+                product.start_count = (product.start_count * (product.review_count - 1) + item.iReview_start) / product.review_count;
             }
 
             if (await _context.SaveChangesAsync() >0)
