@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using _1015bookstore.data.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,6 +33,9 @@ namespace _1015bookstore.viewmodel.Catalog.Products
         [Required(ErrorMessage = "The * field is required")]
         [Display(Name = "Mô tả sản phẩm")]
         public string sProduct_description { get; set; }
+
+        [Display(Name = "Trạng thái sản phẩm")]
+        public ProductStatus stProduct_status { get; set; }
 
         #region Detail
         [Display(Name = "Thương hiệu sản phẩm")]

@@ -1,10 +1,12 @@
 ﻿using _1015bookstore.viewmodel.Catalog.Categories;
 using _1015bookstore.websiteadmin.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
+    //[Authorize(Policy = "RequireAdmin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryAPIClient _categoryAPIClient;

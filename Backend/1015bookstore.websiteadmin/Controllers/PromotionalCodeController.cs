@@ -2,10 +2,12 @@
 using _1015bookstore.viewmodel.Catalog.Products;
 using _1015bookstore.viewmodel.Catalog.PromotionalCodes;
 using _1015bookstore.websiteadmin.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _1015bookstore.websiteadmin.Controllers
 {
+    //[Authorize(Policy = "RequireAdmin")]
     public class PromotionalCodeController : BaseController
     {
         private readonly IPromotionalCodeAPIClient _promotionalcodeAPIClient;

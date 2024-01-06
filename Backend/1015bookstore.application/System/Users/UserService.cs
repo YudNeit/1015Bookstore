@@ -53,6 +53,13 @@ namespace _1015bookstore.application.System.Users
                     Status = false,
                     Message = "Wrong Username or Password!",
                 };
+            
+            var query = from u in _context.Users
+                        join r in _context.UserRoles on u.Id equals r.UserId
+                        join r_ in _context.Roles on r.RoleId equals r_.Id
+                        where u.Id == user.Id
+                        select new { u,r,r_ };
+            var role = await query.FirstOrDefaultAsync();
 
             var claims = new[]
             {
@@ -60,6 +67,8 @@ namespace _1015bookstore.application.System.Users
                 new Claim(ClaimTypes.GivenName,user.firstname),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim("id",user.Id.ToString()),
+                new Claim("Role",role.r_.Name),
+                
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));

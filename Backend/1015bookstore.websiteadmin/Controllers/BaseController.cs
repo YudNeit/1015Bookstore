@@ -13,6 +13,7 @@ namespace _1015bookstore.websiteadmin.Controllers
             if (session == null) {
                 context.Result = new RedirectToActionResult("Index", "Login", null);
             }
+            
             base.OnActionExecuting(context);
         }
     }

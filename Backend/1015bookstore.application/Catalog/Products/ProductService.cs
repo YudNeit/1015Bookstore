@@ -232,6 +232,7 @@ namespace _1015bookstore.application.Catalog.Products
             product.author = request.sProduct_author;
             product.nop = request.sProduct_nop;
             product.yop = request.iProduct_yop;
+            product.status = request.stProduct_status;
 
             //Save image
             if (request.sImage_pathThumbnail != null)
