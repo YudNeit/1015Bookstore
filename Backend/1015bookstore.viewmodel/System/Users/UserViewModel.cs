@@ -28,5 +28,7 @@ namespace _1015bookstore.viewmodel.System.Users
         public string sUser_username { get; set; }
         [Display(Name = "Quyền hạn")]
         public string? sUser_rolename { get; set; }
+        [Display(Name = "Ảnh đại diện")]
+        public string? sUser_avt { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace _1015bookstore.viewmodel.Catalog.Reviews
         [DataType(DataType.Date)]
         [Display(Name = "Ngày tạo")]
         public DateTime dtReview_date { get; set; }
+        public string? sUser_avt {  get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using _1015bookstore.viewmodel.Validations;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,5 +33,7 @@ namespace _1015bookstore.viewmodel.System.Users
         [Required(ErrorMessage = "The * field is required")]
         [RegularExpression(@"^0\d{9}$", ErrorMessage = "PhoneNumber is wrong format")]
         public string sUser_phonenumber { get; set; }
+        [Display(Name = "Ảnh đại diện")]
+        public IFormFile? sUser_avt { get; set; }
     }
 }

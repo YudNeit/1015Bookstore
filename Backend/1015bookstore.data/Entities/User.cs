@@ -13,6 +13,7 @@ namespace _1015bookstore.data.Entities
         public string lastname { get; set; }
         public DateTime? dob {  get; set; }
         public bool? sex { get; set; }
+        public string? avt { get; set; }
 
         public List<Cart> carts { get; set; }
         public List<Order> orders { get; set; }
@@ -22,5 +23,7 @@ namespace _1015bookstore.data.Entities
         public List<CodeForgotPassword> codes { get; set; }
         public List<Log> logs { get; set; }
         public List<Review> reviews { get; set; }
+        public List<Message> messages { get; set; }
+        public List<SoldOut> sold_outs { get; set;}
     }
 }

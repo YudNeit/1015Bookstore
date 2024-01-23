@@ -18,5 +18,7 @@ namespace _1015bookstore.application.System.Reports
         Task<ResponseService<decimal[]>> Report_GetSoldByWeek(DateTime date);
         Task<ResponseService<List<ProductTop10>>> Report_GetTop10ProductByMonth(int month);
         Task<ResponseService<List<ProductTop10>>> Report_GetTop10ProductByWeek(DateTime date);
+
+        Task<ResponseService<List<ReportDateMoney>>> Report_GetSoldOutByUserByDay(Guid user_id, DateTime datefrom, DateTime dateto);
     }
 }

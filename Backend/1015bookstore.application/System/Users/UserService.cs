@@ -1,4 +1,5 @@
-﻿using _1015bookstore.application.Helper;
+﻿using _1015bookstore.application.Common;
+using _1015bookstore.application.Helper;
 using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
 using _1015bookstore.utility.Exceptions;
@@ -6,10 +7,12 @@ using _1015bookstore.viewmodel.Catalog.Products;
 using _1015bookstore.viewmodel.Comon;
 using _1015bookstore.viewmodel.System.Users;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -24,8 +27,9 @@ namespace _1015bookstore.application.System.Users
         private readonly IConfiguration _config;
         private readonly IEmailSender _emailSender;
         private readonly _1015DbContext _context;
+        private readonly IStorageService _storageService;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config, IEmailSender emailSender, _1015DbContext context
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config, IEmailSender emailSender, _1015DbContext context, IStorageService storageService
             )
         {
             _userManager = userManager;
@@ -33,6 +37,7 @@ namespace _1015bookstore.application.System.Users
             _config = config;
             _emailSender = emailSender;
             _context = context;
+            _storageService = storageService;
         }
         public async Task<ResponseService<LoginRespone>> Authencate(LoginRequest request)
         {
@@ -42,7 +47,7 @@ namespace _1015bookstore.application.System.Users
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = "Wrong Username or Password!",
+                    Message = "Tên đăng nhập hoặc mật khẩu không đúng",
                 };
 
             var result = await _signInManager.PasswordSignInAsync(user, request.sUser_password, true, true);
@@ -51,7 +56,7 @@ namespace _1015bookstore.application.System.Users
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = "Wrong Username or Password!",
+                    Message = "Tên đăng nhập hoặc mật khẩu không đúng",
                 };
             
             var query = from u in _context.Users
@@ -69,6 +74,7 @@ namespace _1015bookstore.application.System.Users
                 new Claim("id",user.Id.ToString()),
                 new Claim("Role",role.r_.Name),
                 
+                
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
@@ -80,7 +86,7 @@ namespace _1015bookstore.application.System.Users
            var loginRespone = new LoginRespone
            {
                sUser_tokenL = new JwtSecurityTokenHandler().WriteToken(token),
-               gUser_id = user.Id,
+               gUser_id = user.Id
            };
 
             return new ResponseService<LoginRespone>()
@@ -100,7 +106,7 @@ namespace _1015bookstore.application.System.Users
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = $"Can not find a emai: {email}",
+                    Message = $"Không tìm thấy email {email}",
                 };
 
 
@@ -125,7 +131,7 @@ namespace _1015bookstore.application.System.Users
             {
                 CodeStatus = 200,
                 Status = true,
-                Message = "Success",
+                Message = "Thành công",
                 Data = token
             };
         }
@@ -156,7 +162,7 @@ namespace _1015bookstore.application.System.Users
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = "The Username is used for someone",
+                    Message = "Tên đang nhập đã tồn tại",
                 };
 
 
@@ -166,7 +172,7 @@ namespace _1015bookstore.application.System.Users
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = "The Email is used for someone",
+                    Message = "Email đã tồn tại",
                 };
 
             var user = new User()
@@ -175,6 +181,8 @@ namespace _1015bookstore.application.System.Users
                 firstname = request.sUser_firstname,
                 lastname = request.sUser_lastname,
                 UserName = request.sUser_username,
+                dob = new DateTime(1990,1,1),
+                sex = true
             };
             var result = await _userManager.CreateAsync(user, request.sUser_password);
 
@@ -190,14 +198,14 @@ namespace _1015bookstore.application.System.Users
                 {
                     CodeStatus = 200,
                     Status = true,
-                    Message = "Success",
+                    Message = "Thành công",
                 };
             }
             return new ResponseService()
             {
                 CodeStatus = 500,
                 Status = false,
-                Message = "Can not create account",
+                Message = "Không thể tạo tài khoản",
             };
         }
 
@@ -221,7 +229,7 @@ namespace _1015bookstore.application.System.Users
                 {
                     CodeStatus = 400,
                     Status = false,
-                    Message = "Code is wrong",
+                    Message = "Mã xác nhận không đúng!",
                 };
             }
 
@@ -342,6 +350,7 @@ namespace _1015bookstore.application.System.Users
                     sUser_email = user.Email,
                     sUser_username = user.UserName,
                     sUser_rolename = data == null ? null : data.pa.Name,
+                    sUser_avt = user.avt == null ? null : user.avt,
                 }
             };
         }
@@ -365,6 +374,13 @@ namespace _1015bookstore.application.System.Users
             user.sex = request.bUser_sex;
             user.PhoneNumber = request.sUser_phonenumber;
 
+            //Save image
+            if (request.sUser_avt != null)
+            {
+                string avtImg = await this.SaveFile(request.sUser_avt);
+                user.avt = avtImg;
+            }
+
             if (await _context.SaveChangesAsync() > 0)
             {
                 return new ResponseService()
@@ -380,6 +396,16 @@ namespace _1015bookstore.application.System.Users
                 Status = false,
                 Message = "Can not change information",
             };
+        }
+
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsyncFE_user(file.OpenReadStream(), fileName);
+            await _storageService.SaveFileAsyncFE_admin(file.OpenReadStream(), fileName);
+            await _storageService.SaveFileAsyncFE_winform(file.OpenReadStream(), fileName);
+            return fileName;
         }
 
         public async Task<PagedResult<UserViewModel>> User_GetUserByKeyWordPagingAdmin(GetUserByKeyWordPagingRequest request)
@@ -401,7 +427,8 @@ namespace _1015bookstore.application.System.Users
                 bUser_sex = x.sex,
                 sUser_phonenumber = x.PhoneNumber,
                 sUser_email = x.Email,
-                sUser_username = x.UserName
+                sUser_username = x.UserName,
+                
             }).ToListAsync();
 
             var pagedResult = new PagedResult<UserViewModel>()

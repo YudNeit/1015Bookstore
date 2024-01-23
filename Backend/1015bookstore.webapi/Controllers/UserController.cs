@@ -170,7 +170,7 @@ namespace _1015bookstore.webapi.Controllers
 
         [HttpPost("updateinfor")]
         [Authorize]
-        public async Task<IActionResult> User_UpdateInfor([FromBody] UserUpdateRequest request)
+        public async Task<IActionResult> User_UpdateInfor([FromForm] UserUpdateRequest request)
         {
             try
             {

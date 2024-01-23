@@ -59,7 +59,7 @@ namespace _1015bookstore.webapi.Controllers
         {
             try
             {
-                var pageResult = await _productService.Product_GetProductByCategoryPagingPublic(request);
+                var pageResult = await _productService.Product_GetProductByCategoryPagingAdmin(request);
                 return Ok(pageResult.items);
             }
             catch (Exception ex)

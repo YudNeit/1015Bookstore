@@ -6,12 +6,14 @@ namespace _1015bookstore.application.Common
     {
         private readonly string _userContentFolderWeb;
         private readonly string _userContentFolderWebAdmin;
+        private readonly string _userContentFolderWinform;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
 
         public FileStorageService(IWebHostEnvironment webHostEnvironment)
         {
             _userContentFolderWeb = Path.Combine("../../Frontend/src/assets/", USER_CONTENT_FOLDER_NAME);
             _userContentFolderWebAdmin = Path.Combine("../1015bookstore.websiteadmin/wwwroot/img/", USER_CONTENT_FOLDER_NAME);
+            _userContentFolderWinform = Path.Combine("../1015bookstore.window/Img/", USER_CONTENT_FOLDER_NAME);
         }
 
         public string GetFileUrl(string fileName)
@@ -30,6 +32,14 @@ namespace _1015bookstore.application.Common
         {
 
             var filePath = Path.Combine(_userContentFolderWebAdmin, fileName);
+            using var output = new FileStream(filePath, FileMode.Create);
+            await mediaBinaryStream.CopyToAsync(output);
+        }
+
+        public async Task SaveFileAsyncFE_winform(Stream mediaBinaryStream, string fileName)
+        {
+
+            var filePath = Path.Combine(_userContentFolderWinform, fileName);
             using var output = new FileStream(filePath, FileMode.Create);
             await mediaBinaryStream.CopyToAsync(output);
         }

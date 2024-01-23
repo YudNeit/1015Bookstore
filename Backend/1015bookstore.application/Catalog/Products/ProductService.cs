@@ -516,6 +516,7 @@ namespace _1015bookstore.application.Catalog.Products
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsyncFE_user(file.OpenReadStream(), fileName);
             await _storageService.SaveFileAsyncFE_admin(file.OpenReadStream(), fileName);
+            await _storageService.SaveFileAsyncFE_winform(file.OpenReadStream(), fileName);
             return fileName;
         }
 
@@ -574,7 +575,7 @@ namespace _1015bookstore.application.Catalog.Products
                         join pic in _context.ProductInCategory on p.id equals pic.product_id
                         join pimg in _context.ProductImages on p.id equals pimg.product_id into ppimg
                         from pimg in ppimg.DefaultIfEmpty()
-                        where p.status != ProductStatus.Delete
+                        where p.status == ProductStatus.Normal
                         select new { p, pic, pimg };
 
             if (request.lCate_ids.Count > 0)

@@ -95,6 +95,7 @@ namespace _1015bookstore.application.Catalog.Reviews
             var data = await _context.Reviews.Where(x => x.product_id == product_id).Select( x => new ReviewViewModel
             {
                 sUser_username = _context.Users.FirstOrDefault(a => a.Id == x.user_id).UserName,
+                sUser_avt = _context.Users.FirstOrDefault(a => a.Id == x.user_id).avt,
                 iReview_start = x.starts,
                 dtReview_date = x.created_at,
                 sReview_content = x.content

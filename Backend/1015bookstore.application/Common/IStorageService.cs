@@ -6,6 +6,7 @@
 
         Task SaveFileAsyncFE_user(Stream mediaBinaryStream, string fileName);
         Task SaveFileAsyncFE_admin(Stream mediaBinaryStream, string fileName);
+        Task SaveFileAsyncFE_winform(Stream mediaBinaryStream, string fileName);
 
         Task DeleteFileAsync(string fileName);
     }
