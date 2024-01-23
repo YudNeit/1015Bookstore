@@ -48,6 +48,39 @@
     <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNetCore.Connections.Abstractions, Version=6.0.25.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Connections.Abstractions.6.0.25\lib\net461\Microsoft.AspNetCore.Connections.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http, Version=2.2.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.2.2.2\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Connections.Client, Version=6.0.25.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Connections.Client.6.0.25\lib\net461\Microsoft.AspNetCore.Http.Connections.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Connections.Common, Version=6.0.25.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Connections.Common.6.0.25\lib\net461\Microsoft.AspNetCore.Http.Connections.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=5.0.17.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.5.0.17\lib\net461\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Client, Version=6.0.25.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Client.6.0.25\lib\net461\Microsoft.AspNetCore.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Client.Core, Version=6.0.25.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Client.Core.6.0.25\lib\net461\Microsoft.AspNetCore.SignalR.Client.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Common, Version=6.0.25.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Common.6.0.25\lib\net461\Microsoft.AspNetCore.SignalR.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.SignalR.Protocols.Json, Version=6.0.25.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.SignalR.Protocols.Json.6.0.25\lib\net461\Microsoft.AspNetCore.SignalR.Protocols.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -60,6 +93,9 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Features, Version=6.0.25.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Features.6.0.25\lib\net461\Microsoft.Extensions.Features.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Http, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Http.8.0.0\lib\net462\Microsoft.Extensions.Http.dll</HintPath>
     </Reference>
@@ -68,6 +104,9 @@
     </Reference>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.0\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.2.2.0\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Options, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Options.8.0.0\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
@@ -84,6 +123,9 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.10.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -96,6 +138,7 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -105,21 +148,72 @@
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.10.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Pipelines, Version=6.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.6.0.3\lib\net461\System.IO.Pipelines.dll</HintPath>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Text.Encodings.Web, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.7.0.0\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Json, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Json.7.0.2\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Channels.6.0.0\lib\net461\System.Threading.Channels.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -128,6 +222,7 @@
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -135,49 +230,182 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\CartAPIClient.cs" />
+    <Compile Include="Business\CategoryAPIClient.cs" />
+    <Compile Include="Business\ChatAPIClient.cs" />
+    <Compile Include="Business\FormFile.cs" />
+    <Compile Include="Business\OrderAPIClient.cs" />
+    <Compile Include="Business\ProductAPIClient.cs" />
+    <Compile Include="Business\PromotionalCodeAPIClient.cs" />
+    <Compile Include="Business\ReportAPIClient.cs" />
+    <Compile Include="Business\ReviewAPIClient.cs" />
+    <Compile Include="Business\UserAddressAPIClient.cs" />
     <Compile Include="Business\UserAPIClient.cs" />
-    <Compile Include="Emun\CartStatus.cs" />
-    <Compile Include="Login\ChangePasswordFPUC.cs">
+    <Compile Include="CartPage\Cart\MyCart.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Login\ChangePasswordFPUC.Designer.cs">
+    <Compile Include="CartPage\Cart\MyCart.Designer.cs">
+      <DependentUpon>MyCart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage\Order\MyOrder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Order\MyOrder.Designer.cs">
+      <DependentUpon>MyOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Emun\CartStatus.cs" />
+    <Compile Include="CartPage\Cart\CartItemOOSUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Cart\CartItemOOSUC.designer.cs">
+      <DependentUpon>CartItemOOSUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage\Cart\CartItemUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Cart\CartItemUC.designer.cs">
+      <DependentUpon>CartItemUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage\Cart\CartUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Cart\CartUC.designer.cs">
+      <DependentUpon>CartUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage\Order\DiaChi\DiaChiItemUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Order\DiaChi\DiaChiItemUC.Designer.cs">
+      <DependentUpon>DiaChiItemUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage\Order\DiaChi\DiaChiUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Order\DiaChi\DiaChiUC.Designer.cs">
+      <DependentUpon>DiaChiUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage\Order\OrderItemUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Order\OrderItemUC.Designer.cs">
+      <DependentUpon>OrderItemUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage\Order\OrderUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Order\OrderUC.Designer.cs">
+      <DependentUpon>OrderUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CartPage\Cart\TotalUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CartPage\Cart\TotalUC.designer.cs">
+      <DependentUpon>TotalUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Emun\CategoryShow.cs" />
+    <Compile Include="Emun\CategoryStatus.cs" />
+    <Compile Include="Emun\MessageType.cs" />
+    <Compile Include="Emun\ProductStatus.cs" />
+    <Compile Include="Emun\PromotionalCodeStatus.cs" />
+    <Compile Include="InformationPage\AddressCreate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\AddressCreate.Designer.cs">
+      <DependentUpon>AddressCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\AddressDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\AddressDetail.Designer.cs">
+      <DependentUpon>AddressDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\AddressUpdate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\AddressUpdate.Designer.cs">
+      <DependentUpon>AddressUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\InforAddress.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\InforAddress.Designer.cs">
+      <DependentUpon>InforAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\InforDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\InforDetail.Designer.cs">
+      <DependentUpon>InforDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\OrderHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\OrderHistory.Designer.cs">
+      <DependentUpon>OrderHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\OrderHistoryDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\OrderHistoryDetail.Designer.cs">
+      <DependentUpon>OrderHistoryDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\ReportInfor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\ReportInfor.Designer.cs">
+      <DependentUpon>ReportInfor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\ReviewAfterBuy.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\ReviewAfterBuy.Designer.cs">
+      <DependentUpon>ReviewAfterBuy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InformationPage\ReviewAfterBuyDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InformationPage\ReviewAfterBuyDetail.Designer.cs">
+      <DependentUpon>ReviewAfterBuyDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginPage\ChangePasswordFPUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LoginPage\ChangePasswordFPUC.Designer.cs">
       <DependentUpon>ChangePasswordFPUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\ConfirmCodeFPUC.cs">
+    <Compile Include="LoginPage\ConfirmCodeFPUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Login\ConfirmCodeFPUC.Designer.cs">
+    <Compile Include="LoginPage\ConfirmCodeFPUC.Designer.cs">
       <DependentUpon>ConfirmCodeFPUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\ForgotPasswordUC.cs">
+    <Compile Include="LoginPage\ForgotPasswordUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Login\ForgotPasswordUC.Designer.cs">
+    <Compile Include="LoginPage\ForgotPasswordUC.Designer.cs">
       <DependentUpon>ForgotPasswordUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\Login.cs">
+    <Compile Include="LoginPage\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login\Login.Designer.cs">
+    <Compile Include="LoginPage\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\LoginUC.cs">
+    <Compile Include="LoginPage\LoginUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Login\LoginUC.Designer.cs">
+    <Compile Include="LoginPage\LoginUC.Designer.cs">
       <DependentUpon>LoginUC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\RegisterUC.cs">
+    <Compile Include="LoginPage\RegisterUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Login\RegisterUC.Designer.cs">
+    <Compile Include="LoginPage\RegisterUC.Designer.cs">
       <DependentUpon>RegisterUC.cs</DependentUpon>
     </Compile>
     <Compile Include="MainPage\Carts\Cart.cs">
@@ -192,11 +420,41 @@
     <Compile Include="MainPage\Carts\CartItem.Designer.cs">
       <DependentUpon>CartItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainPage\Informations\Information.cs">
+    <Compile Include="InformationPage\Information.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainPage\Informations\Information.Designer.cs">
+    <Compile Include="InformationPage\Information.Designer.cs">
       <DependentUpon>Information.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage\Chat\ChatItemUser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainPage\Chat\ChatItemUser.Designer.cs">
+      <DependentUpon>ChatItemUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage\Catemini\Catenho.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainPage\Catemini\Catenho.Designer.cs">
+      <DependentUpon>Catenho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage\Chat\ChatUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainPage\Chat\ChatUC.Designer.cs">
+      <DependentUpon>ChatUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage\Chat\Incomming.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainPage\Chat\Incomming.Designer.cs">
+      <DependentUpon>Incomming.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage\Chat\Outcomming.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainPage\Chat\Outcomming.Designer.cs">
+      <DependentUpon>Outcomming.cs</DependentUpon>
     </Compile>
     <Compile Include="MainPage\Informations\InforMini.cs">
       <SubType>UserControl</SubType>
@@ -210,38 +468,176 @@
     <Compile Include="MainPage\MainA.Designer.cs">
       <DependentUpon>MainA.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainPage\MainProduct\HomePage.cs">
+    <Compile Include="MainPage\UCHome\AdsUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainPage\MainProduct\HomePage.Designer.cs">
-      <DependentUpon>HomePage.cs</DependentUpon>
+    <Compile Include="MainPage\UCHome\AdsUC.Designer.cs">
+      <DependentUpon>AdsUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage\UCHome\HomePageUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainPage\UCHome\HomePageUC.Designer.cs">
+      <DependentUpon>HomePageUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPage\ProductCateAndSearch\CateAndSearchItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProductPage\ProductCateAndSearch\CateAndSearchItem.Designer.cs">
+      <DependentUpon>CateAndSearchItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPage\ProductCateAndSearch\CateAndSearchPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProductPage\ProductCateAndSearch\CateAndSearchPage.Designer.cs">
+      <DependentUpon>CateAndSearchPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPage\ProductDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProductPage\ProductDetails.Designer.cs">
+      <DependentUpon>ProductDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPage\ProductPick\ProductPickUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProductPage\ProductPick\ProductPickUC.Designer.cs">
+      <DependentUpon>ProductPickUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPage\ProductViewPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProductPage\ProductViewPage.Designer.cs">
+      <DependentUpon>ProductViewPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPage\Reviews\ReviewDetailUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProductPage\Reviews\ReviewDetailUC.Designer.cs">
+      <DependentUpon>ReviewDetailUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPage\Reviews\ReviewUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ProductPage\Reviews\ReviewUC.Designer.cs">
+      <DependentUpon>ReviewUC.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="TrendingPage\TrendingItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TrendingPage\TrendingItem.Designer.cs">
+      <DependentUpon>TrendingItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrendingPage\TrendingUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TrendingPage\TrendingUC.Designer.cs">
+      <DependentUpon>TrendingUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\Catalog\Carts\CartAddProduct.cs" />
     <Compile Include="ViewModel\Catalog\Carts\CartViewModel.cs" />
+    <Compile Include="ViewModel\Catalog\Categories\CategoryParentAndChildViewModel.cs" />
+    <Compile Include="ViewModel\Catalog\Categories\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\Catalog\Orders\OrderBuyRequest.cs" />
+    <Compile Include="ViewModel\Catalog\Orders\OrderCreateRequest.cs" />
+    <Compile Include="ViewModel\Catalog\Orders\OrderDetailViewModel.cs" />
+    <Compile Include="ViewModel\Catalog\Orders\OrderViewModel.cs" />
+    <Compile Include="ViewModel\Catalog\Products\ProductViewModel.cs" />
+    <Compile Include="ViewModel\Catalog\PromotionalCodes\PromotionalCodeViewModel.cs" />
+    <Compile Include="ViewModel\Catalog\Reviews\ReviewProduct.cs" />
+    <Compile Include="ViewModel\Catalog\Reviews\ReviewRequestCreate.cs" />
+    <Compile Include="ViewModel\Catalog\Reviews\ReviewViewModel.cs" />
+    <Compile Include="ViewModel\Chat\MessageViewModel.cs" />
+    <Compile Include="ViewModel\Report\ReportDateMoney.cs" />
     <Compile Include="ViewModel\ResponseAPI.cs" />
+    <Compile Include="ViewModel\UserAddress\AddressViewModel.cs" />
+    <Compile Include="ViewModel\UserAddress\UserAddressRequestCreate.cs" />
+    <Compile Include="ViewModel\UserAddress\UserAddressRequestUpdate.cs" />
     <Compile Include="ViewModel\User\ChangePasswordFPRequest.cs" />
     <Compile Include="ViewModel\User\ConfirmCodeFPRequest.cs" />
     <Compile Include="ViewModel\User\LoginRequest.cs" />
     <Compile Include="ViewModel\User\RegisterRequest.cs" />
-    <EmbeddedResource Include="Login\ChangePasswordFPUC.resx">
+    <Compile Include="ViewModel\User\UserUpdateRequest.cs" />
+    <Compile Include="ViewModel\User\UserViewModel.cs" />
+    <EmbeddedResource Include="CartPage\Cart\CartItemOOSUC.resx">
+      <DependentUpon>CartItemOOSUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Cart\CartItemUC.resx">
+      <DependentUpon>CartItemUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Cart\CartUC.resx">
+      <DependentUpon>CartUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Cart\MyCart.resx">
+      <DependentUpon>MyCart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Cart\TotalUC.resx">
+      <DependentUpon>TotalUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Order\DiaChi\DiaChiItemUC.resx">
+      <DependentUpon>DiaChiItemUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Order\DiaChi\DiaChiUC.resx">
+      <DependentUpon>DiaChiUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Order\MyOrder.resx">
+      <DependentUpon>MyOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Order\OrderItemUC.resx">
+      <DependentUpon>OrderItemUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CartPage\Order\OrderUC.resx">
+      <DependentUpon>OrderUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\AddressCreate.resx">
+      <DependentUpon>AddressCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\AddressDetail.resx">
+      <DependentUpon>AddressDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\AddressUpdate.resx">
+      <DependentUpon>AddressUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\InforAddress.resx">
+      <DependentUpon>InforAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\InforDetail.resx">
+      <DependentUpon>InforDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\OrderHistory.resx">
+      <DependentUpon>OrderHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\OrderHistoryDetail.resx">
+      <DependentUpon>OrderHistoryDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\ReportInfor.resx">
+      <DependentUpon>ReportInfor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\ReviewAfterBuy.resx">
+      <DependentUpon>ReviewAfterBuy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InformationPage\ReviewAfterBuyDetail.resx">
+      <DependentUpon>ReviewAfterBuyDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginPage\ChangePasswordFPUC.resx">
       <DependentUpon>ChangePasswordFPUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login\ConfirmCodeFPUC.resx">
+    <EmbeddedResource Include="LoginPage\ConfirmCodeFPUC.resx">
       <DependentUpon>ConfirmCodeFPUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login\ForgotPasswordUC.resx">
+    <EmbeddedResource Include="LoginPage\ForgotPasswordUC.resx">
       <DependentUpon>ForgotPasswordUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login\Login.resx">
+    <EmbeddedResource Include="LoginPage\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login\LoginUC.resx">
+    <EmbeddedResource Include="LoginPage\LoginUC.resx">
       <DependentUpon>LoginUC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login\RegisterUC.resx">
+    <EmbeddedResource Include="LoginPage\RegisterUC.resx">
       <DependentUpon>RegisterUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainPage\Carts\Cart.resx">
@@ -250,8 +646,23 @@
     <EmbeddedResource Include="MainPage\Carts\CartItem.resx">
       <DependentUpon>CartItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainPage\Informations\Information.resx">
+    <EmbeddedResource Include="InformationPage\Information.resx">
       <DependentUpon>Information.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainPage\Chat\ChatItemUser.resx">
+      <DependentUpon>ChatItemUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainPage\Catemini\Catenho.resx">
+      <DependentUpon>Catenho.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainPage\Chat\ChatUC.resx">
+      <DependentUpon>ChatUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainPage\Chat\Incomming.resx">
+      <DependentUpon>Incomming.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainPage\Chat\Outcomming.resx">
+      <DependentUpon>Outcomming.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainPage\Informations\InforMini.resx">
       <DependentUpon>InforMini.cs</DependentUpon>
@@ -259,8 +670,32 @@
     <EmbeddedResource Include="MainPage\MainA.resx">
       <DependentUpon>MainA.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainPage\MainProduct\HomePage.resx">
-      <DependentUpon>HomePage.cs</DependentUpon>
+    <EmbeddedResource Include="MainPage\UCHome\AdsUC.resx">
+      <DependentUpon>AdsUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainPage\UCHome\HomePageUC.resx">
+      <DependentUpon>HomePageUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductPage\ProductCateAndSearch\CateAndSearchItem.resx">
+      <DependentUpon>CateAndSearchItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductPage\ProductCateAndSearch\CateAndSearchPage.resx">
+      <DependentUpon>CateAndSearchPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductPage\ProductDetails.resx">
+      <DependentUpon>ProductDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductPage\ProductPick\ProductPickUC.resx">
+      <DependentUpon>ProductPickUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductPage\ProductViewPage.resx">
+      <DependentUpon>ProductViewPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductPage\Reviews\ReviewDetailUC.resx">
+      <DependentUpon>ReviewDetailUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductPage\Reviews\ReviewUC.resx">
+      <DependentUpon>ReviewUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -272,6 +707,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TrendingPage\TrendingItem.resx">
+      <DependentUpon>TrendingItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrendingPage\TrendingUC.resx">
+      <DependentUpon>TrendingUC.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -289,6 +730,8 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MainPage\Products\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

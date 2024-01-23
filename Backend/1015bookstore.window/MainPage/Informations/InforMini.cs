@@ -22,19 +22,25 @@ namespace _1015bookstore.window.MainPage
         {
             Label label = sender as Label;
             label.ForeColor = Color.FromArgb(48, 207, 130);
-            label.Font = new Font("Roboto", 9, FontStyle.Bold);
+            label.Font = new Font("Roboto", 11, FontStyle.Bold);
         }
         private void Label_MouseLeave(object sender, EventArgs e)
         {
             Label label = sender as Label;
-            label.ForeColor = Color.FromArgb(140,140,140);
-            label.Font = new Font("Roboto", 9, FontStyle.Regular);
+            label.ForeColor = Color.FromArgb(140, 140, 140);
+            label.Font = new Font("Roboto", 11, FontStyle.Regular);
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
             var form = this.TopLevelControl as MainA;
             form.logout();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            var form = this.TopLevelControl as MainA;
+            form.inforpage();
         }
     }
 }

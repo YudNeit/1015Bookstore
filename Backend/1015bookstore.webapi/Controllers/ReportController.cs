@@ -19,6 +19,20 @@ namespace _1015bookstore.webapi.Controllers
             _reportService = reportService;
         }
 
+        [HttpGet("getsolduserday")]
+        public async Task<IActionResult> Report_GetSoldOutByUserByDay([Required]Guid gUser_id, [Required] DateTime iReport_datefrom, [Required] DateTime iReport_dateto)
+        {
+            try
+            {
+                var response = await _reportService.Report_GetSoldOutByUserByDay(gUser_id, iReport_datefrom, iReport_dateto);
+                return StatusCode(response.CodeStatus, response.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("getsoldmonth")]
         public async Task<IActionResult> Report_GetSoldByMonth([Required]int iReport_month)
         {

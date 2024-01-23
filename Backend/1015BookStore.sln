@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1015bookstore.webadmin", "1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1015bookstore.window", "1015bookstore.window\1015bookstore.window.csproj", "{A559A466-24B8-4F5A-B184-A7BD68A7ECAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestChat", "TestChat\TestChat.csproj", "{6FF281F9-4C1F-49FD-BE31-5A13C3A863B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{A559A466-24B8-4F5A-B184-A7BD68A7ECAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A559A466-24B8-4F5A-B184-A7BD68A7ECAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A559A466-24B8-4F5A-B184-A7BD68A7ECAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FF281F9-4C1F-49FD-BE31-5A13C3A863B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FF281F9-4C1F-49FD-BE31-5A13C3A863B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FF281F9-4C1F-49FD-BE31-5A13C3A863B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FF281F9-4C1F-49FD-BE31-5A13C3A863B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{7BD043AA-57DA-420D-B733-BE1EF2BE67BF} = {2300E4C3-C98D-46BF-8018-07B3CD9818DF}
 		{1836B2A3-0EDD-4E2A-B994-741A093C5EC3} = {2300E4C3-C98D-46BF-8018-07B3CD9818DF}
 		{A559A466-24B8-4F5A-B184-A7BD68A7ECAD} = {2300E4C3-C98D-46BF-8018-07B3CD9818DF}
+		{6FF281F9-4C1F-49FD-BE31-5A13C3A863B8} = {2300E4C3-C98D-46BF-8018-07B3CD9818DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B72644F3-0A88-432F-8967-CBDC4FCC1E7E}

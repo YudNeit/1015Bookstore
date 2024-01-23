@@ -47,9 +47,10 @@
             // 
             this.pic.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pic.Image = ((System.Drawing.Image)(resources.GetObject("pic.Image")));
-            this.pic.Location = new System.Drawing.Point(25, 10);
+            this.pic.Location = new System.Drawing.Point(8, 4);
+            this.pic.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pic.Name = "pic";
-            this.pic.Size = new System.Drawing.Size(40, 41);
+            this.pic.Size = new System.Drawing.Size(50, 50);
             this.pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pic.TabIndex = 0;
             this.pic.TabStop = false;
@@ -58,21 +59,23 @@
             // 
             this.name.AutoSize = true;
             this.name.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.name.Font = new System.Drawing.Font("Roboto", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.name.Location = new System.Drawing.Point(75, 5);
+            this.name.Font = new System.Drawing.Font("Roboto", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.name.Location = new System.Drawing.Point(60, 4);
+            this.name.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.name.Name = "name";
-            this.name.Size = new System.Drawing.Size(168, 26);
+            this.name.Size = new System.Drawing.Size(190, 28);
             this.name.TabIndex = 1;
             this.name.Text = "Combo Sách Hướng Dẫn Nói Và Viết \r\nVăn - Nghị Luận Xã Hội ...";
             // 
             // price
             // 
             this.price.AutoSize = true;
-            this.price.Font = new System.Drawing.Font("Roboto", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.price.Font = new System.Drawing.Font("Roboto", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.price.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(78)))), ((int)(((byte)(52)))));
-            this.price.Location = new System.Drawing.Point(75, 38);
+            this.price.Location = new System.Drawing.Point(60, 38);
+            this.price.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.price.Name = "price";
-            this.price.Size = new System.Drawing.Size(62, 17);
+            this.price.Size = new System.Drawing.Size(59, 15);
             this.price.TabIndex = 2;
             this.price.Text = "000.000đ";
             // 
@@ -80,7 +83,8 @@
             // 
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(255, 5);
+            this.pictureBox1.Location = new System.Drawing.Point(261, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(12, 12);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -91,8 +95,9 @@
             // amount
             // 
             this.amount.AutoSize = true;
-            this.amount.Font = new System.Drawing.Font("Roboto", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.amount.Location = new System.Drawing.Point(232, 35);
+            this.amount.Font = new System.Drawing.Font("Roboto", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.amount.Location = new System.Drawing.Point(234, 37);
+            this.amount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.amount.Name = "amount";
             this.amount.Size = new System.Drawing.Size(14, 15);
             this.amount.TabIndex = 4;
@@ -107,7 +112,8 @@
             this.minus.IconColor = System.Drawing.SystemColors.ControlText;
             this.minus.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.minus.IconSize = 20;
-            this.minus.Location = new System.Drawing.Point(202, 35);
+            this.minus.Location = new System.Drawing.Point(209, 35);
+            this.minus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.minus.Name = "minus";
             this.minus.Size = new System.Drawing.Size(20, 20);
             this.minus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -119,7 +125,8 @@
             // 
             this.plus.Cursor = System.Windows.Forms.Cursors.Hand;
             this.plus.Image = ((System.Drawing.Image)(resources.GetObject("plus.Image")));
-            this.plus.Location = new System.Drawing.Point(258, 35);
+            this.plus.Location = new System.Drawing.Point(253, 35);
+            this.plus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.plus.Name = "plus";
             this.plus.Size = new System.Drawing.Size(20, 20);
             this.plus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -130,14 +137,15 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.panel1.Location = new System.Drawing.Point(17, 56);
+            this.panel1.Location = new System.Drawing.Point(7, 57);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(250, 1);
+            this.panel1.Size = new System.Drawing.Size(270, 1);
             this.panel1.TabIndex = 8;
             // 
             // CartItem
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.panel1);
@@ -148,6 +156,7 @@
             this.Controls.Add(this.price);
             this.Controls.Add(this.name);
             this.Controls.Add(this.pic);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "CartItem";
             this.Size = new System.Drawing.Size(282, 60);
             ((System.ComponentModel.ISupportInitialize)(this.pic)).EndInit();

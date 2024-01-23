@@ -105,7 +105,7 @@ namespace _1015bookstore.websiteadmin.Service
             client.BaseAddress = new Uri("https://localhost:7139");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
 
-            var response = await client.GetAsync($"/api/Product/notincate/{id}");
+            var response = await client.GetAsync($"/api/Product/admin-getall");
             var body = await response.Content.ReadAsStringAsync();
             var product = JsonSerializer.Deserialize<List<ProductViewModel>>(body);
             return new ResponseAPI<List<ProductViewModel>>

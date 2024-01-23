@@ -22,20 +22,20 @@ namespace _1015bookstore.window.Business
             _client.BaseAddress = new Uri("https://localhost:7139");
         }
 
-        public async Task<ResponseAPI<JObject>> AddCart(string session, CartAddProduct request, Guid user_id)
+        public async Task<ResponseAPI<string>> AddCart(string session, CartAddProduct request, Guid user_id)
         {
 
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", session);
             var json = JsonSerializer.Serialize(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync($"/api/cart/set?gUser_id ={user_id}", httpContent);
+            var response = await _client.PostAsync($"/api/cart/set?gUser_id={user_id}", httpContent);
 
-            return new ResponseAPI<JObject>
+            return new ResponseAPI<string>
             {
                 Status = response.StatusCode == System.Net.HttpStatusCode.OK ? true : false,
                 Message = await response.Content.ReadAsStringAsync(),
-                Data = new Object() as JObject,
+                Data = "",
             };
         }
 

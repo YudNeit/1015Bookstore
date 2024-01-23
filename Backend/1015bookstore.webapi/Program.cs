@@ -7,11 +7,14 @@ using _1015bookstore.application.Catalog.PromotionalCodes;
 using _1015bookstore.application.Catalog.Reviews;
 using _1015bookstore.application.Common;
 using _1015bookstore.application.Helper;
+using _1015bookstore.application.System.Chats;
 using _1015bookstore.application.System.Reports;
+using _1015bookstore.application.System.UserAddresses;
 using _1015bookstore.application.System.Users;
 using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
 using _1015bookstore.utilities.Constants;
+using _1015bookstore.webapi.Chat;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +33,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<_1015DbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<_1015DbContext>().AddDefaultTokenProviders();
 
+builder.Services.AddSignalR();
+
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStorageService, FileStorageService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
@@ -45,6 +50,8 @@ builder.Services.AddTransient<IRemoveUnicode, RemoveUnicode>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IReviewService, ReviewService>();
 builder.Services.AddTransient<IReportService, ReportService>();
+builder.Services.AddTransient<IUserAddressService, UserAddressService>();
+builder.Services.AddTransient<IChatService, ChatService>();
 
 
 builder.Services.AddSwaggerGen(c =>
@@ -107,6 +114,18 @@ builder.Services.AddCors(p => p.AddPolicy("1015BookStore_Cors", builder =>
     builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:7111")
+                .AllowAnyHeader()
+                .WithMethods("GET", "POST")
+                .AllowCredentials();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -118,7 +137,11 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
+app.UseCors();
 app.UseCors("1015BookStore_Cors");
+
+app.MapHub<ChatHub>("/chat");
 
 app.MapControllers();
 

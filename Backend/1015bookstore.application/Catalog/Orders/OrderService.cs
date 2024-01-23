@@ -1,4 +1,5 @@
-﻿using _1015bookstore.data.EF;
+﻿using _1015bookstore.application.Helper;
+using _1015bookstore.data.EF;
 using _1015bookstore.data.Entities;
 using _1015bookstore.data.Enums;
 using _1015bookstore.utility.Exceptions;
@@ -14,9 +15,11 @@ namespace _1015bookstore.application.Catalog.Orders
     public class OrderService : IOrderService
     {
         private readonly _1015DbContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public OrderService(_1015DbContext context) {
+        public OrderService(_1015DbContext context, IEmailSender emailSender) {
             _context = context;
+            _emailSender = emailSender;
         }
 
         public async Task<ResponseService> Order_Buy(OrderBuyRequest request)
@@ -83,6 +86,7 @@ namespace _1015bookstore.application.Catalog.Orders
                 
                 //NOTE
                 product.quanity -= item.quantity;
+                product.buy_count += 1;
                 if (product.quanity <= 0)
                 {
                     product.status = ProductStatus.OOS;
@@ -103,6 +107,36 @@ namespace _1015bookstore.application.Catalog.Orders
             }
 
 
+            var soldout = new SoldOut
+            {
+                user_id = order.user_id,
+                time = DateTime.Now,
+                total = order.total,
+            };
+            await _context.SoldOuts.AddAsync(soldout);
+
+
+            var orderViewModel = new OrderViewModel
+            {
+                iOrder_id = order.id,
+                sOrder_name_receiver = order.name_reciver,
+                sOrder_address_receiver = order.address_reciver,
+                sOrder_phone_receiver = order.phone_reciver,
+                sPromoionalCode_code = order.promotionalcode,
+                vOrder_total = order.total,
+                dtOrrder_dateorder = order.orderdate,
+                bOrder_review = order.isreview,
+                lOrder_items = _context.OrderDetails.Where(x => x.order_id == order.id).Select(x => new OrderDetailViewModel
+                {
+                    iProduct_id = x.product_id,
+                    sProduct_name = x.product_name,
+                    vProduct_price = x.price,
+                    iProduct_amount = x.quantity,
+                    sImage_path = x.imgpath
+                }).ToList()
+            };
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == order.user_id);
+            await _emailSender.SendEmailAfterBuy(user.Email, orderViewModel);
 
             if (await _context.SaveChangesAsync() > 0)
             {

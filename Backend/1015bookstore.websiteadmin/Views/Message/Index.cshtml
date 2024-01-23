@@ -1,0 +1,323 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header h4 py-3">Người dùng</div>
+        <div class="card-body h-100">
+            
+            <div class="row">
+                <div class="col-lg-4 col-xxl-3" style="max-height: 45rem; overflow-y: scroll">
+                    
+                    @foreach(var item in ViewBag.MessageUser)
+                    {
+                        var content = item.sChat_message;
+                        var time = item.sChat_time;
+                        var avt = item.sUser_avt == null ? "default.png" : item.sUser_avt;
+                        var name = item.sUser_username;
+                        var colortext = "";
+                        if (item.stChat_type == 0)
+                        {
+                            colortext = "primary";
+                        }
+                        else
+                        {
+                            colortext = "warning";
+                        }
+
+                        <div class="card border-left-@colortext mb-1" id="@item.gUser_id" onclick="ShowMessageUser('@item.gUser_id')">
+                            <div class="card-body bg-white">
+                                <div class="media">
+                                    <img class="mr-2 rounded-circle" src="./img/user-content/@avt" width="50" height="50" alt="img">
+                                    <div class="media-body text-truncate">
+                                        <div>
+                                            <div class="font-weight-bold text-@colortext text-lg" id="name-user">@name</div>
+                                            <span class="text-gray-400">@time</span>
+                                        </div>
+                                        @content
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+
+                <div class="col-lg-8 col-xxl-9">
+                    
+                    <div class="card" style="height: 45rem">
+
+                        <div class="card-body" id="messagesList" style="height:80%; overflow-y:scroll">
+
+                        </div>
+                        
+                        <div class="card-footer" style="height: 10%">
+                            <div class="d-sm-flex align-items-end">
+                                <input type="text" class="form-control mb-sm-0 mb-3" id="messageInput" data-autoresize="" placeholder="Nhập nội dung" rows="1">
+                                <div class="btn btn-sm btn-danger-soft ms-sm-2"></div>
+                                <button class="btn btn-sm btn-primary ms-2" id="sendButton"><i class="fas fa-solid fa-paper-plane fs-6"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+
+        function scrollToBottom() {
+            var messagesList = document.getElementById("messagesList");
+
+            // Thiết lập scrollTop bằng scrollHeight để cuộn xuống cuối
+            messagesList.scrollTop = messagesList.scrollHeight;
+        }
+
+        async function ShowMessageUser(user_id) {
+            document.getElementById("sendButton").value = `${user_id}`;
+            var token = "@ViewBag.Session";
+            const response = await fetch(
+                `https://localhost:7139/api/Chat/top10?gUser_id=${user_id}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log(data);
+            Setdata(data);
+        }
+
+        function Setdata(data) {
+            var listmessage = document.getElementById("messagesList");
+            listmessage.innerHTML = "";
+
+            // Sử dụng vòng lặp for để duyệt ngược mảng
+            for (var i = data.length - 1; i >= 0; i--) {
+                var item = data[i];
+
+                var div = document.createElement("div");
+                document.getElementById("messagesList").appendChild(div);
+
+                if (item.stChat_type == 1) {
+                    div.classList.add('d-flex');
+                    div.classList.add('mb-1');
+
+                    var content = item.sChat_message;
+                    var time = item.sChat_time;
+                    var avt = item.sUser_avt == null ? "default.png" : item.sUser_avt;
+
+                    var formattedTime = formatTimestamp(time);
+
+                    div.innerHTML = `
+                        <div class="flex-shrink-0 avatar avatar-xs me-2">
+                            <img class="mr-2 rounded-circle" src="./img/user-content/${avt}" width="40" height="40" alt="img">
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="w-100">
+                                <div class="d-flex flex-column align-items-start">
+                                    <div class="bg-light text-secondary p-2 px-3 rounded-2">${content}</div>
+                                    <div class="small my-2">${formattedTime}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    var message = item.sChat_message;
+                    var time = item.sChat_time;
+                    var formattedTime = formatTimestamp(time);
+
+                    div.classList.add('d-flex');
+                    div.classList.add('flex-column');
+                    div.classList.add('align-items-end');
+
+                    div.innerHTML = `
+                        <div class="bg-primary text-white p-2 px-3 rounded-2">${message}</div>
+                        <div class="d-flex my-2">
+                            <div class="small text-secondary">${formattedTime}</div>
+                        </div>
+                    `;
+                }
+                scrollToBottom();
+            }
+        }
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script>
+        // Function to format timestamp
+        function formatTimestamp(timestamp) {
+            var date = new Date(timestamp);
+            var day = addLeadingZero(date.getDate());
+            var month = addLeadingZero(date.getMonth() + 1); // Months are zero-based
+            var year = date.getFullYear();
+            var hours = addLeadingZero(date.getHours());
+            var minutes = addLeadingZero(date.getMinutes());
+
+            return `${day}-${month}-${year} ${hours}:${minutes}`;
+        }
+
+        // Function to add leading zero to single-digit numbers
+        function addLeadingZero(number) {
+            return number < 10 ? `0${number}` : number;
+        }
+
+    </script>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7139/chat")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        document.getElementById("sendButton").disabled = true;
+        
+
+        connection.on("ReceiveMessage", function (message) {
+            if (message.stChat_type == 1) {
+                var div = document.createElement("div");
+                document.getElementById("messagesList").appendChild(div);
+                div.classList.add('d-flex');
+                div.classList.add('mb-1');
+
+                
+
+                var content = message.sChat_message;
+                var time = message.sChat_time;
+                var avt = message.sUser_avt == null ? "default.png" : message.sUser_avt;
+
+                var usericon = document.getElementById(document.getElementById("sendButton").value);
+                var nameuser = document.getElementById("name-user");
+                if (usericon.classList.contains("border-left-primary")) {
+                    usericon.classList.remove("border-left-primary");
+                    usericon.classList.add("border-left-warning");
+                    nameuser.classList.remove("text-primary");
+                    nameuser.classList.add("text-warning");
+                }
+
+
+                var formattedTime = formatTimestamp(time);
+
+                div.innerHTML = `
+                            <div class="flex-shrink-0 avatar avatar-xs me-2">
+                                <img class="mr-2 rounded-circle" src="./img/user-content/${avt}" width="40" height="40" alt="img">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="w-100">
+                                    <div class="d-flex flex-column align-items-start">
+                                        <div class="bg-light text-secondary p-2 px-3 rounded-2">${content}</div>
+                                        <div class="small my-2">${formattedTime}</div>
+                                    </div>
+                                </div>
+                            </div>
+                    `;
+                scrollToBottom();
+            }
+
+        });
+
+        connection.on("UserConnect", function (user_id) {
+            connection.invoke("ConnectAdminToUser", user_id).catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+
+
+        // Start the connection.
+        connection.start().then(function () {
+            document.getElementById("sendButton").disabled = false;
+        }).catch(function (err) {
+            return console.error(err.toString());
+        }).then(() => {
+            connection.invoke("JoinAdmin").catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+
+        function sendmessage()
+        {
+            var message = document.getElementById("messageInput").value;
+
+            
+
+            if (message != "")
+            {
+                var messageObject = {
+                    gUser_id: document.getElementById("sendButton").value,
+                    sChat_message: message,
+                    sChat_time: new Date(),
+                    stChat_type: 0,
+                    sUser_avt: ""
+                };
+
+                
+
+                var usericon = document.getElementById(document.getElementById("sendButton").value);
+                var nameuser = document.getElementById("name-user");
+                if (usericon.classList.contains("border-left-warning")) {
+                    usericon.classList.remove("border-left-warning");
+                    usericon.classList.add("border-left-primary");
+                    nameuser.classList.remove("text-warning");
+                    nameuser.classList.add("text-primary");
+                }
+
+                var formattedTime = formatTimestamp(new Date());
+
+                var div = document.createElement("div");
+                document.getElementById("messagesList").appendChild(div);
+                div.classList.add('d-flex');
+                div.classList.add('flex-column');
+                div.classList.add('align-items-end');
+                div.innerHTML = `
+                                            <div class="bg-primary text-white p-2 px-3 rounded-2">${message}</div>
+                                                <div class="d-flex my-2">
+                                                            <div class="small text-secondary">${formattedTime}</div>
+                                             </div>
+                                    `;
+
+                connection.invoke("SendMessage", messageObject).catch(function (err) {
+                    return console.error(err.toString());
+                });
+                scrollToBottom();
+            }
+
+
+            
+        }
+
+        document.getElementById("sendButton").addEventListener("click", function (event) {
+            event.preventDefault();
+            sendmessage();
+            var messageInput = document.getElementById("messageInput")
+            messageInput.value = '';
+           
+        });
+        document.getElementById("messageInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+
+                sendmessage();
+                var messageInput = document.getElementById("messageInput")
+                messageInput.value = '';
+            }
+        });
+                            
+    </script>
+}
+
+

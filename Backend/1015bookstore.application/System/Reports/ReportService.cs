@@ -196,6 +196,34 @@ namespace _1015bookstore.application.System.Reports
             };
         }
 
+        public async Task<ResponseService<List<ReportDateMoney>>> Report_GetSoldOutByUserByDay(Guid user_id, DateTime datefrom, DateTime dateto)
+        {
+
+            var data = _context.SoldOuts.Where(x => x.time >= datefrom && x.time <= dateto && x.user_id == user_id);
+            List<ReportDateMoney> result = new List<ReportDateMoney>();
+            for (DateTime i = datefrom; i < dateto;)
+            {
+                var obj = new ReportDateMoney
+                {
+                    Total = 0,
+                    Date = i,
+                };
+                result.Add(obj);
+                i=i.AddDays(1);
+            }    
+            foreach (var row in data)
+            {
+                result.FirstOrDefault(x => x.Date.Date == row.time.Date).Total += row.total;
+            }
+            return new ResponseService<List<ReportDateMoney>>()
+            {
+                CodeStatus = 200,
+                Status = true,
+                Message = "Success",
+                Data = result
+            };
+        }
+
         public async Task<ResponseService<List<ProductTop10>>> Report_GetTop10ProductByMonth(int month)
         {
             var top10 = await _context.ReportDatas.Where(x=>x.time.Month == month && x.status == false).GroupBy(p => p.product_id).Select(g => new { 

@@ -23,5 +23,7 @@ namespace _1015bookstore.data.Entities
         public List<CodeForgotPassword> codes { get; set; }
         public List<Log> logs { get; set; }
         public List<Review> reviews { get; set; }
+        public List<Message> messages { get; set; }
+        public List<SoldOut> sold_outs { get; set;}
     }
 }

@@ -74,6 +74,7 @@ namespace _1015bookstore.application.System.Users
                 new Claim("id",user.Id.ToString()),
                 new Claim("Role",role.r_.Name),
                 
+                
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
@@ -85,7 +86,7 @@ namespace _1015bookstore.application.System.Users
            var loginRespone = new LoginRespone
            {
                sUser_tokenL = new JwtSecurityTokenHandler().WriteToken(token),
-               gUser_id = user.Id,
+               gUser_id = user.Id
            };
 
             return new ResponseService<LoginRespone>()
@@ -180,6 +181,8 @@ namespace _1015bookstore.application.System.Users
                 firstname = request.sUser_firstname,
                 lastname = request.sUser_lastname,
                 UserName = request.sUser_username,
+                dob = new DateTime(1990,1,1),
+                sex = true
             };
             var result = await _userManager.CreateAsync(user, request.sUser_password);
 
